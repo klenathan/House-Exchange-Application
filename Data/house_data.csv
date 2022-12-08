@@ -1,6 +1,6 @@
 name,address,desc,ownerUsername,price,startDate,endDate,rating,status
-happy house,Hanoi,The Happy house,user1,100,start,end,8,true
-happy house,Hanoi,The Happy house,user1,100,start,end,8,true
-happy house,Hanoi,The Happy house,user1,100,start,end,8,true
-happy house,Hanoi,The Happy house,user1,100,start,end,8,true
-happy house,Hanoi,The Happy house,user1,100,start,end,8,true
+happy house 1,Hanoi,The Happy house 1,user1,100,12/02/2023,28/02/2023,8,true
+happy house 2,HCM,The Happy house 2,user2,100,12/02/2023,12/03/2023,8,true
+happy house 3,Da nang,The Happy house 3,user1,100,12/02/2023,12/05/2023,8,true
+happy house 4,Nha Trang,The Happy house 4,user4,100,12/02/2023,12/02/2025,8,true
+happy house 5,Hoi An,The Happy house 5,user1,100,12/02/2023,12/02/2024,8,true
