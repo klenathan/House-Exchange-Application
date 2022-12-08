@@ -18,37 +18,9 @@ public:
      * */
     CustomDate() {};
 
-    CustomDate(int day, int month, int year) {
-        try {
-            ///// Day check
-            if (day > 31 || day < 1) {
-                throw 410;
-            }
-            ///// Month check with days
-            if (month > 12 || month < 1) {
-                throw 411;
-            } else {
-                if (!month % 2) {
-                    //// Even Months
-                    if (month == 2 && day > 29) throw 410;
-                    else if (month < 8 && day > 30) throw 410;
-                } else {
-                    //// Odd months
-                    if (month > 8 && day > 30) throw 410;
-                }
-            }
-            //// Year check
-            if (year < 2022) {
-                throw 412;
-            }
-            this->day = day;
-            this->month = month;
-            this->year = year;
-        } catch (int e) {
-            std::cout << e;
-        }
-    }
+    CustomDate(int day, int month, int year);
 
+    CustomDate(std::string);
     /**
      * Methods declarations
      * */
