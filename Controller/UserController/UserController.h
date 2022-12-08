@@ -21,7 +21,7 @@ public:
      * */
     void loadDataToArray();
 
-    bool checkUserInArray(std::string username);
+    bool checkUserInArray(const std::string& username);
 };
 
 #endif //HOUSEEXCHANGEAPPLICATION_USERCONTROLLER_H

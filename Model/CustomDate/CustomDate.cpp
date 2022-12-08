@@ -104,7 +104,7 @@ CustomDate::CustomDate(std::string inputString) {
 };
 
 std::string CustomDate::getDate() {
-    return std::to_string(day) + "/" + std::to_string(month) + "/" + std::to_string(year) + "/";
+    return std::to_string(day) + "/" + std::to_string(month) + "/" + std::to_string(year);
 }
 
 void CustomDate::showInfo() { std::cout << day << "/" << month << "/" << year << std::endl; }

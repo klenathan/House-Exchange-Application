@@ -19,9 +19,12 @@ int main() {
     HouseController HC = HouseController();
     vector<House> houseArr = HC.getUserHouse("user1");
 
+    int counter = 1;
     for(House house: houseArr) {
+        cout << "-------- " << counter << " --------" << std::endl;
         house.showInfo();
         cout << endl;
+        counter++;
     }
 
 //    std::cout << "EEET2482/COSC2082 ASSIGNMENT\n"

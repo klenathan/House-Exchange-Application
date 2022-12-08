@@ -24,7 +24,7 @@ void HouseController::loadDataToArray() {
     }
 }
 
-vector<House> HouseController::getUserHouse(std::string username) {
+vector<House> HouseController::getUserHouse(const std::string& username) {
     vector<House> result;
     for (House house: this->HouseArray) {
         if (house.getOwner() == username) result.push_back(house);

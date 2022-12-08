@@ -14,15 +14,9 @@ using namespace std;
 class DataLoader {
 private:
 public:
-    DataLoader() {
-//        this->loadFile("../Data/user_data.csv");
-//        cout << endl;
-//        this->loadFile("../Data/house_data.csv");
-    }
+    DataLoader() {}
 
     static vector<vector<string>> loadFile(std::string src);
-
-    static void loadUserData();
 
     ~DataLoader() { delete this; }
 };

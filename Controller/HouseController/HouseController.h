@@ -20,7 +20,7 @@ public:
 
     void loadDataToArray();
 
-    std::vector<House> getUserHouse(std::string username);
+    std::vector<House> getUserHouse(const std::string& username);
 
 
 
