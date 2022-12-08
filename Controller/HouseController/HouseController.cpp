@@ -12,7 +12,8 @@ void HouseController::loadDataToArray() {
     vector<vector<string>> rawData = DataLoader::loadFile("../Data/house_data.csv");
 
     CustomDate startTestDate = CustomDate(10, 12, 2023);
-    CustomDate endTestDate = CustomDate(10, 12, 2023);
+    CustomDate endTestDate = CustomDate("12/02/2023");
+
     for (vector<string> line: rawData) {
         House temp_house = House(line[0], line[1],
                                  line[3], line[2], 0,
