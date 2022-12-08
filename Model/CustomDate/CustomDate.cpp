@@ -10,6 +10,7 @@
 
 #include "CustomDate.h"
 
+using std::stringstream, std::string, std::cout, std::endl, std::vector, std::ostream;
 
 /**
  * @author: Tran Nam Thai
@@ -49,23 +50,23 @@ CustomDate::CustomDate(int day, int month, int year) {
         this->month = month;
         this->year = year;
     } catch (int e) {
-        std::cout << e;
+        cout << e;
     }
 }
 
 /**
  * @param: inputString has to follow the format of ("dd/mm/yyyy")
  * */
-CustomDate::CustomDate(std::string inputString) {
+CustomDate::CustomDate(string inputString) {
     //// turn string input into int for further processing
-    std::stringstream ss(inputString);
-    std::string text;
+    stringstream ss(inputString);
+    string text;
 
-    std::vector<int> tempArr;
-    while (std::getline(ss, text, '/')) {
+    vector<int> tempArr;
+    while (getline(ss, text, '/')) {
         try { tempArr.push_back(stoi(text)); }
         catch (std::exception &e) {
-            std::cout << e.what() << std::endl;
+            cout << e.what() << endl;
         }
     }
 
@@ -99,17 +100,17 @@ CustomDate::CustomDate(std::string inputString) {
         this->month = month;
         this->year = year;
     } catch (int e) {
-        std::cout << e;
+        cout << e;
     }
 };
 
-std::string CustomDate::getDate() {
+string CustomDate::getDate() const {
     return std::to_string(day) + "/" + std::to_string(month) + "/" + std::to_string(year);
 }
 
 void CustomDate::showInfo() { std::cout << day << "/" << month << "/" << year << std::endl; }
 
-std::ostream &operator<<(std::ostream &os, const CustomDate &dt) {
-    os << dt.day << "/" << dt.month << "/" << dt.year << std::endl;
+ostream &operator<<(ostream &os, const CustomDate &dt) {
+    os << dt.day << "/" << dt.month << "/" << dt.year << endl;
     return os;
 };

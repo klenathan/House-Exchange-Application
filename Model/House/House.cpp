@@ -4,15 +4,15 @@
 
 #include "House.h"
 
-
+using std::cout, std::endl;
 
 void House::showInfo() {
-    std::cout << "Name: " << this->name << std::endl;
-    std::cout << "Address: " << this->address << std::endl;
-    std::cout << "Description: " << this->desc << std::endl;
-    std::cout << "Price: " << this->price << std::endl;
-    std::cout << "Required rating: " << this->requiredRating << std::endl;
-    std::cout << "Owner: " << this->ownerUsername << std::endl;
-    std::cout << "Date range: " << this->startDate.getDate() << " - " << this->endDate.getDate() << std::endl;
+    cout << "Name: " << this->name << endl;
+    cout << "Address: " << this->address << endl;
+    cout << "Description: " << this->desc << endl;
+    cout << "Price: " << this->price << endl;
+    cout << "Required rating: " << this->requiredRating << endl;
+    cout << "Owner: " << this->ownerUsername << endl;
+    cout << "Date range: " << this->startDate.getDate() << " - " << this->endDate.getDate() << endl;
 //        std::cout << "Status: " << this->status << std::endl;
 }

@@ -9,6 +9,7 @@
 #include "../../Model/House/House.h"
 #include "../../Model/User/User.h"
 
+using std::string;
 
 class Request{
 private:
@@ -18,6 +19,6 @@ private:
 public:
     Request() {}
 
-    Request(User user, House house, std::string status);
+    Request(User user, House house, string status);
 };
 #endif //HOUSEEXCHANGEAPPLICATION_REQUEST_H

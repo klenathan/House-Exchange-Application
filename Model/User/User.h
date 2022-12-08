@@ -9,10 +9,12 @@
 #include <vector>
 #include "../House/House.h"
 
+using std::string;
+using std::ostream;
 
 class User {
 private:
-    std::string username, password, fullname, phoneNum;
+    string username, password, fullname, phoneNum;
     long creditPoints;
     float rating;
 public:
@@ -21,7 +23,7 @@ public:
      * */
     User() {}
 
-    User(std::string username, std::string password, long creditPoints) {
+    User(string username, string password, long creditPoints) {
         this->username = username;
         this->password = password;
         this->creditPoints = creditPoints;
@@ -30,7 +32,7 @@ public:
     /**
      * Getter-Setter
      * */
-    std::string getUsername() {
+    string getUsername() {
         return this->username;
     }
 
@@ -43,7 +45,7 @@ public:
      * */
 
     void showInfo();
-    bool authenticate(std::string inputPassword);
+    bool authenticate(string inputPassword);
     void addCreditPoints(long additionNum);
     void removeCreditPoints(long additionNum);
 
@@ -55,6 +57,6 @@ public:
 //        delete this;
 //    }
 
-    friend std::ostream & operator<<(std::ostream & os, User & user);
+    friend ostream & operator<<(ostream & os, User & user);
 };
 #endif //HOUSEEXCHANGEAPPLICATION_USER_H

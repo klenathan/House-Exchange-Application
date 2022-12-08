@@ -5,10 +5,12 @@
 
 #include "User.h"
 
+using std::string, std::endl, std::ostream;
+
 
 void User::showInfo() {
-    std::cout << "Username: " << this->username << std::endl;
-    std::cout << "Credit points: " << this->creditPoints << std::endl;
+    std::cout << "Username: " << this->username << endl;
+    std::cout << "Credit points: " << this->creditPoints << endl;
 }
 
 bool User::authenticate(std::string inputPassword) {
@@ -27,10 +29,10 @@ void User::addCreditPoints(long additionNum) {
     this->creditPoints += additionNum;
 }
 
-std::ostream & operator<<(std::ostream & os, User & user) {
-    os << "Username: " << user.username << std::endl;
-    os << "Fullname: " << user.fullname << std::endl;
-    os << "Contact: " << user.phoneNum << std::endl;
-    os << "Credit points: " << user.creditPoints << std::endl;
+ostream & operator<<(ostream & os, User & user) {
+    os << "Username: " << user.username << endl;
+    os << "Fullname: " << user.fullname << endl;
+    os << "Contact: " << user.phoneNum << endl;
+    os << "Credit points: " << user.creditPoints << endl;
     return os;
 }

@@ -9,19 +9,21 @@
 #include "Controller/UserController/UserController.h"
 #include "Controller/HouseController/HouseController.h"
 
-using namespace std;
+using std::string;
+using std::cout;
+using std::endl;
 
 int main() {
 
     UserController UC = UserController();
-    cout << "status: " << UC.checkUserInArray("user1") << std::endl;
+    cout << "status: " << UC.checkUserInArray("user1") << endl;
 
     HouseController HC = HouseController();
     vector<House> houseArr = HC.getUserHouse("user1");
 
     int counter = 1;
     for(House house: houseArr) {
-        cout << "-------- " << counter << " --------" << std::endl;
+        cout << "-------- " << counter << " --------" << endl;
         house.showInfo();
         cout << endl;
         counter++;

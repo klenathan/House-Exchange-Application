@@ -4,8 +4,9 @@
 
 #include "Request.h"
 
+using std::string;
 
-Request::Request(User user, House house, std::string status) {
+Request::Request(User user, House house, string status) {
     this->user = user;
     this->house = house;
     this->status = status;

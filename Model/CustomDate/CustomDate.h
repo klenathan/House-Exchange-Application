@@ -7,6 +7,7 @@
 
 #include <iostream>
 
+using std::string;
 
 class CustomDate {
 private:
@@ -20,11 +21,11 @@ public:
 
     CustomDate(int day, int month, int year);
 
-    CustomDate(std::string);
+    CustomDate(string);
     /**
      * Methods declarations
      * */
-    std::string getDate();
+    std::string getDate() const;
     void showInfo();
     friend std::ostream &operator<<(std::ostream &os, const CustomDate &dt);
 };
