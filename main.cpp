@@ -16,13 +16,15 @@ using std::endl;
 int main() {
 
     UserController UC = UserController();
-    cout << "status: " << UC.include("user1") << endl;
+
+    UC.signup();
+//    cout << "status: " << UC.include("user1") << endl;
 
 //    UC.showData();
 
-    cout << "Login: " << UC.login("user1", "1223") << endl;
+    cout << "Login: " << UC.login("Dong123", "123") << endl;
 
-    UC.writeFile();
+//    UC.writeFile();
 
 //    HouseController HC = HouseController();
 //    vector<House> houseArr = HC.getUserHouse("user1");

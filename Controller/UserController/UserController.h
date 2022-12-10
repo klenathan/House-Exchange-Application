@@ -7,7 +7,7 @@
 
 #include "../../Data/DataLoader/DataHandler.h"
 
-using std::cout, std::endl, std::string;
+using std::cout, std::endl, std::string, std::getline, std::cin, std::cerr;
 
 class UserController {
 private:
@@ -41,6 +41,9 @@ public:
         }
         cout << DataHandler::writeFile("../Data/data-test.txt", content);
     }
+
+    // Authenticate method
+    void signup();
     bool login(const string &username, const string &password);
     bool include(const std::string& username);
 };
