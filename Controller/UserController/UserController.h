@@ -43,8 +43,8 @@ public:
     }
 
     // Authenticate method
-    void signup();
-    bool login(const string &username, const string &password);
+    bool signup();
+    bool login();
     bool include(const std::string& username);
 };
 

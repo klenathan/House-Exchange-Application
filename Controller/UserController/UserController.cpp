@@ -24,7 +24,7 @@ void UserController::showData() {
     }
 };
 
-void UserController::signup() {
+bool UserController::signup() {
     string username;
     string password;
     string fullname;
@@ -61,17 +61,32 @@ void UserController::signup() {
     writeFile();
 
     delete newUser;
+
+    return true;
 }
 
 
 
-bool UserController::login(const std::string &username, const std::string &password) {
+bool UserController::login() {
+    string username;
+    string password;
+
+    cout << "Input your username: ";
+    cin >> username;
+
+    cout << "Input your password: ";
+    cin >> password;
+
     for (User user: this->userArray) {
         if (user.getUsername() == username && user.authenticate(password)) {
             this->currentUser = user;
             return 1;
+        }else if(user.getUsername() == username && !user.authenticate(password)){
+            cerr << "Wrong password";
+            return 0;
         }
     }
+    cerr << "This account does not exits! PLease sign up! \n";
     return 0;
 }
 

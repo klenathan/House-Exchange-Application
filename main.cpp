@@ -17,12 +17,12 @@ int main() {
 
     UserController UC = UserController();
 
-    UC.signup();
+//    UC.signup();
 //    cout << "status: " << UC.include("user1") << endl;
 
 //    UC.showData();
 
-    cout << "Login: " << UC.login("Dong123", "123") << endl;
+    cout << "Login: \n" << UC.login() << endl;
 
 //    UC.writeFile();
 
