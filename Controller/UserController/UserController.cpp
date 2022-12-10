@@ -24,13 +24,69 @@ void UserController::showData() {
     }
 };
 
-bool UserController::login(const std::string &username, const std::string &password) {
+bool UserController::signup() {
+    string username;
+    string password;
+    string fullname;
+    string phoneNum;
+
+    //Check username exited
+    bool check = true;
+
+    while(check){
+        cout <<  "PLease input username: ";
+        cin >> username;
+        if(include(username)){
+            cin.ignore();
+            cout << "This " << username << " is used!\n";
+            check  = include(username);
+        }else{
+            check = false;
+        }
+    }
+
+    cout << "Please input password: ";
+    cin >> password;
+
+    cin.ignore();
+    cout << "Please input fullname: ";
+    getline(cin, fullname);
+
+    cout << "Please input phone number: ";
+    cin >> phoneNum;
+
+    // Save newUser
+    User *newUser = new User(username, password, fullname, phoneNum, 500, 5);
+    this->userArray.push_back(*newUser);
+    writeFile();
+
+    delete newUser;
+
+    return true;
+}
+
+
+
+bool UserController::login() {
+    string username;
+    string password;
+
+    cout << "Input your username: ";
+    cin >> username;
+
+    cout << "Input your password: ";
+    cin >> password;
+
     for (User user: this->userArray) {
         if (user.getUsername() == username && user.authenticate(password)) {
             this->currentUser = user;
             return 1;
+        }else if(user.getUsername() == username && !user.authenticate(password)){
+            cerr << "Wrong password";
+            return 0;
         }
     }
+    cerr << "This account does not exits! PLease sign up! \n";
     return 0;
 }
 
@@ -50,3 +106,5 @@ const User &UserController::getCurrentUser() const {
 void UserController::setCurrentUser(const User &currentUser) {
     UserController::currentUser = currentUser;
 }
+
+
