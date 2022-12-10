@@ -25,42 +25,18 @@ public:
 
     House() {}
 
-    House(std::string name, std::string address, std::string ownerUsername, std::string desc,
-          float requiredRating,
-          CustomDate startDate,
-          CustomDate endDate,
-          long price,
-          float rating
-    ) {
-        this->name = name;
-        this->address = address;
-        this->ownerUsername = ownerUsername;
-        this->desc = desc;
-        this->requiredRating = requiredRating;
-        this->startDate = startDate;
-        this->endDate = endDate;
-        this->price = price;
-        this->status = false;
-    }
 
-    House(std::string name, std::string address, std::string ownerUsername,
-          std::string desc,
-          CustomDate startDate,
-          CustomDate endDate,
-          long price, float rating, bool status) {
-        this->name = name;
-        this->address = address;
-        this->ownerUsername = ownerUsername;
-        this->desc = desc;
-        this->startDate = startDate;
-        this->endDate = endDate;
-        this->price = price;
-        this->status = status;
-    }
+    House(const string &name, const string &address, const string &desc, const string &ownerUsername, long price,
+          const CustomDate &startDate, const CustomDate &endDate, float requiredRating, float rating);
+
+    House(const string &name, const string &address, const string &desc, const string &ownerUsername, long price,
+          const CustomDate &startDate, const CustomDate &endDate, float requiredRating, float rating, bool status);
+
 
     /**
      * Getter-Setter
      * */
+
 
     void setStatus(bool status) {
         this->status = status;

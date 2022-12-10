@@ -4,7 +4,7 @@
 #include "Model/House/House.h"
 #include "Model/CustomDate/CustomDate.h"
 
-#include "Data/DataLoader/DataLoader.h"
+#include "Data/DataLoader/DataHandler.h"
 
 #include "Controller/UserController/UserController.h"
 #include "Controller/HouseController/HouseController.h"
@@ -16,18 +16,18 @@ using std::endl;
 int main() {
 
     UserController UC = UserController();
-    cout << "status: " << UC.checkUserInArray("user1") << endl;
+    cout << "status: " << UC.include("user1") << endl;
 
-    HouseController HC = HouseController();
-    vector<House> houseArr = HC.getUserHouse("user1");
+//    UC.showData();
 
-    int counter = 1;
-    for(House house: houseArr) {
-        cout << "-------- " << counter << " --------" << endl;
-        house.showInfo();
-        cout << endl;
-        counter++;
-    }
+    cout << "Login: " << UC.login("user1", "1223") << endl;
+
+    UC.writeFile();
+
+//    HouseController HC = HouseController();
+//    vector<House> houseArr = HC.getUserHouse("user1");
+//
+//    HC.showData();
 
 //    std::cout << "EEET2482/COSC2082 ASSIGNMENT\n"
 //                 "VACATION HOUSE EXCHANGE APPLICATION\n"
@@ -51,14 +51,19 @@ int main() {
 //    House house = House("happy house", "Hanoi", "user1", "The Happy house", 0,
 //                        start,
 //                        end, 100, 120);
+//
+//    HC.create(house);
+//    vector<House> temp = HC.getHouseArray();
+//    temp.at(5).setStatus(true);
+//    HC.setHouseArray(temp);
+//    HC.showData();
 
-//    house.showInfo();
 
-//    DataLoader d = DataLoader();
-//    DataLoader::loadUserData();
+//    DataHandler d = DataHandler();
+//    DataHandler::loadUserData();
 //
 //    CustomDate date = CustomDate(12, 10, 2023);
-//    date.showInfo();
+////    date.showInfo();
 //    cout << date;
 
 

@@ -17,7 +17,7 @@ private:
     House house;
     std::string status; //// Enum: "requested", "accepted", "finished"
 public:
-    Request() {}
+    Request() = default;
 
     Request(User user, House house, string status);
 };

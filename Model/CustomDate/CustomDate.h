@@ -9,19 +9,27 @@
 
 using std::string;
 
+/**
+ * Custom date class for House Exchanging Application written in c++ by team TDTK
+ *
+ * The class has 3 parameters: day, month, year
+ *
+ * */
+
 class CustomDate {
 private:
     int day, month, year;
 public:
 
     /**
-     * Constructor
+     * Constructors
      * */
     CustomDate() {};
 
     CustomDate(int day, int month, int year);
 
     CustomDate(string);
+
     /**
      * Methods declarations
      * */
