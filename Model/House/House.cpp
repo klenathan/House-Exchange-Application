@@ -14,5 +14,21 @@ void House::showInfo() {
     cout << "Required rating: " << this->requiredRating << endl;
     cout << "Owner: " << this->ownerUsername << endl;
     cout << "Date range: " << this->startDate.getDate() << " - " << this->endDate.getDate() << endl;
-//        std::cout << "Status: " << this->status << std::endl;
+        std::cout << "Status: " << this->status << std::endl;
 }
+
+/**
+ * Full data constructor
+ * */
+House::House(const string &name, const string &address, const string &desc, const string &ownerUsername, long price,
+             const CustomDate &startDate, const CustomDate &endDate, float requiredRating, float rating, bool status)
+        : name(name), address(address), desc(desc), ownerUsername(ownerUsername), price(price), startDate(startDate),
+          endDate(endDate), requiredRating(requiredRating), rating(rating), status(status) {}
+
+/**
+ * Constructor without status
+ * */
+House::House(const string &name, const string &address, const string &desc, const string &ownerUsername, long price,
+             const CustomDate &startDate, const CustomDate &endDate, float requiredRating, float rating) :
+             name(name), address(address), desc(desc), ownerUsername(ownerUsername), price(price),
+startDate(startDate), endDate(endDate), requiredRating(requiredRating),rating(rating) {}

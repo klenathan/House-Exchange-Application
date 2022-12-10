@@ -13,16 +13,27 @@
 class HouseController {
 private:
     std::vector<House> HouseArray;
-public:
-    HouseController(){
-        this->loadDataToArray();
-    }
-
     void loadDataToArray();
+public:
+    HouseController();
 
     std::vector<House> getUserHouse(const std::string& username);
 
+    void showData();
 
+    void create(const House &newHouse);
+    void create(const string &name, const string &address, const string &desc, const string &ownerUsername, long price,
+                     const CustomDate &startDate, const CustomDate &endDate, float requiredRating, float rating, bool status);;
+
+    void findByKey();
+
+    void update();
+
+    void destroy();
+
+    const std::vector<House> &getHouseArray() const;
+
+    void setHouseArray(const std::vector<House> &houseArray);
 
 };
 

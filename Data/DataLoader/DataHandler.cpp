@@ -4,19 +4,13 @@
 
 
 #include <vector>
-#include "DataLoader.h"
+#include <iostream>
+#include <fstream>
+#include "DataHandler.h"
 
-//void DataLoader::loadUserData() {
-//    vector<vector<string>> rawData = loadFile("../Data/user_data.csv");
-//    for (vector<string> line: rawData) {
-//        for (string cell: line) {
-//            std::cout << cell << " | ";
-//        }
-//        std::cout << std::endl;
-//    }
-//}
+using std::ofstream;
 
-vector<vector<string>> DataLoader::loadFile(std::string src) {
+vector<vector<string>> DataHandler::loadFile(std::string src) {
     int counter = 0;
     std::string myText;
     std::ifstream MyReadFile(src);
@@ -40,3 +34,11 @@ vector<vector<string>> DataLoader::loadFile(std::string src) {
 
     return result;
 }
+
+bool DataHandler::writeFile(string src, string content) {
+
+    ofstream MyFile(src);
+    MyFile << content;
+    MyFile.close();
+    return 1;
+};

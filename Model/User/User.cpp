@@ -36,3 +36,7 @@ ostream & operator<<(ostream & os, User & user) {
     os << "Credit points: " << user.creditPoints << endl;
     return os;
 }
+
+User::User(const string &username, const string &password, const string &fullname, const string &phoneNum,
+           long creditPoints, float rating) : username(username), password(password), fullname(fullname),
+                                              phoneNum(phoneNum), creditPoints(creditPoints), rating(rating) {}
