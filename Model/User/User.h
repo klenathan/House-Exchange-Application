@@ -6,11 +6,12 @@
 #define HOUSEEXCHANGEAPPLICATION_USER_H
 
 #include <iostream>
+#include <sstream>
 #include <vector>
 #include "../House/House.h"
 
 using std::string;
-using std::ostream;
+using std::ostream, std::stringstream, std::to_string;
 
 class User {
 private:
@@ -29,6 +30,9 @@ public:
         this->creditPoints = creditPoints;
     }
 
+    User(const string &username, const string &password, const string &fullname, const string &phoneNum,
+         long creditPoints, float rating);
+
     /**
      * Getter-Setter
      * */
@@ -38,6 +42,12 @@ public:
 
     long getCreditPoints() {
         return this->creditPoints;
+    }
+
+    string getWriteFormat() {
+        return this->username + "," + this->password + "," + to_string(this->creditPoints) + "," +
+                this->fullname + "," + this->phoneNum + "," + to_string(this->rating) + "," +
+                to_string(10);
     }
 
     /**

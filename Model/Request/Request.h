@@ -11,14 +11,32 @@
 
 using std::string;
 
-class Request{
+enum Status {
+    requested, accepted, finished, rejected
+};
+
+class Request {
 private:
     User user;
     House house;
-    std::string status; //// Enum: "requested", "accepted", "finished"
+    Status status; //// Enum: "requested", "accepted", "finished", "rejected"
 public:
-    Request() {}
+    Request() = default;
 
-    Request(User user, House house, string status);
+    Request(User user, House house, Status status);
+
+    /**
+     * Getter-Setter
+     * */
+
+    const User &getUser() const;
+
+    const House &getHouse() const;
+
+    Status getStatus() const;
+
+    void setStatus(Status status);
+
 };
+
 #endif //HOUSEEXCHANGEAPPLICATION_REQUEST_H

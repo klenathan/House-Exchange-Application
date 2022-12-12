@@ -4,7 +4,7 @@
 #include "Model/House/House.h"
 #include "Model/CustomDate/CustomDate.h"
 
-#include "Data/DataLoader/DataLoader.h"
+#include "Data/DataLoader/DataHandler.h"
 
 #include "Controller/UserController/UserController.h"
 #include "Controller/HouseController/HouseController.h"
@@ -13,21 +13,24 @@ using std::string;
 using std::cout;
 using std::endl;
 
-int main() {
 
-    UserController UC = UserController();
-    cout << "status: " << UC.checkUserInArray("user1") << endl;
+int main(int argc, const char *argv[]) {
 
-    HouseController HC = HouseController();
-    vector<House> houseArr = HC.getUserHouse("user1");
+    string currentPath = DataHandler::getPath(argv[0]);
 
-    int counter = 1;
-    for(House house: houseArr) {
-        cout << "-------- " << counter << " --------" << endl;
-        house.showInfo();
-        cout << endl;
-        counter++;
-    }
+//    UserController UC = UserController();
+//    cout << "status: " << UC.include("user1") << endl;
+//
+////    UC.showData();
+//
+//    cout << "Login: " << UC.login("user1", "1223") << endl;
+//
+//    UC.writeFile();
+
+
+
+
+//    HC.showData();
 
 //    std::cout << "EEET2482/COSC2082 ASSIGNMENT\n"
 //                 "VACATION HOUSE EXCHANGE APPLICATION\n"
@@ -46,19 +49,37 @@ int main() {
 //    user1.addCreditPoints(100);
 //    user1.showInfo();
 
-//    CustomDate start = CustomDate(12, 10, 2022);
-//    CustomDate end = CustomDate(12, 10, 2022);
-//    House house = House("happy house", "Hanoi", "user1", "The Happy house", 0,
-//                        start,
-//                        end, 100, 120);
+    CustomDate start = CustomDate(12, 10, 2022);
+    CustomDate end = CustomDate(12, 10, 2022);
+    House house = House("happy house", "Hanoi", "user1", "The Happy house", 0,
+                        start,
+                        end, 100, 120);
 
-//    house.showInfo();
 
-//    DataLoader d = DataLoader();
-//    DataLoader::loadUserData();
+//    string housePath = argv[0] + ;
+    HouseController HC = HouseController(currentPath);
+    HC.listNewHouse();
+
+    vector<House> houseArr = HC.getUserHouse("user1");
+
+    HC.create(house);
+//    HC.showData();
+
+//    cout << "getPath: " << getPath(argv[0]) << endl;
+//    cout << DataHandler::getOsName();
+//    cout << "count: " << argc << endl << "argv: " << argv[0] << endl;
+//#include <cstdlib>
+//   system("pwd");
+    return 0;
+
+
+
+
+//    DataHandler d = DataHandler();
+//    DataHandler::loadUserData();
 //
 //    CustomDate date = CustomDate(12, 10, 2023);
-//    date.showInfo();
+////    date.showInfo();
 //    cout << date;
 
 
