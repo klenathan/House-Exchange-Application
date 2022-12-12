@@ -7,12 +7,14 @@
 
 #include <iostream>
 
+
 #include "../CustomDate/CustomDate.h"
 
 
 class House {
 private:
-    std::string name, address, desc, ownerUsername;
+
+    std::string id, name, address, desc, ownerUsername;
     long price;
     CustomDate startDate, endDate;
     float requiredRating;
@@ -25,11 +27,17 @@ public:
 
     House() {}
 
-
+/**
+ * Partial constructor for creating new object
+ * */
     House(const string &name, const string &address, const string &desc, const string &ownerUsername, long price,
           const CustomDate &startDate, const CustomDate &endDate, float requiredRating, float rating);
 
-    House(const string &name, const string &address, const string &desc, const string &ownerUsername, long price,
+/**
+ * Full constructor for read file
+ */
+    House(const string &id, const string &name, const string &address, const string &desc, const string &ownerUsername,
+          long price,
           const CustomDate &startDate, const CustomDate &endDate, float requiredRating, float rating, bool status);
 
 
@@ -46,9 +54,14 @@ public:
         return this->ownerUsername;
     }
 
+    const string &getId() const;
+
+
     /**
      * Methods
      * */
+
+    int randomID();
 
     void showInfo();
     /**

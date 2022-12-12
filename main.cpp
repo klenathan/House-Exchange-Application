@@ -1,10 +1,7 @@
 #include <iostream>
+#include <random>
 
-#include "Model/User/User.h"
-#include "Model/House/House.h"
-#include "Model/CustomDate/CustomDate.h"
 
-#include "Data/DataLoader/DataHandler.h"
 
 #include "Controller/UserController/UserController.h"
 #include "Controller/HouseController/HouseController.h"
@@ -13,22 +10,22 @@ using std::string;
 using std::cout;
 using std::endl;
 
-int main() {
+int main(int argc, const char *argv[]) {
 
+//    string currentPath = DataHandler::getPath(argv[0]);
 //    UserController UC = UserController();
-
-//    UC.signup();
 //    cout << "status: " << UC.include("user1") << endl;
 
+//
 //    UC.showData();
-
-//    cout << "Login: \n" << UC.login() << endl;
-
+//
+//    cout << "Login: " << UC.login("user1", "1223") << endl;
+//
 //    UC.writeFile();
 
-//    HouseController HC = HouseController();
-//    vector<House> houseArr = HC.getUserHouse("user1");
-//
+
+
+
 //    HC.showData();
 
 //    std::cout << "EEET2482/COSC2082 ASSIGNMENT\n"
@@ -53,25 +50,27 @@ int main() {
 //    House house = House("happy house", "Hanoi", "user1", "The Happy house", 0,
 //                        start,
 //                        end, 100, 120);
-//
-//    HC.create(house);
-//    vector<House> temp = HC.getHouseArray();
-//    temp.at(5).setStatus(true);
-//    HC.setHouseArray(temp);
-//    HC.showData();
+
 
 
 //    DataHandler d = DataHandler();
 //    DataHandler::loadUserData();
 //
-//    CustomDate date = CustomDate(12, 10, 2023);
-//    date.showInfo();
+    CustomDate date = CustomDate(12, 10, 2022);
+    date.showInfo();
+
 //    cout << date;
 
 
 //    std::cout << user1.authenticate("123") << std::endl;
 //    std::cout << user1.authenticate("1asd") << std::endl;
 
+
+//    string housePath = argv[0] + ;
+//    HouseController HC = HouseController(currentPath);
+//
+//    HC.listNewHouse();
+//    HC.create(house);
 
     return 0;
 }

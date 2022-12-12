@@ -3,9 +3,7 @@
 //
 
 #include "vector"
-#include "../../Data/DataLoader/DataHandler.h"
-#include "../../Model/User/User.h"
-
+#include <iostream>
 #include "UserController.h"
 
 
@@ -13,7 +11,8 @@ void UserController::loadDataToArray() {
     vector<vector<string>> rawData = DataHandler::loadFile("../Data/user_data.csv");
 
     for (vector<string> line: rawData) {
-        User temp_user = User(line[0], line[1], line[3], line[4], stol(line[2]), stof(line[5]));
+        User temp_user = User(line[0], line[1], line[3], line[4],
+                              stol(line[2]), stof(line[5]));
         this->userArray.push_back(temp_user);
     }
 }
