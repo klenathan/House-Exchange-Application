@@ -25,12 +25,12 @@ void HouseController::loadDataToArray(string path) {
     vector<vector<string>> rawData = DataHandler::loadFile(path + "./house_data.csv");
 
     for (vector<string> line: rawData) {
-        CustomDate startDate = CustomDate(line[5]);
-        CustomDate endDate = CustomDate(line[6]);
-        House temp_house = House(line[0], line[1],
-                                 line[2], line[3], stol(line[4]),
-                                 startDate, endDate,
-                                 stol(line[4]), stof(line[7]));
+        CustomDate startDate = CustomDate(line[6]);
+        CustomDate endDate = CustomDate(line[7]);
+
+        House temp_house = House(line[0], line[1], line[2],
+                                 line[3], line[4], stol(line[5]),
+                                 startDate, endDate, 7, stof(line[8]), 1);
         this->HouseArray.push_back(temp_house);
     }
 }
@@ -45,12 +45,12 @@ vector<House> HouseController::getUserHouse(const std::string &username) {
 }
 
 void HouseController::showData() {
-    int counter = 0;
+//    int counter = 0;
     for (House house: this->HouseArray) {
-        cout << "-------- index: " << counter << " --------" << endl;
+        cout << "-------- ID: " << house.getId() << " --------" << endl;
         house.showInfo();
         cout << endl;
-        counter++;
+//        counter++;
     }
 }
 
@@ -61,9 +61,14 @@ void HouseController::create(const House &newHouse) {
 void HouseController::create(const std::string &name, const std::string &address, const std::string &desc,
                              const std::string &ownerUsername, long price, const CustomDate &startDate,
                              const CustomDate &endDate, float requiredRating, float rating, bool status) {
-    House newHouse = House(name, address, desc, ownerUsername, price, startDate, endDate, requiredRating, rating,
-                           status);
+    House newHouse = House(name, address, desc, ownerUsername, price, startDate, endDate, requiredRating, rating);
     this->HouseArray.push_back(newHouse);
+}
+
+House HouseController::findByKey(const std::string &id) {
+    for (House house: this->HouseArray) {
+//        if (house.get)
+    }
 }
 
 void HouseController::setHouseArray(const vector<House> &houseArray) {
@@ -129,7 +134,7 @@ void HouseController::listNewHouse() {
         }
 
         House *tempHouse = new House(houseName, address, desc, "admin", price,
-                                     start, end, minRate, 0, true);
+                                     start, end, minRate, 0);
         this->create(*tempHouse);
         DataHandler::clear();
         cout << "-------- NEW HOUSE ADDED --------" << endl;

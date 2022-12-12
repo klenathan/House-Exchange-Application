@@ -1,10 +1,7 @@
 #include <iostream>
+#include <random>
 
-#include "Model/User/User.h"
-#include "Model/House/House.h"
-#include "Model/CustomDate/CustomDate.h"
 
-#include "Data/DataLoader/DataHandler.h"
 
 #include "Controller/UserController/UserController.h"
 #include "Controller/HouseController/HouseController.h"
@@ -17,8 +14,7 @@ using std::endl;
 int main(int argc, const char *argv[]) {
 
     string currentPath = DataHandler::getPath(argv[0]);
-
-//    UserController UC = UserController();
+    UserController UC = UserController();
 //    cout << "status: " << UC.include("user1") << endl;
 //
 ////    UC.showData();
@@ -48,7 +44,7 @@ int main(int argc, const char *argv[]) {
 //
 //    user1.addCreditPoints(100);
 //    user1.showInfo();
-
+///////////////////////////////
     CustomDate start = CustomDate(12, 10, 2022);
     CustomDate end = CustomDate(12, 10, 2022);
     House house = House("happy house", "Hanoi", "user1", "The Happy house", 0,
@@ -58,34 +54,10 @@ int main(int argc, const char *argv[]) {
 
 //    string housePath = argv[0] + ;
     HouseController HC = HouseController(currentPath);
+    
     HC.listNewHouse();
-
-    vector<House> houseArr = HC.getUserHouse("user1");
-
     HC.create(house);
-//    HC.showData();
 
-//    cout << "getPath: " << getPath(argv[0]) << endl;
-//    cout << DataHandler::getOsName();
-//    cout << "count: " << argc << endl << "argv: " << argv[0] << endl;
-//#include <cstdlib>
-//   system("pwd");
-    return 0;
-
-
-
-
-//    DataHandler d = DataHandler();
-//    DataHandler::loadUserData();
-//
-//    CustomDate date = CustomDate(12, 10, 2023);
-////    date.showInfo();
-//    cout << date;
-
-
-//    std::cout << user1.authenticate("123") << std::endl;
-//    std::cout << user1.authenticate("1asd") << std::endl;
-
-
+///////////////////////////////
     return 0;
 }

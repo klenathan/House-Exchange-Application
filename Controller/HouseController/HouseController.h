@@ -42,7 +42,7 @@ public:
 
     void listNewHouse();
 
-    void findByKey();
+    House findByKey(const string &id);
 
     void update();
 
