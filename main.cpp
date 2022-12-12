@@ -13,20 +13,23 @@ using std::string;
 using std::cout;
 using std::endl;
 
-int main() {
 
-    UserController UC = UserController();
-    cout << "status: " << UC.include("user1") << endl;
+int main(int argc, const char *argv[]) {
 
-//    UC.showData();
+    string currentPath = DataHandler::getPath(argv[0]);
 
-    cout << "Login: " << UC.login("user1", "1223") << endl;
-
-    UC.writeFile();
-
-//    HouseController HC = HouseController();
-//    vector<House> houseArr = HC.getUserHouse("user1");
+//    UserController UC = UserController();
+//    cout << "status: " << UC.include("user1") << endl;
 //
+////    UC.showData();
+//
+//    cout << "Login: " << UC.login("user1", "1223") << endl;
+//
+//    UC.writeFile();
+
+
+
+
 //    HC.showData();
 
 //    std::cout << "EEET2482/COSC2082 ASSIGNMENT\n"
@@ -46,17 +49,30 @@ int main() {
 //    user1.addCreditPoints(100);
 //    user1.showInfo();
 
-//    CustomDate start = CustomDate(12, 10, 2022);
-//    CustomDate end = CustomDate(12, 10, 2022);
-//    House house = House("happy house", "Hanoi", "user1", "The Happy house", 0,
-//                        start,
-//                        end, 100, 120);
-//
-//    HC.create(house);
-//    vector<House> temp = HC.getHouseArray();
-//    temp.at(5).setStatus(true);
-//    HC.setHouseArray(temp);
+    CustomDate start = CustomDate(12, 10, 2022);
+    CustomDate end = CustomDate(12, 10, 2022);
+    House house = House("happy house", "Hanoi", "user1", "The Happy house", 0,
+                        start,
+                        end, 100, 120);
+
+
+//    string housePath = argv[0] + ;
+    HouseController HC = HouseController(currentPath);
+    HC.listNewHouse();
+
+    vector<House> houseArr = HC.getUserHouse("user1");
+
+    HC.create(house);
 //    HC.showData();
+
+//    cout << "getPath: " << getPath(argv[0]) << endl;
+//    cout << DataHandler::getOsName();
+//    cout << "count: " << argc << endl << "argv: " << argv[0] << endl;
+//#include <cstdlib>
+//   system("pwd");
+    return 0;
+
+
 
 
 //    DataHandler d = DataHandler();

@@ -5,10 +5,10 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-
 #include <exception>
 
 #include "CustomDate.h"
+#include "../CustomError/Errors.h"
 
 using std::stringstream, std::string, std::cout, std::endl, std::vector, std::ostream;
 
@@ -17,41 +17,36 @@ using std::stringstream, std::string, std::cout, std::endl, std::vector, std::os
  * @author: Tran Nam Thai
  * @Errors codes:
  *   - These errors are thrown in the CustomDate constructor function
- *
- *  410: INVALID_DAY: When the day is not valid (larger than 31 or lower than 1, day 31 in a 30 days-month, etc)
- *  411: INVALID_MONTH: When month is greater than 12 and lower than 1
- *  412: INVALID_YEAR: Year is lower than 2022 (Present year)
- *
  * */
 
 CustomDate::CustomDate(int day, int month, int year) {
     try {
         ///// Day check
         if (day > 31 || day < 1) {
-            throw 410;
+            throw ConversionErr("INVALID_DAY");
         }
         ///// Month check with days
         if (month > 12 || month < 1) {
-            throw 411;
+            throw ConversionErr("INVALID_MONTH");
         } else {
-            if (!month % 2) {
+            if (!(month % 2)) {
                 //// Even Months
-                if (month == 2 && day > 29) throw 410;
-                else if (month < 8 && day > 30) throw 410;
+                if (month == 2 && day > 29) throw ConversionErr("INVALID_DAY");
+                else if (month < 8 && day > 30) throw ConversionErr("INVALID_DAY");
             } else {
                 //// Odd months
-                if (month > 8 && day > 30) throw 410;
+                if (month > 8 && day > 30) throw ConversionErr("INVALID_DAY");
             }
         }
         //// Year check
         if (year < 2022) {
-            throw 412;
+            throw ConversionErr("INVALID_YEAR");
         }
         this->day = day;
         this->month = month;
         this->year = year;
-    } catch (int e) {
-        cout << e;
+    } catch (std::exception const &e) {
+        throw ConversionErr(e.what());
     }
 }
 
@@ -68,6 +63,7 @@ CustomDate::CustomDate(string inputString) {
         try { tempArr.push_back(stoi(text)); }
         catch (std::exception &e) {
             cout << e.what() << endl;
+            throw e;
         }
     }
 
@@ -78,30 +74,31 @@ CustomDate::CustomDate(string inputString) {
     try {
         ///// Day check
         if (day > 31 || day < 1) {
-            throw 410;
+            throw ConversionErr("INVALID_DAY");
         }
         ///// Month check with days
         if (month > 12 || month < 1) {
-            throw 411;
+            throw ConversionErr("INVALID_MONTH");
         } else {
-            if (!month % 2) {
+            if (!(month % 2)) {
                 //// Even Months
-                if (month == 2 && day > 29) throw 410;
-                else if (month < 8 && day > 30) throw 410;
+                if (month == 2 && day > 29) throw ConversionErr("INVALID_DAY");
+                else if (month < 8 && day > 30) throw ConversionErr("INVALID_DAY");
             } else {
                 //// Odd months
-                if (month > 8 && day > 30) throw 410;
+                if (month > 8 && day > 30) throw ConversionErr("INVALID_DAY");
             }
         }
         //// Year check
         if (year < 2022) {
-            throw 412;
+            throw ConversionErr("INVALID_YEAR");
         }
         this->day = day;
         this->month = month;
         this->year = year;
-    } catch (int e) {
-        cout << e;
+    } catch (std::exception const &e) {
+//        cout << e.what() << endl;
+        throw ConversionErr(e.what());
     }
 };
 
