@@ -15,14 +15,14 @@ using std::endl;
 
 int main() {
 
-    UserController UC = UserController();
+//    UserController UC = UserController();
 
 //    UC.signup();
 //    cout << "status: " << UC.include("user1") << endl;
 
 //    UC.showData();
 
-    cout << "Login: \n" << UC.login() << endl;
+//    cout << "Login: \n" << UC.login() << endl;
 
 //    UC.writeFile();
 
@@ -65,7 +65,7 @@ int main() {
 //    DataHandler::loadUserData();
 //
 //    CustomDate date = CustomDate(12, 10, 2023);
-////    date.showInfo();
+//    date.showInfo();
 //    cout << date;
 
 

@@ -5,6 +5,8 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <time.h>
+
 
 #include <exception>
 
@@ -21,7 +23,7 @@ using std::stringstream, std::string, std::cout, std::endl, std::vector, std::os
  *  410: INVALID_DAY: When the day is not valid (larger than 31 or lower than 1, day 31 in a 30 days-month, etc)
  *  411: INVALID_MONTH: When month is greater than 12 and lower than 1
  *  412: INVALID_YEAR: Year is lower than 2022 (Present year)
- *
+ *  413: INVALID_DATE: The current date is greater than the input date
  * */
 
 CustomDate::CustomDate(int day, int month, int year) {
@@ -34,9 +36,12 @@ CustomDate::CustomDate(int day, int month, int year) {
         if (month > 12 || month < 1) {
             throw 411;
         } else {
-            if (!month % 2) {
+            if (month % 2 == 0) {
                 //// Even Months
-                if (month == 2 && day > 29) throw 410;
+                if (month == 2) {
+                    if (day > 29) throw 410;
+                    else if (!((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) && day > 28) throw 410; // leap year check
+                }
                 else if (month < 8 && day > 30) throw 410;
             } else {
                 //// Odd months
@@ -47,6 +52,31 @@ CustomDate::CustomDate(int day, int month, int year) {
         if (year < 2022) {
             throw 412;
         }
+
+
+        // Current time
+        time_t currentTime = std::time(0);
+        char* dt = ctime(&currentTime);
+        cout << dt;
+
+        // Input time
+        time_t rawTime;
+        struct tm * inputTime;
+
+        time ( &rawTime );
+        inputTime = localtime ( &rawTime );
+        inputTime->tm_year = year - 1900;
+        inputTime->tm_mon = month - 1;
+        inputTime->tm_mday = day;
+
+        std::time_t time = mktime(inputTime);
+
+        char* dt1 = ctime(&time);
+        cout << dt1;
+
+        double diff =  difftime (time, currentTime);
+        if (diff < 0) throw 413;
+
         this->day = day;
         this->month = month;
         this->year = year;
@@ -84,9 +114,12 @@ CustomDate::CustomDate(string inputString) {
         if (month > 12 || month < 1) {
             throw 411;
         } else {
-            if (!month % 2) {
+            if (month % 2 == 0) {
                 //// Even Months
-                if (month == 2 && day > 29) throw 410;
+                if (month == 2) {
+                    if (day > 29) throw 410;
+                    else if (!((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) && day > 28) throw 410; // leap year check
+                }
                 else if (month < 8 && day > 30) throw 410;
             } else {
                 //// Odd months
@@ -97,6 +130,31 @@ CustomDate::CustomDate(string inputString) {
         if (year < 2022) {
             throw 412;
         }
+
+
+        // curent time
+        time_t currentTime = std::time(0);
+        char* dt = ctime(&currentTime);
+        cout << dt;
+
+        // user input time
+        time_t rawTime;
+        struct tm * inputTime;
+
+        time ( &rawTime );
+        inputTime = localtime ( &rawTime );
+        inputTime->tm_year = year - 1900;
+        inputTime->tm_mon = month - 1;
+        inputTime->tm_mday = day;
+
+        std::time_t time = mktime(inputTime);
+
+        char* dt1 = ctime(&time);
+        cout << dt1;
+
+        double diff =  difftime (time, currentTime);
+        if (diff < 0) throw 413;
+
         this->day = day;
         this->month = month;
         this->year = year;
