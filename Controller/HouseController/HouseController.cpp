@@ -11,9 +11,6 @@
 #endif
 
 #include "HouseController.h"
-#include "../../Data/DataLoader/DataHandler.h"
-#include "../../Model/House/House.h"
-#include "../../Model/CustomError/Errors.h"
 
 using std::string, std::cout, std::endl, std::exception;
 
@@ -24,9 +21,9 @@ HouseController::HouseController(string path) {
 
 }
 
-/**
+/******************************************************************
  * Getter-Setter
- * */
+ ******************************************************************/
 void HouseController::setHouseArray(const vector<House> &houseArray) {
     this->HouseArray = houseArray;
 }
@@ -35,9 +32,9 @@ const vector<House> &HouseController::getHouseArray() const {
     return HouseArray;
 }
 
-/**
+/******************************************************************
  * Method implementations
- * */
+ ******************************************************************/
 
 void HouseController::loadDataToArray() {
     vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath);
@@ -53,13 +50,19 @@ void HouseController::loadDataToArray() {
     }
 }
 
-vector<House> HouseController::getUserHouse(const std::string &username) {
-    vector<House> result;
-    for (House house: this->HouseArray) {
-        if (house.getOwner() == username) result.push_back(house);
-    }
+/**
+ * Get the House object of the input user's username
+ * @param: string username of the desired user
+ * @return: House house object of result
+ * @Err: Throw not found error in the case the user does not list any house (Non existed)
+ * */
 
-    return result;
+House HouseController::getUserHouse(const std::string &username) {
+//    House result;
+    for (House house: this->HouseArray) {
+        return house;
+    }
+    throw NotfoundErr(username + " have no house");
 }
 
 /**
@@ -194,10 +197,18 @@ void HouseController::listNewHouse() {
         cout << "Function stopped due to err: " << "\033[31m" << e.what() << "\033[0m" << endl;
 
     }
-
 }
 
 
-//    cout << "Hello World" << std::flush;
-//    sleep(1);
-//    cout << "\r" << "new   " << endl;
+vector<House> HouseController::searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate)  {
+    vector<House> result;
+    for (House house: this->HouseArray) {
+        bool suitableStarTDate = (startDate>= house.getStartDate());
+        if (house.getAddress() == city ) {
+            result.push_back(house);
+        }
+    }
+    return result;
+}
+
+

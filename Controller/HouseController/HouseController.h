@@ -9,6 +9,9 @@
 #include <vector>
 
 #include "../../Model/House/House.h"
+#include "../../Data/DataLoader/DataHandler.h"
+#include "../../Model/CustomError/Errors.h"
+
 
 class HouseController {
 private:
@@ -17,15 +20,15 @@ private:
     string dataPath;
     void loadDataToArray();
 public:
-    /**
+    /********************************************************************
      * Constructors
-     * */
+     ******************************************************************/
     HouseController(string path) ;
 
-    /**
+    /********************************************************************
      * Methods
-     * */
-    std::vector<House> getUserHouse(const std::string& username);
+     ******************************************************************/
+    House getUserHouse(const std::string& username);
     void showData();
 
     /**
@@ -55,6 +58,10 @@ public:
     const std::vector<House> &getHouseArray() const;
 
     void setHouseArray(const std::vector<House> &houseArray);
+
+    /** User interactions */
+    vector<House> searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate);
+    void generateRequest();
 
 };
 

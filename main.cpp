@@ -6,11 +6,21 @@
 #include "Controller/HouseController/HouseController.h"
 #include "Controller/RatingController/RatingController.h"
 
+#ifdef _WIN32
+#include <Windows.h>
+#else
+
+#include <unistd.h>
+
+#endif
+
 using std::string;
 using std::cout;
 using std::endl;
 
 int main(int argc, const char *argv[]) {
+
+
 
     string currentPath = DataHandler::getPath(argv[0]);
     cout << currentPath << endl;
@@ -31,7 +41,7 @@ int main(int argc, const char *argv[]) {
 //
 //    cout << "Login: " << UC.login("user1", "1223") << endl;
 //
-//    UC.writeFile();
+//    UC.showData();
 
 
 
@@ -61,6 +71,7 @@ int main(int argc, const char *argv[]) {
 //                        start,
 //                        end, 100, 120);
 //    HC.create(house);
+//    string housePath = argv[0] + ;
 
 //    string housePath = argv[0] + ;
 //    HouseController HC = HouseController(currentPath);

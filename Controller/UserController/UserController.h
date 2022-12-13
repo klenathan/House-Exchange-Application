@@ -14,8 +14,10 @@ class UserController {
 private:
     vector<User> userArray;
     User currentUser;
+    string dataPath;
 public:
-    UserController() {
+    UserController(string path) {
+        this->dataPath = path + "./user_data.csv";
         this->loadDataToArray();
     }
 
