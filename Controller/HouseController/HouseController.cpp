@@ -17,12 +17,30 @@
 
 using std::string, std::cout, std::endl, std::exception;
 
+
 HouseController::HouseController(string path) {
-    this->loadDataToArray(path);
+    this->dataPath = path + "./house_data.csv";
+    this->loadDataToArray();
+
 }
 
-void HouseController::loadDataToArray(string path) {
-    vector<vector<string>> rawData = DataHandler::loadFile(path + "./house_data.csv");
+/**
+ * Getter-Setter
+ * */
+void HouseController::setHouseArray(const vector<House> &houseArray) {
+    this->HouseArray = houseArray;
+}
+
+const vector<House> &HouseController::getHouseArray() const {
+    return HouseArray;
+}
+
+/**
+ * Method implementations
+ * */
+
+void HouseController::loadDataToArray() {
+    vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath);
 
     for (vector<string> line: rawData) {
         CustomDate startDate = CustomDate(line[6]);
@@ -44,20 +62,44 @@ vector<House> HouseController::getUserHouse(const std::string &username) {
     return result;
 }
 
+/**
+ * Prompt house data from current dataState to the console
+ * */
 void HouseController::showData() {
-//    int counter = 0;
     for (House house: this->HouseArray) {
         cout << "-------- ID: " << house.getId() << " --------" << endl;
         house.showInfo();
         cout << endl;
-//        counter++;
     }
 }
 
+/**
+ * Create new house with House object and add it to the current data array
+ * @param: House newHouse
+ *
+ * */
 void HouseController::create(const House &newHouse) {
     this->HouseArray.push_back(newHouse);
+    this->writeHouseData();
 }
 
+
+/**
+ * Save the current state of data to file
+ * */
+void HouseController::writeHouseData() {
+    string header = "id,name,address,desc,ownerUsername,price,startDate,endDate,rating,status\n";
+    string content = header;
+    for (House house: this->HouseArray) {
+        content += house.to_string() + "\n";
+    }
+    DataHandler::writeFile(this->dataPath, content);
+}
+
+/**
+ * Create new house by input all House attributes
+ * @params: House attributes :) too lazy to add in
+ * */
 void HouseController::create(const std::string &name, const std::string &address, const std::string &desc,
                              const std::string &ownerUsername, long price, const CustomDate &startDate,
                              const CustomDate &endDate, float requiredRating, float rating, bool status) {
@@ -65,20 +107,29 @@ void HouseController::create(const std::string &name, const std::string &address
     this->HouseArray.push_back(newHouse);
 }
 
+/**
+ * Find house on current dataState
+ * @param: string id: the house's id on data file
+ * @return: object House with input id
+ * */
 House HouseController::findByKey(const std::string &id) {
     for (House house: this->HouseArray) {
-//        if (house.get)
+        if (house.getId() == id) {
+            return house;
+        }
     }
 }
 
-void HouseController::setHouseArray(const vector<House> &houseArray) {
-    this->HouseArray = houseArray;
+void HouseController::updateByID() {
+    cout << "Not yet implemented";
 }
 
-const vector<House> &HouseController::getHouseArray() const {
-    return HouseArray;
-}
-
+/**
+ * The function gathers new House information from User and update the current data state within the program
+ * and also trigger write to file function to update the data state on the .csv file
+ *
+ * @Err: The functions might throw some invalid format errors upon user inputs the data
+ * */
 
 void HouseController::listNewHouse() {
     string houseName, address, desc, ownerUsername, startDate, endDate;
@@ -90,7 +141,7 @@ void HouseController::listNewHouse() {
         cout << "House title: ";
         std::getline(std::cin, houseName);
 
-        cout << "House address (Hanoi, Hue, Danang, HCM): ";
+        cout << "House address (HN, HUE, DN, HCM): ";
         std::getline(std::cin, address);
 
         cout << "Price (number): ";
@@ -112,7 +163,7 @@ void HouseController::listNewHouse() {
 
 
         cout << "Description: ";
-        std::getline(std::cin, address);
+        std::getline(std::cin, desc);
 
         cout << "Start date (dd/mm/yyyy): ";
         std::getline(std::cin, startDate);

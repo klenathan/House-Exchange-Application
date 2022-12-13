@@ -2,7 +2,6 @@
 #include <random>
 
 
-
 #include "Controller/UserController/UserController.h"
 #include "Controller/HouseController/HouseController.h"
 
@@ -12,8 +11,9 @@ using std::endl;
 
 int main(int argc, const char *argv[]) {
 
-//    string currentPath = DataHandler::getPath(argv[0]);
-//    UserController UC = UserController();
+    string currentPath = DataHandler::getPath(argv[0]);
+    cout << currentPath << endl;
+    UserController UC = UserController();
 //    cout << "status: " << UC.include("user1") << endl;
 
 //
@@ -44,33 +44,21 @@ int main(int argc, const char *argv[]) {
 //
 //    user1.addCreditPoints(100);
 //    user1.showInfo();
-
-//    CustomDate start = CustomDate(12, 10, 2022);
-//    CustomDate end = CustomDate(12, 10, 2022);
-//    House house = House("happy house", "Hanoi", "user1", "The Happy house", 0,
+///////////////////////////////
+    CustomDate start = CustomDate(12, 10, 2022);
+    CustomDate end = CustomDate(12, 10, 2022);
+//    House house = House("happy house", "Hanoi", "The Happy house", "user1", 0,
 //                        start,
 //                        end, 100, 120);
-
-
-
-//    DataHandler d = DataHandler();
-//    DataHandler::loadUserData();
-//
-    CustomDate date = CustomDate(12, 10, 2022);
-    date.showInfo();
-
-//    cout << date;
-
-
-//    std::cout << user1.authenticate("123") << std::endl;
-//    std::cout << user1.authenticate("1asd") << std::endl;
-
-
-//    string housePath = argv[0] + ;
-//    HouseController HC = HouseController(currentPath);
-//
-//    HC.listNewHouse();
 //    HC.create(house);
 
+//    string housePath = argv[0] + ;
+    HouseController HC = HouseController(currentPath);
+HC.showData();
+//    HC.listNewHouse();
+
+    HC.writeHouseData();
+
+///////////////////////////////
     return 0;
 }

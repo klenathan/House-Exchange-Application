@@ -10,6 +10,7 @@
 
 #include "../CustomDate/CustomDate.h"
 
+using std::to_string;
 
 class House {
 private:
@@ -57,11 +58,13 @@ public:
     const string &getId() const;
 
 
+    string to_string();
+
     /**
      * Methods
      * */
 
-    int randomID();
+    static int randomID();
 
     void showInfo();
     /**
