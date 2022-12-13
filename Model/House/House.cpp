@@ -7,6 +7,7 @@
 using std::cout, std::endl;
 
 void House::showInfo() {
+    cout << "ID: " << this->id << endl;
     cout << "Name: " << this->name << endl;
     cout << "Address: " << this->address << endl;
     cout << "Description: " << this->desc << endl;
@@ -53,4 +54,20 @@ string House::to_string() {
 
 const string &House::getId() const {
     return id;
+}
+
+const string &House::getAddress() const {
+    return address;
+}
+
+const CustomDate &House::getStartDate() const {
+    return startDate;
+}
+
+const CustomDate &House::getEndDate() const {
+    return endDate;
+}
+
+float House::getRequiredRating() const {
+    return requiredRating;
 };

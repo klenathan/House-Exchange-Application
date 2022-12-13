@@ -35,6 +35,18 @@ public:
      * */
     std::string getDate() const;
     void showInfo();
+
     friend std::ostream &operator<<(std::ostream &os, const CustomDate &dt);
+
+    /** @OVERLOAD DATA COMPARATOR **/
+    friend bool operator== (const CustomDate& d1, const CustomDate& d2);
+    friend bool operator!= (const CustomDate& d1, const CustomDate& d2);
+
+    friend bool operator< (const CustomDate& d1, const CustomDate& d2);
+    friend bool operator> (const CustomDate& d1, const CustomDate& d2);
+
+    friend bool operator<= (const CustomDate& d1, const CustomDate& d2);
+    friend bool operator>= (const CustomDate& d1, const CustomDate& d2);
+
 };
 #endif //HOUSEEXCHANGEAPPLICATION_CUSTOMDATE_H

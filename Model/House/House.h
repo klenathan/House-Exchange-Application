@@ -28,15 +28,15 @@ public:
 
     House() {}
 
-/**
- * Partial constructor for creating new object
- * */
+    /**
+     * Partial constructor for creating new object
+     * */
     House(const string &name, const string &address, const string &desc, const string &ownerUsername, long price,
           const CustomDate &startDate, const CustomDate &endDate, float requiredRating, float rating);
 
-/**
- * Full constructor for read file
- */
+    /**
+     * Full constructor for read file
+     */
     House(const string &id, const string &name, const string &address, const string &desc, const string &ownerUsername,
           long price,
           const CustomDate &startDate, const CustomDate &endDate, float requiredRating, float rating, bool status);
@@ -56,6 +56,14 @@ public:
     }
 
     const string &getId() const;
+
+    const string &getAddress() const;
+
+    const CustomDate &getStartDate() const;
+
+    const CustomDate &getEndDate() const;
+
+    float getRequiredRating() const;
 
 
     string to_string();

@@ -13,4 +13,10 @@ public:                         // And has an implementation of what()
     runtime_error(msg){}
 };
 
+class NotfoundErr: public std::runtime_error {
+public:
+    NotfoundErr(std::string const& msg):
+            runtime_error(msg){}
+};
+
 #endif //HOUSEEXCHANGEAPPLICATION_ERRORS_H
