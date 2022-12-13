@@ -6,10 +6,9 @@
 #define HOUSEEXCHANGEAPPLICATION_USERCONTROLLER_H
 
 #include "../../Data/DataLoader/DataHandler.h"
-#include "../../Data/DataLoader/DataHandler.h"
 #include "../../Model/User/User.h"
 
-using std::cout, std::endl, std::string;
+using std::cout, std::endl, std::string, std::getline, std::cin, std::cerr;
 
 class UserController {
 private:
@@ -45,7 +44,10 @@ public:
         }
         cout << DataHandler::writeFile("../Data/data-test.txt", content);
     }
-    bool login(const string &username, const string &password);
+
+    // Authenticate method
+    bool signup();
+    bool login();
     bool include(const std::string& username);
 };
 
