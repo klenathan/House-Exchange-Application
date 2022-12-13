@@ -4,17 +4,15 @@
 
 #include "vector"
 #include <iostream>
-#include "../../Data/DataLoader/DataHandler.h"
-#include "../../Model/User/User.h"
-
 #include "UserController.h"
 
 
 void UserController::loadDataToArray() {
-    vector<vector<string>> rawData = DataHandler::loadFile("../Data/user_data.csv");
+    vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath);
 
     for (vector<string> line: rawData) {
-        User temp_user = User(line[0], line[1], line[3], line[4], stol(line[2]), stof(line[5]));
+        User temp_user = User(line[0], line[1], line[3], line[4],
+                              stol(line[2]), stof(line[5]));
         this->userArray.push_back(temp_user);
     }
 }
@@ -35,6 +33,12 @@ bool UserController::login(const std::string &username, const std::string &passw
     return 0;
 }
 
+
+/**
+ * The function check if the input user's username is exist on the current data state
+ * @param: string username
+ * @return: bool true when the user existed, false when they aren't
+ * */
 bool UserController::include(const std::string &username) {
     for (User user: this->userArray) {
         if (user.getUsername() == username) {

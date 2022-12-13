@@ -14,12 +14,13 @@ class HouseController {
 private:
     std::vector<House> HouseArray;
     House currentUserHouse;
-    void loadDataToArray(string path);
+    string dataPath;
+    void loadDataToArray();
 public:
     /**
      * Constructors
      * */
-    HouseController(string path);
+    HouseController(string path) ;
 
     /**
      * Methods
@@ -32,6 +33,7 @@ public:
      * @param: House newHouse
      *
      * */
+
     void create(const House &newHouse);
     /**
      * Create new house by input all House attributes
@@ -42,11 +44,13 @@ public:
 
     void listNewHouse();
 
-    void findByKey();
+    House findByKey(const string &id);
 
-    void update();
+    void updateByID();
 
     void destroy();
+
+    void writeHouseData();
 
     const std::vector<House> &getHouseArray() const;
 

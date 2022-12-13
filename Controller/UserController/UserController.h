@@ -6,6 +6,8 @@
 #define HOUSEEXCHANGEAPPLICATION_USERCONTROLLER_H
 
 #include "../../Data/DataLoader/DataHandler.h"
+#include "../../Data/DataLoader/DataHandler.h"
+#include "../../Model/User/User.h"
 
 using std::cout, std::endl, std::string;
 
@@ -13,8 +15,10 @@ class UserController {
 private:
     vector<User> userArray;
     User currentUser;
+    string dataPath;
 public:
-    UserController() {
+    UserController(string path) {
+        this->dataPath = path + "./user_data.csv";
         this->loadDataToArray();
     }
 
