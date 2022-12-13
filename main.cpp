@@ -14,14 +14,14 @@ int main(int argc, const char *argv[]) {
 
     string currentPath = DataHandler::getPath(argv[0]);
     cout << currentPath << endl;
-    UserController UC = UserController();
+    UserController UC = UserController(currentPath);
 //    cout << "status: " << UC.include("user1") << endl;
 //
 ////    UC.showData();
 //
 //    cout << "Login: " << UC.login("user1", "1223") << endl;
 //
-//    UC.writeFile();
+//    UC.showData();
 
 
 
