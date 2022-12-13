@@ -7,6 +7,29 @@
 #include "UserController.h"
 
 
+/**
+ * User constructor
+ * @param path
+ */
+UserController::UserController(string path) {
+    this->dataPath = path + "./user_data.csv";
+    this->loadDataToArray();
+}
+
+/**
+ * Getter Setter
+ */
+const User &UserController::getCurrentUser() const {
+    return currentUser;
+}
+
+void UserController::setCurrentUser(const User &currentUser) {
+    UserController::currentUser = currentUser;
+}
+
+/**
+ * Store data to the user array
+ */
 void UserController::loadDataToArray() {
     vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath);
 
@@ -17,12 +40,31 @@ void UserController::loadDataToArray() {
     }
 }
 
+/**
+ * Write user data to file
+ */
+void UserController::writeFile() {
+    string content;
+    content += "username,password,creditPoints,fullname,phoneNum,rating,numberOfRate\n";
+    for (User user: this->userArray) {
+        content += user.getWriteFormat() + "\n";
+    }
+    cout << DataHandler::writeFile("../Data/data-test.txt", content);
+}
+
+/**
+ * Show all data
+ */
 void UserController::showData() {
     for (User user: this->userArray) {
         cout << user << endl;
     }
 };
 
+/**
+ * Sign up method
+ * @return bool
+ */
 bool UserController::signup() {
     string username;
     string password;
@@ -32,14 +74,14 @@ bool UserController::signup() {
     //Check username exited
     bool check = true;
 
-    while(check){
-        cout <<  "PLease input username: ";
+    while (check) {
+        cout << "PLease input username: ";
         cin >> username;
-        if(include(username)){
+        if (include(username)) {
             cin.ignore();
             cout << "This " << username << " is used!\n";
-            check  = include(username);
-        }else{
+            check = include(username);
+        } else {
             check = false;
         }
     }
@@ -64,8 +106,10 @@ bool UserController::signup() {
     return true;
 }
 
-
-
+/**
+ * Login method
+ * @return bool
+ */
 bool UserController::login() {
     string username;
     string password;
@@ -80,7 +124,7 @@ bool UserController::login() {
         if (user.getUsername() == username && user.authenticate(password)) {
             this->currentUser = user;
             return 1;
-        }else if(user.getUsername() == username && !user.authenticate(password)){
+        } else if (user.getUsername() == username && !user.authenticate(password)) {
             cerr << "Wrong password";
             return 0;
         }
@@ -104,12 +148,5 @@ bool UserController::include(const std::string &username) {
     return false;
 }
 
-const User &UserController::getCurrentUser() const {
-    return currentUser;
-}
-
-void UserController::setCurrentUser(const User &currentUser) {
-    UserController::currentUser = currentUser;
-}
 
 

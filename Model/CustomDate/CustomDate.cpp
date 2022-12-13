@@ -7,6 +7,7 @@
 #include <vector>
 #include <time.h>
 #include <exception>
+#include <ctime>
 
 #include "CustomDate.h"
 #include "../CustomError/Errors.h"

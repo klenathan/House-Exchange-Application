@@ -16,10 +16,10 @@ private:
     User currentUser;
     string dataPath;
 public:
-    UserController(string path) {
-        this->dataPath = path + "./user_data.csv";
-        this->loadDataToArray();
-    }
+    /**
+     * Controller
+     */
+    explicit UserController(string path);
 
     /**
      * Getter Setter
@@ -36,14 +36,7 @@ public:
 
     void showData();
 
-    void writeFile() {
-        string content;
-        content += "username,password,creditPoints,fullname,phoneNum,rating,numberOfRate\n";
-        for (User user : this->userArray) {
-            content += user.getWriteFormat() + "\n";
-        }
-        cout << DataHandler::writeFile("../Data/data-test.txt", content);
-    }
+    void writeFile();
 
     // Authenticate method
     bool signup();

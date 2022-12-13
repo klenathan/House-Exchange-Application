@@ -10,6 +10,8 @@
 #include "../../Model/HouseRating/HouseRating.h"
 #include "../../Model/House/House.h"
 #include "../../Model/User/User.h"
+#include "../../Model/CustomError/Errors.h"
+
 
 
 using std::cout, std::endl, std::string, std::getline, std::cin, std::cerr;
@@ -17,12 +19,11 @@ using std::cout, std::endl, std::string, std::getline, std::cin, std::cerr;
 class RatingController {
 private:
     vector<HouseRating> houseRatingArray;
-
     User currentUser;
+
     string dataPath;
 
     void loadDataToUserRatingArray();
-
     void loadDataToHouseRatingArray();
 
 public:
@@ -31,9 +32,7 @@ public:
      */
     RatingController() = default;
 
-    RatingController houseRatingController(string path);
-
-    RatingController userRatingController(string path);
+    RatingController(string path);
 
     /**
      * Getter Setter
@@ -45,19 +44,11 @@ public:
     /**
      * Methods
      */
-    void houseRatingWriteFile() {
-        string content;
-        content += "houseID,username,ratingScore,comment\n";
-        for (HouseRating houseRating: this->houseRatingArray) {
-            content += houseRating.getHouseRatingWriteFormat() + "\n";
-        }
+    void houseRatingWriteFile();
 
-        cout << DataHandler::writeFile("../Data/data-test.txt", content);
-    }
-
-    /**
-     * Rating
-     */
+        /**
+         * Rating method
+         */
     void rating(const House &house);
 
     void rating(const User &user);
