@@ -6,7 +6,6 @@
 #define HOUSEEXCHANGEAPPLICATION_USERCONTROLLER_H
 
 #include "../../Data/DataLoader/DataHandler.h"
-#include "../../Data/DataLoader/DataHandler.h"
 #include "../../Model/User/User.h"
 
 using std::cout, std::endl, std::string, std::getline, std::cin, std::cerr;

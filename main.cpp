@@ -4,6 +4,7 @@
 
 #include "Controller/UserController/UserController.h"
 #include "Controller/HouseController/HouseController.h"
+#include "Controller/RatingController/RatingController.h"
 
 using std::string;
 using std::cout;
@@ -14,6 +15,15 @@ int main(int argc, const char *argv[]) {
     string currentPath = DataHandler::getPath(argv[0]);
     cout << currentPath << endl;
     UserController UC = UserController();
+
+    User user = *new User("dong", "123", "Pham Vo Dong", "03926122231", 500, 10);
+    House house = *new House("1","happy house","Hanoi","The Happy house 1","user1",100,*new CustomDate("12/02/2023"), *new CustomDate("28/02/2023"),3.0,8.000000,1);
+
+//    RatingController ratingController = RatingController();
+//
+//    ratingController.setCurrentUser(user);
+//
+//    ratingController.rating(house);
 //    cout << "status: " << UC.include("user1") << endl;
 
 //
@@ -45,19 +55,19 @@ int main(int argc, const char *argv[]) {
 //    user1.addCreditPoints(100);
 //    user1.showInfo();
 ///////////////////////////////
-    CustomDate start = CustomDate(12, 10, 2022);
-    CustomDate end = CustomDate(12, 10, 2022);
+//    CustomDate start = CustomDate(12, 10, 2022);
+//    CustomDate end = CustomDate(12, 10, 2022);
 //    House house = House("happy house", "Hanoi", "The Happy house", "user1", 0,
 //                        start,
 //                        end, 100, 120);
 //    HC.create(house);
 
 //    string housePath = argv[0] + ;
-    HouseController HC = HouseController(currentPath);
-HC.showData();
+//    HouseController HC = HouseController(currentPath);
+//HC.showData();
 //    HC.listNewHouse();
 
-    HC.writeHouseData();
+//    HC.writeHouseData();
 
 ///////////////////////////////
     return 0;
