@@ -124,3 +124,72 @@ ostream &operator<<(ostream &os, const CustomDate &dt) {
     os << dt.day << "/" << dt.month << "/" << dt.year << endl;
     return os;
 };
+
+
+/** @OVERLOAD DATA COMPARATOR **/
+bool operator== (const CustomDate& d1, const CustomDate& d2) {
+    return d1.year == d2.year && d1.month == d2.month && d1.day == d2.day;
+};
+bool operator!= (const CustomDate& d1, const CustomDate& d2) {
+    return d1.year != d2.year || d1.month != d2.month || d1.day != d2.day;
+};
+
+bool operator< (const CustomDate& d1, const CustomDate& d2) {
+    if (d1.year < d2.year) return true;
+    else if (d1.year > d2.year) return false;
+    else{
+       //// d1.year == d2.year
+        if (d1.month < d2.month) return true;
+        else if (d1.month > d2.month) return false;
+        else {
+            //// d1.month == d2.month
+            if (d1.day < d2.day) return true;
+            else return false;
+        }
+    }
+};
+bool operator> (const CustomDate& d1, const CustomDate& d2) {
+    if (d1.year > d2.year) return true;
+    else if (d1.year < d2.year) return false;
+    else{
+        //// d1.year == d2.year
+        if (d1.month > d2.month) return true;
+        else if (d1.month < d2.month) return false;
+        else {
+            //// d1.month == d2.month
+            if (d1.day > d2.day) return true;
+            else return false;
+        }
+    }
+};
+
+bool operator<= (const CustomDate& d1, const CustomDate& d2) {
+    if (d1.year < d2.year) return true;
+    else if (d1.year > d2.year) return false;
+    else{
+        //// d1.year == d2.year
+        if (d1.month < d2.month) return true;
+        else if (d1.month > d2.month) return false;
+        else {
+            //// d1.month == d2.month
+            if (d1.day < d2.day) return true;
+            else if (d1.day > d2.day) return false;
+            else return true;
+        }
+    }
+};
+bool operator>= (const CustomDate& d1, const CustomDate& d2) {
+    if (d1.year > d2.year) return true;
+    else if (d1.year < d2.year) return false;
+    else{
+        //// d1.year == d2.year
+        if (d1.month > d2.month) return true;
+        else if (d1.month < d2.month) return false;
+        else {
+            //// d1.month == d2.month
+            if (d1.day > d2.day) return true;
+            else if (d1.day < d2.day) return false;
+            else return false;
+        }
+    }
+};
