@@ -23,7 +23,8 @@ void House::showInfo() {
 House::House(const string &id, const string &name, const string &address, const string &desc,
              const string &ownerUsername, long price,
              const CustomDate &startDate, const CustomDate &endDate, float requiredRating, float rating, bool status)
-        : id(id), name(name), address(address), desc(desc), ownerUsername(ownerUsername), price(price), startDate(startDate),
+        : id(id), name(name), address(address), desc(desc), ownerUsername(ownerUsername), price(price),
+          startDate(startDate),
           endDate(endDate), requiredRating(requiredRating), rating(rating), status(status) {}
 
 /**
@@ -39,6 +40,15 @@ House::House(const string &name, const string &address, const string &desc, cons
 int House::randomID() {
     srand((unsigned) time(NULL));
     return std::rand() % 10000 + 100;;
+}
+
+string House::to_string() {
+    string tempStatus = this->status ? "1" : "0";
+    return this->id + "," + this->name + "," + this->address + "," +
+           this->desc + "," +
+           this->ownerUsername + "," + std::to_string(this->price) + "," +
+           this->startDate.getDate() + "," + this->endDate.getDate() + "," +
+           std::to_string(this->rating) + "," + tempStatus;
 }
 
 const string &House::getId() const {

@@ -2,7 +2,6 @@
 #include <random>
 
 
-
 #include "Controller/UserController/UserController.h"
 #include "Controller/HouseController/HouseController.h"
 
@@ -14,6 +13,7 @@ using std::endl;
 int main(int argc, const char *argv[]) {
 
     string currentPath = DataHandler::getPath(argv[0]);
+    cout << currentPath << endl;
     UserController UC = UserController();
 //    cout << "status: " << UC.include("user1") << endl;
 //
@@ -47,16 +47,17 @@ int main(int argc, const char *argv[]) {
 ///////////////////////////////
     CustomDate start = CustomDate(12, 10, 2022);
     CustomDate end = CustomDate(12, 10, 2022);
-    House house = House("happy house", "Hanoi", "user1", "The Happy house", 0,
-                        start,
-                        end, 100, 120);
-
+//    House house = House("happy house", "Hanoi", "The Happy house", "user1", 0,
+//                        start,
+//                        end, 100, 120);
+//    HC.create(house);
 
 //    string housePath = argv[0] + ;
     HouseController HC = HouseController(currentPath);
-    
-    HC.listNewHouse();
-    HC.create(house);
+HC.showData();
+//    HC.listNewHouse();
+
+    HC.writeHouseData();
 
 ///////////////////////////////
     return 0;
