@@ -8,6 +8,7 @@
 #include <vector>
 #include "../../Data/DataLoader/DataHandler.h"
 #include "../../Model/HouseRating/HouseRating.h"
+#include "../../Model/UserRating/UserRating.h"
 #include "../../Model/House/House.h"
 #include "../../Model/User/User.h"
 #include "../../Model/CustomError/Errors.h"
@@ -19,6 +20,7 @@ using std::cout, std::endl, std::string, std::getline, std::cin, std::cerr;
 class RatingController {
 private:
     vector<HouseRating> houseRatingArray;
+    vector<UserRating> userRatingArray;
     User currentUser;
 
     string dataPath;
@@ -45,14 +47,16 @@ public:
      * Methods
      */
     void houseRatingWriteFile();
+    void userRatingWriteFile();
 
         /**
          * Rating method
          */
     void rating(const House &house);
 
-    void rating(const User &user);
+//    void rating(const User &user);
 
+    void rating(User user, vector<House> houseArray);
 };
 
 

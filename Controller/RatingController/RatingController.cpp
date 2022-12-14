@@ -33,7 +33,11 @@ void RatingController::loadDataToUserRatingArray() {
     vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath + "./user_rating_data.csv");
 
     for (vector<string> line: rawData) {
+        UserRating temp_user_rating = UserRating(line[0],
+                                                 line[1], std::stol(line[2]),
+                                                 line[3]);
 
+        this->userRatingArray.push_back(temp_user_rating);
     }
 
 }
@@ -67,6 +71,20 @@ void RatingController::houseRatingWriteFile() {
 }
 
 /**
+ * Write user rating data to file
+ */
+void RatingController::userRatingWriteFile() {
+    string content;
+    content += "username,houseID,ratingScore,comment\n";
+    for (UserRating userRating: this->userRatingArray) {
+        content += userRating.getUserRatingWriteFormat() + "\n";
+    }
+
+    cout << DataHandler::writeFile("../Data/data-test.txt", content);
+
+}
+
+/**
  * Rating method for users rate house which they rented
  * @param house which is rated by user
  */
@@ -74,35 +92,35 @@ void RatingController::rating(const House &house) {
     string tempRatingScore;
     long ratingScore;
     string comment;
-    const string& houseId = house.getId();
+    const string &houseId = house.getId();
     string username = this->currentUser.getUsername();
 
     bool check = true;
 
     // Display message for feedback
     // TODO Khang please fix for about the words
-    try{
+    try {
         cout << "Welcome to feedback site\nNow you have permission for feedback about Houses\n";
 
         while (check) {
-            try{
+            try {
                 cout << "Please input your rating score in the scale -10 to 10: ";
                 getline(cin, tempRatingScore);
                 ratingScore = std::stol(tempRatingScore);
-                try{
+                try {
                     if (ratingScore <= -11 || ratingScore >= 11) {
                         throw ratingScore;
                     } else {
                         check = false;
                     }
-                }catch (...){
+                } catch (...) {
                     cout << ratingScore << " Out of scale\n";
                     check = true;
 
                 }
-            }catch (...){
+            } catch (...) {
                 cout << tempRatingScore << " Invalid input!\n";
-                check  = true;
+                check = true;
             }
 
         }
@@ -116,7 +134,7 @@ void RatingController::rating(const House &house) {
         houseRatingWriteFile();
 
         delete newHouseRatting;
-    }catch (std::exception &e){
+    } catch (std::exception &e) {
         cout << "Function stopped due to err: " << "\033[31m" << e.what() << "\033[0m" << endl;
     }
 
@@ -126,9 +144,69 @@ void RatingController::rating(const House &house) {
  * Rating method for house owner rate user who rented their house
  * @param user which is rated by house owner
  */
-void RatingController::rating(const User &user) {
+void RatingController::rating(User user, vector<House> houseArray) {
+    string username = user.getUsername();
+    string homeID;
+    string tempRatingScore;
+    long ratingScore;
+    string comment;
+
+    bool check = true;
+
+    try {
+        //Assign currentUser house ID to houseID
+        for (House house: houseArray) {
+            if (this->currentUser.getUsername() == house.getOwner()) {
+                homeID = house.getId();
+                break;
+            }
+        }
+
+        //Rating Process
+        cout << "Welcome to feedback site\nNow you have permission for feedback about Houses\n";
+
+        while (check) {
+            try {
+                cout << "Please input your rating score in the scale -10 to 10: ";
+                getline(cin, tempRatingScore);
+                ratingScore = std::stol(tempRatingScore);
+                try {
+                    if (ratingScore <= -11 || ratingScore >= 11) {
+                        throw ratingScore;
+                    } else {
+                        check = false;
+                    }
+                } catch (...) {
+                    cout << ratingScore << " Out of scale\n";
+                    check = true;
+
+                }
+            } catch (...) {
+                cout << tempRatingScore << " Invalid input!\n";
+                check = true;
+            }
+
+        }
+
+        cout << "Please give your comment: \n";
+        getline(cin, comment);
+
+        // Save to house_rating_data.csv
+        UserRating *newUserRating = new UserRating(username, homeID, ratingScore, comment);
+        this->userRatingArray.push_back(*newUserRating);
+        userRatingWriteFile();
+
+        delete newUserRating;
+
+
+    } catch (std::exception &e) {
+        cout << "Function stopped due to err: " << "\033[31m" << e.what() << "\033[0m" << endl;
+    }
+
 
 }
+
+
 
 
 
