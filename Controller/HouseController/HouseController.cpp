@@ -2,13 +2,6 @@
 // Created by Nathan Tran on 08/12/2022.
 //
 
-#ifdef _WIN32 || _WIN64
-#include <Windows.h>
-#else
-
-#include <unistd.h>
-
-#endif
 
 #include "HouseController.h"
 
