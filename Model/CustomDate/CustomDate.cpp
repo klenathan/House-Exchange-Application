@@ -6,6 +6,8 @@
 #include <sstream>
 #include <vector>
 #include <time.h>
+#include <ctime>
+
 #include <exception>
 #include <ctime>
 
@@ -142,16 +144,17 @@ CustomDate::CustomDate(string inputString) {
 
         std::time_t time = mktime(inputTime);
 
-        char* dt1 = ctime(&time);
+//        char* dt1 = ctime(&time);
 
-        double diff =  difftime (time, currentTime);
-        if (diff < 0) throw 413;
+//        double diff =  difftime (time, currentTime);
+//        if (diff < 0) throw DateErr("Invalid Date");
 
         this->day = day;
         this->month = month;
         this->year = year;
     } catch (std::exception const &e) {
-        throw ConversionErr(e.what());
+//        cout <<
+        throw DateErr(e.what());
     }
 };
 

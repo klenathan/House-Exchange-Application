@@ -2,13 +2,6 @@
 // Created by Nathan Tran on 08/12/2022.
 //
 
-#ifdef _WIN32 || _WIN64
-#include <Windows.h>
-#else
-
-#include <unistd.h>
-
-#endif
 
 #include "HouseController.h"
 
@@ -52,7 +45,7 @@ void HouseController::loadDataToArray() {
 
 /**
  * Get the House object of the input user's username
- * @param: string username of the desired user
+ * @params: string username of the desired user
  * @return: House house object of result
  * @Err: Throw not found error in the case the user does not list any house (Non existed)
  * */
@@ -78,8 +71,7 @@ void HouseController::showData() {
 
 /**
  * Create new house with House object and add it to the current data array
- * @param: House newHouse
- *
+ * @params: House newHouse
  * */
 void HouseController::create(const House &newHouse) {
     this->HouseArray.push_back(newHouse);
@@ -112,7 +104,7 @@ void HouseController::create(const std::string &name, const std::string &address
 
 /**
  * Find house on current dataState
- * @param: string id: the house's id on data file
+ * @params: string id: the house's id on data file
  * @return: object House with input id
  * */
 House HouseController::findByKey(const std::string &id) {
@@ -203,8 +195,9 @@ void HouseController::listNewHouse() {
 vector<House> HouseController::searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate)  {
     vector<House> result;
     for (House house: this->HouseArray) {
-        bool suitableStarTDate = (startDate>= house.getStartDate());
-        if (house.getAddress() == city ) {
+        bool suitableStartDate = (startDate>= house.getStartDate());
+        bool suitableEndDate = (endDate<= house.getEndDate());
+        if (house.getAddress() == city && suitableStartDate && suitableEndDate) {
             result.push_back(house);
         }
     }

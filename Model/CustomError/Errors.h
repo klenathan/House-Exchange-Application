@@ -32,4 +32,10 @@ public:
 
 
 
+
+class DateErr: public std::runtime_error {
+public:
+    DateErr(std::string const& msg):
+            runtime_error(msg){}
+};
 #endif //HOUSEEXCHANGEAPPLICATION_ERRORS_H
