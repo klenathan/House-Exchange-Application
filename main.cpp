@@ -27,16 +27,16 @@ int main(int argc, const char *argv[]) {
     UserController UC = UserController(currentPath);
     HouseController HC = HouseController(currentPath);
 
-    User user = *new User("user3", "123", "Pham Vo Dong", "03926122231", 500, 10);
-//    House house = *new House("3","happy house","Hanoi","The Happy house 1","user1",100,*new CustomDate("12/02/2023"), *new CustomDate("28/02/2023"),3.0,8.000000,1);
-
-    User user2 = *new User("user2", "123", "Pham Vo Dong", "03926122231", 500, 10);
-
-    RatingController ratingController = RatingController(currentPath);
-////
-    ratingController.setCurrentUser(user);
-
-    ratingController.rating(user2, HC.getHouseArray());
+//    User user = *new User("user3", "123", "Pham Vo Dong", "03926122231", 500, 10);
+////    House house = *new House("3","happy house","Hanoi","The Happy house 1","user1",100,*new CustomDate("12/02/2023"), *new CustomDate("28/02/2023"),3.0,8.000000,1);
+//
+//    User user2 = *new User("user2", "123", "Pham Vo Dong", "03926122231", 500, 10);
+//
+//    RatingController ratingController = RatingController(currentPath);
+//////
+//    ratingController.setCurrentUser(user);
+//
+//    ratingController.rating(user2, HC.getHouseArray());
 
 ////
 //    ratingController.rating(house);
@@ -84,7 +84,7 @@ int main(int argc, const char *argv[]) {
 
 //    string housePath = argv[0] + ;
 
-//    HC.listNewHouse();
+    HC.listNewHouse();
 
 //    HC.writeHouseData();
 

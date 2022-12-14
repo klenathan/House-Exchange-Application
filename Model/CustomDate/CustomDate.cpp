@@ -5,11 +5,8 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include <time.h>
-#include <ctime>
 
 #include <exception>
-#include <ctime>
 
 #include "CustomDate.h"
 #include "../CustomError/Errors.h"
@@ -49,28 +46,6 @@ CustomDate::CustomDate(int day, int month, int year) {
         if (year < 2022) {
             throw ConversionErr("INVALID_YEAR");
         }
-
-
-        // Current time
-        time_t currentTime = std::time(0);
-        char* dt = ctime(&currentTime);
-
-        // Input time
-        time_t rawTime;
-        struct tm * inputTime;
-
-        time ( &rawTime );
-        inputTime = localtime ( &rawTime );
-        inputTime->tm_year = year - 1900;
-        inputTime->tm_mon = month - 1;
-        inputTime->tm_mday = day;
-
-        std::time_t time = mktime(inputTime);
-
-        char* dt1 = ctime(&time);
-
-        double diff =  difftime (time, currentTime);
-        if (diff < 0) throw ConversionErr("INVALID_DATE");
 
         this->day = day;
         this->month = month;
@@ -127,33 +102,10 @@ CustomDate::CustomDate(string inputString) {
             throw ConversionErr("INVALID_YEAR");
         }
 
-
-        // Current time
-        time_t currentTime = std::time(0);
-        char* dt = ctime(&currentTime);
-
-        // Input time
-        time_t rawTime;
-        struct tm * inputTime;
-
-        time ( &rawTime );
-        inputTime = localtime ( &rawTime );
-        inputTime->tm_year = year - 1900;
-        inputTime->tm_mon = month - 1;
-        inputTime->tm_mday = day;
-
-        std::time_t time = mktime(inputTime);
-
-//        char* dt1 = ctime(&time);
-
-//        double diff =  difftime (time, currentTime);
-//        if (diff < 0) throw DateErr("Invalid Date");
-
         this->day = day;
         this->month = month;
         this->year = year;
     } catch (std::exception const &e) {
-//        cout <<
         throw DateErr(e.what());
     }
 };
