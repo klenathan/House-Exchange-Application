@@ -2,39 +2,38 @@
 // Created by phamv on 12/13/2022.
 //
 
-#ifndef HOUSEEXCHANGEAPPLICATION_HOUSERATING_H
-#define HOUSEEXCHANGEAPPLICATION_HOUSERATING_H
+#ifndef HOUSEEXCHANGEAPPLICATION_USERRATING_H
+#define HOUSEEXCHANGEAPPLICATION_USERRATING_H
 
 #include <iostream>
 
 using std::string, std::to_string;
 
-
-class HouseRating {
+class UserRating {
 private:
-    string homeID;
     string username;
+    string homeID;
     long ratingScore;
     string comment;
 
 public:
     /**
-    * Constructor
-    */
-    HouseRating() = default;
+     * Constructor
+     */
+    UserRating() = default;
 
-    HouseRating(string homeId, const string &username, long ratingScore, const string &comment);
+    UserRating(const string &username, const string &homeId, long ratingScore, const string &comment);
 
     /**
      * Getter Setter
      */
-    const string &getHomeId() const;
-
-    void setHomeId(const string &homeId);
-
     const string &getUsername() const;
 
     void setUsername(const string &username);
+
+    const string &getHomeId() const;
+
+    void setHomeId(const string &homeId);
 
     long getRatingScore() const;
 
@@ -47,8 +46,10 @@ public:
     /**
      * Method
      */
-    string getHouseRatingWriteFormat();
+     string getUserRatingWriteFormat();
+
+
 };
 
 
-#endif //HOUSEEXCHANGEAPPLICATION_HOUSERATING_H
+#endif //HOUSEEXCHANGEAPPLICATION_USERRATING_H

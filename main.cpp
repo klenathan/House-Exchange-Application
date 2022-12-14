@@ -24,15 +24,16 @@ int main(int argc, const char *argv[]) {
 
     string currentPath = DataHandler::getPath(argv[0]);
     cout << currentPath << endl;
+//    UserController UC = UserController();
 
-    HouseController HC = HouseController(currentPath);
-    HC.showData();
+    User user = *new User("dong2", "123", "Pham Vo Dong", "03926122231", 500, 10);
+    House house = *new House("3","happy house","Hanoi","The Happy house 1","user1",100,*new CustomDate("12/02/2023"), *new CustomDate("28/02/2023"),3.0,8.000000,1);
 
-//    RatingController ratingController = RatingController();
+    RatingController ratingController = RatingController(currentPath);
 //
-//    ratingController.setCurrentUser(user);
+    ratingController.setCurrentUser(user);
 //
-//    ratingController.rating(house);
+    ratingController.rating(house);
 //    cout << "status: " << UC.include("user1") << endl;
 
 //
