@@ -5,7 +5,7 @@
 #include "Controller/UserController/UserController.h"
 #include "Controller/HouseController/HouseController.h"
 #include "Controller/RatingController/RatingController.h"
-
+#include "View/View.h"
 #ifdef _WIN32
 #include <Windows.h>
 #else
@@ -21,6 +21,9 @@ using std::endl;
 int main(int argc, const char *argv[]) {
 
 
+    View view;
+    view.welcomeScreen();
+    view.validateUser();
 
     string currentPath = DataHandler::getPath(argv[0]);
     cout << currentPath << endl;
@@ -57,15 +60,15 @@ int main(int argc, const char *argv[]) {
 
 //    HC.showData();
 
-    std::cout << "EEET2482/COSC2082 ASSIGNMENT\n"
-                 "VACATION HOUSE EXCHANGE APPLICATION\n"
-                 "Instructors: Mr. Linh Tran & Phong Ngo Group: Group Name\n\n"
-                 "s3891890, Tran Nam Thai\n"
-                 "s3878246, Pham Anh Thu\n"
-                 "s3891968, Pham Vo Dong\n"
-                 "s3927201, Tran Ngoc Khang\n\n"
-                 "Main Menu"
-                 "Use the app as \n1. Guest \n2. Member \n3. Admin" << std::endl;
+//    std::cout << "EEET2482/COSC2082 ASSIGNMENT\n"
+//                 "VACATION HOUSE EXCHANGE APPLICATION\n"
+//                 "Instructors: Mr. Linh Tran & Phong Ngo Group: Group Name\n\n"
+//                 "s3891890, Tran Nam Thai\n"
+//                 "s3878246, Pham Anh Thu\n"
+//                 "s3891968, Pham Vo Dong\n"
+//                 "s3927201, Tran Ngoc Khang\n\n"
+//                 "Main Menu"
+//                 "Use the app as \n1. Guest \n2. Member \n3. Admin" << std::endl;
 //    User user1 = User("user1", "123", 123);
 //    cout << user1;
 //    ptr = &user1;
@@ -85,7 +88,7 @@ int main(int argc, const char *argv[]) {
 
 //    string housePath = argv[0] + ;
 
-    HC.listNewHouse();
+//    HC.listNewHouse();
 
 //    HC.writeHouseData();
 
