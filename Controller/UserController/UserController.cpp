@@ -74,36 +74,82 @@ bool UserController::signup() {
     //Check username exited
     bool check = true;
 
-    while (check) {
-        cout << "PLease input username: ";
-        cin >> username;
-        if (include(username)) {
-            cin.ignore();
-            cout << "This " << username << " is used!\n";
-            check = include(username);
-        } else {
-            check = false;
+    try {
+        while (check) {
+            cout << "PLease input username: ";
+            getline(cin, username);
+            try {
+                for (char chr: username) {
+                    if (std::isspace(chr)) {
+                        throw ContainSpace("username can not contain space\n");
+                    }
+                }
+
+                if (include(username)) {
+                    throw username;
+                } else {
+                    check = false;
+                }
+            } catch (ContainSpace e) {
+                cout << e.what();
+                check = true;
+            } catch (string username) {
+                cout << username << " is used! Please try again\n";
+                check = include(username);
+            }
         }
+
+        check = true;
+        while (check) {
+            cout << "Please input password: ";
+            getline(cin, password);
+            try {
+                for (char chr: password) {
+                    if (std::isspace(chr)) {
+                        throw ContainSpace("Password not allow contain space\n");
+                    }
+                }
+                check = false;
+            } catch (ContainSpace e) {
+                cout << e.what();
+                check = true;
+            }
+        }
+
+
+        cout << "Please input fullname: ";
+        getline(cin, fullname);
+
+        check = true;
+        while (check) {
+            try {
+                cout << "Please input phone number: ";
+                getline(cin, phoneNum);
+                for (char chr: phoneNum) {
+                    if (std::isspace(chr) || std::isalpha(chr)) {
+                        throw phoneNum;
+                    } else {
+                        check = false;
+                    }
+                }
+            } catch (...) {
+                cout << "Invalid phone number!\n";
+                check = true;
+            }
+        }
+
+
+        // Save newUser
+        User *newUser = new User(username, password, fullname, phoneNum, 500, 5);
+        this->userArray.push_back(*newUser);
+        writeFile();
+
+        delete newUser;
+
+        return true;
+    } catch (std::exception &e) {
+        cout << "Function stopped due to err: " << "\033[31m" << e.what() << "\033[0m" << endl;
     }
-
-    cout << "Please input password: ";
-    cin >> password;
-
-    cin.ignore();
-    cout << "Please input fullname: ";
-    getline(cin, fullname);
-
-    cout << "Please input phone number: ";
-    cin >> phoneNum;
-
-    // Save newUser
-    User *newUser = new User(username, password, fullname, phoneNum, 500, 5);
-    this->userArray.push_back(*newUser);
-    writeFile();
-
-    delete newUser;
-
-    return true;
 }
 
 /**

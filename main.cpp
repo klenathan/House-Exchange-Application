@@ -22,18 +22,27 @@ int main(int argc, const char *argv[]) {
 
 
 
-//    string currentPath = DataHandler::getPath(argv[0]);
-//    cout << currentPath << endl;
-////    UserController UC = UserController();
+    string currentPath = DataHandler::getPath(argv[0]);
+    cout << currentPath << endl;
+    UserController UC = UserController(currentPath);
+    HouseController HC = HouseController(currentPath);
+
+//    User user = *new User("user3", "123", "Pham Vo Dong", "03926122231", 500, 10);
+////    House house = *new House("3","happy house","Hanoi","The Happy house 1","user1",100,*new CustomDate("12/02/2023"), *new CustomDate("28/02/2023"),3.0,8.000000,1);
 //
-//    User user = *new User("dong2", "123", "Pham Vo Dong", "03926122231", 500, 10);
-//    House house = *new House("3","happy house","Hanoi","The Happy house 1","user1",100,*new CustomDate("12/02/2023"), *new CustomDate("28/02/2023"),3.0,8.000000,1);
+//    User user2 = *new User("user2", "123", "Pham Vo Dong", "03926122231", 500, 10);
 //
 //    RatingController ratingController = RatingController(currentPath);
-////
+//////
 //    ratingController.setCurrentUser(user);
+//
+//    ratingController.rating(user2, HC.getHouseArray());
+
 ////
 //    ratingController.rating(house);
+//UC.signup();
+
+
 //    cout << "status: " << UC.include("user1") << endl;
 
 //
@@ -75,9 +84,8 @@ int main(int argc, const char *argv[]) {
 //    string housePath = argv[0] + ;
 
 //    string housePath = argv[0] + ;
-//    HouseController HC = HouseController(currentPath);
-//HC.showData();
-//    HC.listNewHouse();
+
+    HC.listNewHouse();
 
 //    HC.writeHouseData();
 

@@ -7,6 +7,8 @@
 
 #include "../../Data/DataLoader/DataHandler.h"
 #include "../../Model/User/User.h"
+#include "../../Model/CustomError/Errors.h"
+
 
 using std::cout, std::endl, std::string, std::getline, std::cin, std::cerr;
 

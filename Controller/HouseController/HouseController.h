@@ -51,6 +51,8 @@ public:
 
     void updateByID();
 
+    bool validDate(string dateInp);
+
     void destroy();
 
     void writeHouseData();

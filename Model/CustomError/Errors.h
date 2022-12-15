@@ -19,4 +19,23 @@ public:
             runtime_error(msg){}
 };
 
+class ContainSpace: public std::exception{
+private:
+    string  message;
+
+public:
+    ContainSpace(string  msg) : message(msg) {}
+    string what () {
+        return message;
+    }
+};
+
+
+
+
+class DateErr: public std::runtime_error {
+public:
+    DateErr(std::string const& msg):
+            runtime_error(msg){}
+};
 #endif //HOUSEEXCHANGEAPPLICATION_ERRORS_H
