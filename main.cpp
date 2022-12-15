@@ -22,18 +22,18 @@ int main(int argc, const char *argv[]) {
 
 
 
-    string currentPath = DataHandler::getPath(argv[0]);
-    cout << currentPath << endl;
-//    UserController UC = UserController();
-
-    User user = *new User("dong2", "123", "Pham Vo Dong", "03926122231", 500, 10);
-    House house = *new House("3","happy house","Hanoi","The Happy house 1","user1",100,*new CustomDate("12/02/2023"), *new CustomDate("28/02/2023"),3.0,8.000000,1);
-
-    RatingController ratingController = RatingController(currentPath);
+//    string currentPath = DataHandler::getPath(argv[0]);
+//    cout << currentPath << endl;
+////    UserController UC = UserController();
 //
-    ratingController.setCurrentUser(user);
+//    User user = *new User("dong2", "123", "Pham Vo Dong", "03926122231", 500, 10);
+//    House house = *new House("3","happy house","Hanoi","The Happy house 1","user1",100,*new CustomDate("12/02/2023"), *new CustomDate("28/02/2023"),3.0,8.000000,1);
 //
-    ratingController.rating(house);
+//    RatingController ratingController = RatingController(currentPath);
+////
+//    ratingController.setCurrentUser(user);
+////
+//    ratingController.rating(house);
 //    cout << "status: " << UC.include("user1") << endl;
 
 //
@@ -48,14 +48,15 @@ int main(int argc, const char *argv[]) {
 
 //    HC.showData();
 
-//    std::cout << "EEET2482/COSC2082 ASSIGNMENT\n"
-//                 "VACATION HOUSE EXCHANGE APPLICATION\n"
-//                 "Instructors: Mr. Linh Tran & Phong Ngo Group: Group Name\n\n"
-//                 "s3891890, Tran Nam Thai\n"
-//                 "sXXXXXXX, Student Name\n"
-//                 "sXXXXXXX, Student Name\n"
-//                 "sXXXXXXX, Student Name\n\n"
-//                 "Use the app as 1. Guest 2. Member 3. Admin" << std::endl;
+    std::cout << "EEET2482/COSC2082 ASSIGNMENT\n"
+                 "VACATION HOUSE EXCHANGE APPLICATION\n"
+                 "Instructors: Mr. Linh Tran & Phong Ngo Group: Group Name\n\n"
+                 "s3891890, Tran Nam Thai\n"
+                 "s3878246, Pham Anh Thu\n"
+                 "s3891968, Pham Vo Dong\n"
+                 "s3927201, Tran Ngoc Khang\n\n"
+                 "Main Menu"
+                 "Use the app as \n1. Guest \n2. Member \n3. Admin" << std::endl;
 //    User user1 = User("user1", "123", 123);
 //    cout << user1;
 //    ptr = &user1;
