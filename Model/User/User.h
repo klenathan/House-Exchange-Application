@@ -40,6 +40,10 @@ public:
         return this->username;
     }
 
+    float getRating() const;
+
+    void setRating(float rating);
+
     long getCreditPoints() {
         return this->creditPoints;
     }
