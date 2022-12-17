@@ -27,6 +27,16 @@ void UserController::setCurrentUser(const User &currentUser) {
     UserController::currentUser = currentUser;
 }
 
+
+const vector<User> &UserController::getUserArray() const {
+    return userArray;
+}
+
+void UserController::setUserArray(const vector<User> &userArray) {
+    UserController::userArray = userArray;
+}
+
+
 /**
  * Store data to the user array
  */

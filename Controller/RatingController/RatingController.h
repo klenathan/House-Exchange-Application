@@ -6,6 +6,8 @@
 #define HOUSEEXCHANGEAPPLICATION_RATINGCONTROLLER_H
 
 #include <vector>
+#include <map>
+#include <bits/stdc++.h>
 #include "../../Data/DataLoader/DataHandler.h"
 #include "../../Model/HouseRating/HouseRating.h"
 #include "../../Model/UserRating/UserRating.h"
@@ -52,11 +54,15 @@ public:
         /**
          * Rating method
          */
-    void rating(const House &house);
+    void rating(const House &house); // Rating for house
 
-//    void rating(const User &user);
+    void rating(User user, const vector<House>& houseArray); // Rating for user
 
-    void rating(User user, vector<House> houseArray);
+        /**
+         * Calculate average rating
+         */
+        vector<User> userRatingAverage(vector<User>& userArray);
+
 };
 
 

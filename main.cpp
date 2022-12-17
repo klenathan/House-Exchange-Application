@@ -36,8 +36,14 @@ int main(int argc, const char *argv[]) {
 ////
     ratingController.setCurrentUser(user);
 
-    ratingController.rating(user2, HC.getHouseArray());
+//    ratingController.rating(user2, HC.getHouseArray());
+//for (User user1 : ratingController.userRatingAverage(const_cast<vector<User> &>(UC.getUserArray()))){
+//    cout << user1;
+//}
 
+UC.setUserArray(ratingController.userRatingAverage(const_cast<vector<User> &>(UC.getUserArray())));
+
+UC.showData();
 ////
 //    ratingController.rating(house);
 //UC.signup();
