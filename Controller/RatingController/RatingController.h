@@ -16,7 +16,6 @@
 #include "../../Model/CustomError/Errors.h"
 
 
-
 using std::cout, std::endl, std::string, std::getline, std::cin, std::cerr;
 
 class RatingController {
@@ -28,6 +27,7 @@ private:
     string dataPath;
 
     void loadDataToUserRatingArray();
+
     void loadDataToHouseRatingArray();
 
 public:
@@ -49,19 +49,23 @@ public:
      * Methods
      */
     void houseRatingWriteFile();
+
     void userRatingWriteFile();
 
-        /**
-         * Rating method
-         */
+    /**
+     * Rating method
+     */
     void rating(const House &house); // Rating for house
 
-    void rating(User user, const vector<House>& houseArray); // Rating for user
+    void rating(User user, const vector<House> &houseArray); // Rating for user
 
-        /**
-         * Calculate average rating
-         */
-        vector<User> userRatingAverage(vector<User>& userArray);
+    /**
+     * Calculate average rating
+     */
+    vector<User> ratingAverage(vector<User> &userArray);
+
+    vector<House> ratingAverage(vector<House> &houseArray);
+
 
 };
 

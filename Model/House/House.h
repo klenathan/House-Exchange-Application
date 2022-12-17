@@ -65,6 +65,10 @@ public:
 
     float getRequiredRating() const;
 
+    float getRating() const;
+
+    void setRating(float rating);
+
 
     string to_string();
 

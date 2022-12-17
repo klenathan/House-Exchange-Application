@@ -41,9 +41,13 @@ int main(int argc, const char *argv[]) {
 //    cout << user1;
 //}
 
-UC.setUserArray(ratingController.userRatingAverage(const_cast<vector<User> &>(UC.getUserArray())));
+//UC.setUserArray(ratingController.userRatingAverage(const_cast<vector<User> &>(UC.getUserArray())));
+//
+//UC.showData();
 
-UC.showData();
+    HC.setHouseArray(ratingController.ratingAverage((vector<House> &) HC.getHouseArray()));
+
+    HC.showData();
 ////
 //    ratingController.rating(house);
 //UC.signup();

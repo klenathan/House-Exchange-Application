@@ -143,7 +143,7 @@ void RatingController::rating(const House &house) {
  * Rating method for house owner rate user who rented their house
  * @param user which is rated by house owner
  */
-void RatingController::rating(User user, const vector<House>& houseArray) {
+void RatingController::rating(User user, const vector<House> &houseArray) {
     string username = user.getUsername();
     string homeID;
     string tempRatingScore;
@@ -209,7 +209,11 @@ bool compareUser(UserRating user1, UserRating user2) {
     return (user1.getUsername() < user2.getUsername());
 }
 
-vector<User> RatingController::userRatingAverage(vector<User>& userArray) {
+bool compareHouse(HouseRating house1, HouseRating house2) {
+    return (house1.getHomeId() < house1.getHomeId());
+}
+
+vector<User> RatingController::ratingAverage(vector<User> &userArray) {
     std::map<string, float> userRating;
     std::map<string, float>::iterator iterator;
     int count;
@@ -231,7 +235,6 @@ vector<User> RatingController::userRatingAverage(vector<User>& userArray) {
         }
 
 
-
         if (count != 0) {
             tempAverage = tempRating / count;
             userRating.insert(std::make_pair(tempUSerName, tempAverage));
@@ -243,11 +246,10 @@ vector<User> RatingController::userRatingAverage(vector<User>& userArray) {
     }
 
 
-
     for (iterator = userRating.begin(); iterator != userRating.end(); iterator++) {
-        for(User& user : userArray){
-            if(user.getUsername() == iterator->first){
-                float finalRating = (user.getRating() + iterator->second)/2;
+        for (User &user: userArray) {
+            if (user.getUsername() == iterator->first) {
+                float finalRating = (user.getRating() + iterator->second) / 2;
 
                 user.setRating(finalRating);
             }
@@ -256,6 +258,55 @@ vector<User> RatingController::userRatingAverage(vector<User>& userArray) {
 
     return userArray;
 }
+
+vector<House> RatingController::ratingAverage(vector<House> &houseArray) {
+    std::map<string, float> houseRating;
+    std::map<string, float>::iterator iterator;
+    int count;
+    float tempRating = 0;
+    float tempAverage = 0;
+    string tempHomeId;
+
+
+    std::sort(houseRatingArray.begin(), houseRatingArray.end(), compareHouse);
+    for (const HouseRating &house: this->houseRatingArray) {
+        if (tempHomeId != house.getHomeId()) {
+
+            count = 1;
+            tempHomeId = house.getHomeId();
+            tempRating = house.getRatingScore();
+        } else {
+            count++;
+            tempRating += house.getRatingScore();
+        }
+
+
+        if (count != 0) {
+            tempAverage = tempRating / count;
+            houseRating.insert(std::make_pair(tempHomeId, tempAverage));
+            iterator = houseRating.find(tempHomeId);
+            if (iterator != houseRating.end()) {
+                iterator->second = tempAverage;
+            }
+        }
+    }
+
+
+    for (iterator = houseRating.begin(); iterator != houseRating.end(); iterator++) {
+        for (House &house : houseArray) {
+            if (house.getId() == iterator->first) {
+                float finalRating = (house.getRating() + iterator->second) / 2;
+
+                house.setRating(finalRating);
+            }
+        }
+    }
+
+    return houseArray;
+}
+
+
+
 
 
 
