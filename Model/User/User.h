@@ -36,23 +36,37 @@ public:
     /**
      * Getter-Setter
      * */
-    string getUsername() {
-        return this->username;
-    }
 
-    float getRating() const;
-
-    void setRating(float rating);
-
-    long getCreditPoints() {
-        return this->creditPoints;
-    }
 
     string getWriteFormat() {
         return this->username + "," + this->password + "," + to_string(this->creditPoints) + "," +
                 this->fullname + "," + this->phoneNum + "," + to_string(this->rating) + "," +
                 to_string(10);
     }
+
+    const string &getUsername() const;
+
+    void setUsername(const string &username);
+
+    const string &getPassword() const;
+
+    void setPassword(const string &password);
+
+    const string &getFullname() const;
+
+    void setFullname(const string &fullname);
+
+    const string &getPhoneNum() const;
+
+    void setPhoneNum(const string &phoneNum);
+
+    long getCreditPoints() const;
+
+    void setCreditPoints(long creditPoints);
+
+    float getRating() const;
+
+    void setRating(float rating);
 
     /**
      * Methods

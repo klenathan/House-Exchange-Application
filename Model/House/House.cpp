@@ -94,4 +94,65 @@ void House::setConsumingPoint(long consumingPoint) {
     House::consumingPoint = consumingPoint;
 }
 
+void House::setId(const string &id) {
+    House::id = id;
+}
+
+const string &House::getName() const {
+    return name;
+}
+
+void House::setName(const string &name) {
+    House::name = name;
+}
+
+
+void House::setAddress(const string &address) {
+    House::address = address;
+}
+
+const string &House::getDesc() const {
+    return desc;
+}
+
+void House::setDesc(const string &desc) {
+    House::desc = desc;
+}
+
+const string &House::getOwnerUsername() const {
+    return ownerUsername;
+}
+
+void House::setOwnerUsername(const string &ownerUsername) {
+    House::ownerUsername = ownerUsername;
+}
+
+long House::getPrice() const {
+    return price;
+}
+
+void House::setPrice(long price) {
+    House::price = price;
+}
+
+void House::setStartDate(const CustomDate &startDate) {
+    House::startDate = startDate;
+}
+
+void House::setEndDate(const CustomDate &endDate) {
+    House::endDate = endDate;
+}
+
+void House::setRequiredRating(float requiredRating) {
+    House::requiredRating = requiredRating;
+}
+
+bool House::isStatus() const {
+    return status;
+}
+
+void House::setStatus(bool status) {
+    House::status = status;
+}
+
 

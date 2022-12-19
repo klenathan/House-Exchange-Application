@@ -156,7 +156,7 @@ void RatingController::rating(User user, const vector<House> &houseArray) {
     try {
         //Assign currentUser house ID to houseID
         for (House house: houseArray) {
-            if (this->currentUser.getUsername() == house.getOwner()) {
+            if (this->currentUser.getUsername() == house.getOwnerUsername()) {
                 homeID = house.getId();
                 break;
             }

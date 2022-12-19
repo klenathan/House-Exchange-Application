@@ -46,7 +46,6 @@ public:
     void listNewHouse(const string &username);
     void unlistHouse(const string &username);
 
-    bool validDate(string dateInp);
     House findByKey(const string &id);
     void updateByID();
 

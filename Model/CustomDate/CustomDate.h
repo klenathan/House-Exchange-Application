@@ -35,6 +35,7 @@ public:
      * */
     std::string getDate() const;
     void showInfo();
+    bool validDate(string dateInp);
 
     friend std::ostream &operator<<(std::ostream &os, const CustomDate &dt);
 

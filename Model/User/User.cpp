@@ -45,6 +45,46 @@ User::User(const string &username, const string &password, const string &fullnam
            long creditPoints, float rating) : username(username), password(password), fullname(fullname),
                                               phoneNum(phoneNum), creditPoints(creditPoints), rating(rating) {}
 
+const string &User::getUsername() const {
+    return username;
+}
+
+void User::setUsername(const string &username) {
+    User::username = username;
+}
+
+const string &User::getPassword() const {
+    return password;
+}
+
+void User::setPassword(const string &password) {
+    User::password = password;
+}
+
+const string &User::getFullname() const {
+    return fullname;
+}
+
+void User::setFullname(const string &fullname) {
+    User::fullname = fullname;
+}
+
+const string &User::getPhoneNum() const {
+    return phoneNum;
+}
+
+void User::setPhoneNum(const string &phoneNum) {
+    User::phoneNum = phoneNum;
+}
+
+long User::getCreditPoints() const {
+    return creditPoints;
+}
+
+void User::setCreditPoints(long creditPoints) {
+    User::creditPoints = creditPoints;
+}
+
 float User::getRating() const {
     return rating;
 }

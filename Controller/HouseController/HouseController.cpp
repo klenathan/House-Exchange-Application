@@ -13,7 +13,6 @@ using std::string, std::cout, std::endl, std::exception, std::remove;
 HouseController::HouseController(string path) {
     this->dataPath = path + "./house_data.csv";
     this->loadDataToArray();
-
 }
 
 /******************************************************************
@@ -54,7 +53,7 @@ void HouseController::loadDataToArray() {
 
 House HouseController::getUserHouse(string username) {
     for (House house: this->HouseArray) {
-        if (house.getOwner() == username) {
+        if (house.getOwnerUsername() == username) {
             return house;
         }
     }
@@ -92,7 +91,7 @@ void HouseController::unlistHouse(const string &username) {
     vector<House>::iterator new_end;
 
     for (int i = 0; i< this->HouseArray.size(); i++) {
-        if (this->HouseArray[i].getOwner() == username) {
+        if (this->HouseArray[i].getOwnerUsername() == username) {
             this->HouseArray.erase(this->HouseArray.begin() + i);
             this->writeHouseData();
         }
@@ -196,7 +195,7 @@ void HouseController::listNewHouse(const string &username) {
         cout << "Start date (dd/mm/yyyy): ";
         std::getline(std::cin, startDate);
         CustomDate start;
-        if (validDate(startDate)) {
+        if ((*new CustomDate).validDate(startDate)) {
             try {
                 start = CustomDate(startDate);
             } catch (...) {
@@ -209,7 +208,7 @@ void HouseController::listNewHouse(const string &username) {
         cout << "End date (dd/mm/yyyy): ";
         std::getline(std::cin, endDate);
         CustomDate end;
-        if (validDate(endDate)) {
+        if ((*new CustomDate).validDate(endDate)) {
             try {
                 end = CustomDate(endDate);
             } catch (...) {
@@ -238,45 +237,6 @@ void HouseController::listNewHouse(const string &username) {
     }
 }
 
-bool HouseController::validDate(string dateInp) {
-    stringstream ss(dateInp);
-    string text;
-    vector<int> tempArr;
-
-    while (getline(ss, text, '/')) {
-        try { tempArr.push_back(stoi(text)); }
-        catch (std::exception &e) {
-            cout << e.what() << endl;
-            throw e;
-        }
-    }
-
-    int day = tempArr.at(0);
-    int month = tempArr.at(1);
-    int year = tempArr.at(2);
-
-    // Current time
-    time_t currentTime = std::time(0);
-    char* dt = ctime(&currentTime);
-
-    // Input time
-    time_t rawTime;
-    struct tm * inputTime;
-
-    time ( &rawTime );
-    inputTime = localtime ( &rawTime );
-    inputTime->tm_year = year - 1900;
-    inputTime->tm_mon = month - 1;
-    inputTime->tm_mday = day;
-
-    std::time_t time = mktime(inputTime);
-
-    char* dt1 = ctime(&time);
-
-    double diff =  difftime (time, currentTime);
-    if (diff < 0) return 0;
-    return 1;
-}
 
 vector<House> HouseController::searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate, User user)  {
     long userCreditPoint = user.getCreditPoints();

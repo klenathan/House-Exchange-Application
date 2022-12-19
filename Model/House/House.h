@@ -48,31 +48,54 @@ public:
      * */
 
 
-    void setStatus(bool status) {
-        this->status = status;
-    }
 
-    std::string getOwner() {
-        return this->ownerUsername;
-    }
+    void setConsumingPoint(long consumingPoint);
 
     const string &getId() const;
 
+    void setId(const string &id);
+
+    const string &getName() const;
+
+    void setName(const string &name);
+
     const string &getAddress() const;
+
+    void setAddress(const string &address);
+
+    const string &getDesc() const;
+
+    void setDesc(const string &desc);
+
+    const string &getOwnerUsername() const;
+
+    void setOwnerUsername(const string &ownerUsername);
+
+    long getPrice() const;
+
+    void setPrice(long price);
+
+    long getConsumingPoint() const;
 
     const CustomDate &getStartDate() const;
 
+    void setStartDate(const CustomDate &startDate);
+
     const CustomDate &getEndDate() const;
 
+    void setEndDate(const CustomDate &endDate);
+
     float getRequiredRating() const;
+
+    void setRequiredRating(float requiredRating);
 
     float getRating() const;
 
     void setRating(float rating);
 
-    long getConsumingPoint() const;
+    bool isStatus() const;
 
-    void setConsumingPoint(long consumingPoint);
+    void setStatus(bool status);
 
     string to_string();
 

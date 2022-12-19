@@ -1,1 +1,2 @@
-house_id, username, start_date, end_date, status
+username,house_id,status,start_date,end_date
+user2,900,requested,12/12/2023,14/12/2023
