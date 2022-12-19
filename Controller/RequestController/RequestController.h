@@ -6,11 +6,13 @@
 #define HOUSEEXCHANGEAPPLICATION_REQUESTCONTROLLER_H
 
 #include <vector>
+#include "../HouseController/HouseController.h"
 #include "../../Model/Request/Request.h"
 #include "../../Data/DataLoader/DataHandler.h"
 #include "../../Model/CustomError/Errors.h"
 #include "../../Model/User/User.h"
 #include "../../Model/House/House.h"
+
 using std::string, std::vector;
 
 class RequestController {
@@ -21,14 +23,21 @@ private:
     void loadDataToArray();
 
 public:
+    /**
+     * Constructor
+     */
+    RequestController() = default;
     RequestController(string path);
     void setRequestArray(const vector<Request> &requestArray);
+    /**
+     * Method
+     */
     void create(const Request &newReq);
     void create(const std::string &house, const std::string &name, const CustomDate &startDate,
                 const CustomDate &endDate, const Status &status);
 
     void writeFile();
-    void showData();
+    void viewRequest(const User user, string currentPath);
     void request(const User user, const House house);
 };
 

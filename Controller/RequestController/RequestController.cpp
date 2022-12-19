@@ -45,9 +45,12 @@ void RequestController::writeFile() {
     cout << DataHandler::writeFile("requests.csv", content);
 }
 
-void RequestController::showData() {
+
+void RequestController::viewRequest(const User user, string currentPath) {
     for (Request request: this->requestArr) {
-        cout << request << endl;
+        if (user.getUsername() == (*new HouseController(currentPath)).findByKey(request.getHouse()).getOwnerUsername()) {
+            cout << request << endl;
+        }
     }
 };
 

@@ -37,11 +37,11 @@ string Request::to_string() {
 }
 
 ostream & operator<<(ostream & os, Request & request) {
-    os << "Username: " << request.user << endl;
-    os << "House: " << request.house << endl;
-    os << "Status: " << request.status << endl;
-    os << "Credit points: " << request.startDate << endl;
-    os << "Rating: " << request.endDate << endl;
+    cout << "Username: " << request.user << endl;
+    cout << "HouseID: " << request.house << endl;
+    cout << "Status: " <<  request.enumToString(request.status) << endl;
+    cout << "Start date: " << request.startDate;
+    cout << "End date: " << request.endDate << endl;
     return os;
 }
 

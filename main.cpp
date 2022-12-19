@@ -94,10 +94,13 @@ int main(int argc, const char *argv[]) {
     CustomDate start = CustomDate(12, 12, 2023);
     CustomDate end = CustomDate(15, 12, 2023);
 
-    User user2 = *new User("user1", "123", "The first user", "0123456789", 500, 8);
+    User user1 = *new User("user1", "123", "The first user", "0123456789", 500, 8);
+
+    User user2 = *new User("user2", "123", "The first user", "0123456789", 500, 8);
     House house = *new House("900","happy house 1", "Hanoi", "The Happy house", "user1",100,start,end,6,0,0,150);
 
-    RC.request(user2, house);
+//    RC.request(user2, house);
+    RC.viewRequest(user1, currentPath);
 
 //    UC.signup();
 //    HC.listNewHouse("user1");
