@@ -29,14 +29,15 @@ void RatingController::setCurrentUser(const User &currentUser) {
  * Store data to the user rating array
  */
 void RatingController::loadDataToUserRatingArray() {
-    vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath + "./user_rating_data.csv");
 
+    vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath + "./user_rating_data.csv");
     for (vector<string> line: rawData) {
         UserRating temp_user_rating = UserRating(line[0],
                                                  line[1], std::stol(line[2]),
                                                  line[3]);
 
         this->userRatingArray.push_back(temp_user_rating);
+
     }
 
 }
@@ -222,7 +223,11 @@ vector<User> RatingController::ratingAverage(vector<User> &userArray) {
     string tempUSerName;
 
 
-    std::sort(userRatingArray.begin(), userRatingArray.end(), compareUser);
+    std::sort(this->userRatingArray.begin(), this->userRatingArray.end(), compareUser);
+//    for(UserRating rate: this->userRatingArray) {
+//        cout << this->userRatingArray.size();
+//        cout << rate.getRatingScore() << endl;
+//    }
     for (const UserRating &user: this->userRatingArray) {
         if (tempUSerName != user.getUsername()) {
 
@@ -247,14 +252,19 @@ vector<User> RatingController::ratingAverage(vector<User> &userArray) {
 
 
     for (iterator = userRating.begin(); iterator != userRating.end(); iterator++) {
+
         for (User &user: userArray) {
             if (user.getUsername() == iterator->first) {
                 float finalRating = (user.getRating() + iterator->second) / 2;
 
                 user.setRating(finalRating);
+//                cout << "debug: " << endl;
+//                cout << finalRating << endl;
             }
         }
     }
+
+
 
     return userArray;
 }
