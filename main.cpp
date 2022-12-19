@@ -4,6 +4,7 @@
 
 #include "Controller/UserController/UserController.h"
 #include "Controller/HouseController/HouseController.h"
+#include "Controller/RatingController/RatingController.h"
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -17,35 +18,45 @@ using std::string;
 using std::cout;
 using std::endl;
 
-
-
-void loadingSequence() {
-    int total = 6;
-    cout << "hello: " << endl;
-    cout << "0/" << total << ": " << std::flush;
-
-    string loading;
-    for (int i = 0; i < total; i++) {
-        cout << std::flush;
-        loading = "";
-        for (int j = -1; j < i; j++) {
-            loading += "+ ";
-        }
-        cout << "\r" << i + 1 << "/" << total << ": " << loading << std::flush;
-        sleep(1);
-    }
-    cout << "\ndone" << endl;
-}
-
 int main(int argc, const char *argv[]) {
 
 
 
     string currentPath = DataHandler::getPath(argv[0]);
+    cout << currentPath << endl;
     UserController UC = UserController(currentPath);
-//    cout << "status: " << UC.include("user1") << endl;
+    HouseController HC = HouseController(currentPath);
+
+    User user = *new User("user3", "123", "Pham Vo Dong", "03926122231", 500, 10);
+//    House house = *new House("3","happy house","Hanoi","The Happy house 1","user1",100,*new CustomDate("12/02/2023"), *new CustomDate("28/02/2023"),3.0,8.000000,1);
+
+    User user2 = *new User("user2", "123", "Pham Vo Dong", "03926122231", 500, 10);
+
+    RatingController ratingController = RatingController(currentPath);
+////
+    ratingController.setCurrentUser(user);
+
+//    ratingController.rating(user2, HC.getHouseArray());
+//for (User user1 : ratingController.userRatingAverage(const_cast<vector<User> &>(UC.getUserArray()))){
+//    cout << user1;
+//}
+
+UC.setUserArray(ratingController.ratingAverage(const_cast<vector<User> &>(UC.getUserArray())));
+
+UC.showData();
+
+//    HC.setHouseArray(ratingController.ratingAverage((vector<House> &) HC.getHouseArray()));
 //
-////    UC.showData();
+//    HC.showData();
+////
+//    ratingController.rating(house);
+//UC.signup();
+
+
+//    cout << "status: " << UC.include("user1") << endl;
+
+//
+//    UC.showData();
 //
 //    cout << "Login: " << UC.login("user1", "1223") << endl;
 //
@@ -73,28 +84,19 @@ int main(int argc, const char *argv[]) {
 //    user1.addCreditPoints(100);
 //    user1.showInfo();
 ///////////////////////////////
-    CustomDate start = CustomDate(11, 10, 2022);
-    CustomDate end = CustomDate(12, 10, 2022);
-
-    cout << (start <= end) << endl;
-
+//    CustomDate start = CustomDate(12, 10, 2022);
+//    CustomDate end = CustomDate(12, 10, 2022);
 //    House house = House("happy house", "Hanoi", "The Happy house", "user1", 0,
 //                        start,
 //                        end, 100, 120);
 //    HC.create(house);
 //    string housePath = argv[0] + ;
 
-    HouseController HC = HouseController(currentPath);
+//    string housePath = argv[0] + ;
 
+//    HC.listNewHouse();
 
-    // Test
-    vector<House> queryResult = HC.searchForSuitableHouses("HCM", start, end);
-    for (House house: queryResult) {
-        house.showInfo();
-        cout << "=======================" << endl;
-    }
-
-    HC.writeHouseData();
+//    HC.writeHouseData();
 
 ///////////////////////////////
     return 0;

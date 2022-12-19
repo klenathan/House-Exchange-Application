@@ -6,10 +6,11 @@
 #define HOUSEEXCHANGEAPPLICATION_USERCONTROLLER_H
 
 #include "../../Data/DataLoader/DataHandler.h"
-#include "../../Data/DataLoader/DataHandler.h"
 #include "../../Model/User/User.h"
+#include "../../Model/CustomError/Errors.h"
 
-using std::cout, std::endl, std::string;
+
+using std::cout, std::endl, std::string, std::getline, std::cin, std::cerr;
 
 class UserController {
 private:
@@ -17,10 +18,10 @@ private:
     User currentUser;
     string dataPath;
 public:
-    UserController(string path) {
-        this->dataPath = path + "./user_data.csv";
-        this->loadDataToArray();
-    }
+    /**
+     * Controller
+     */
+    explicit UserController(string path);
 
     /**
      * Getter Setter
@@ -30,6 +31,10 @@ public:
 
     void setCurrentUser(const User &currentUser);
 
+    const vector<User> &getUserArray() const;
+
+    void setUserArray(const vector<User> &userArray);
+
     /**
      * Methods
      * */
@@ -37,15 +42,11 @@ public:
 
     void showData();
 
-    void writeFile() {
-        string content;
-        content += "username,password,creditPoints,fullname,phoneNum,rating,numberOfRate\n";
-        for (User user : this->userArray) {
-            content += user.getWriteFormat() + "\n";
-        }
-        cout << DataHandler::writeFile("../Data/data-test.txt", content);
-    }
-    bool login(const string &username, const string &password);
+    void writeFile();
+
+    // Authenticate method
+    bool signup();
+    bool login();
     bool include(const std::string& username);
 };
 

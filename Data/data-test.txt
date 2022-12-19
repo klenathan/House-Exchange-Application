@@ -1,0 +1,3 @@
+username,houseID,ratingScore,comment
+user1,2,10,adsadsa
+user2,,1,asdasd

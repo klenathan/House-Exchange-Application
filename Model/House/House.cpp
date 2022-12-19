@@ -15,6 +15,7 @@ void House::showInfo() {
     cout << "Required rating: " << this->requiredRating << endl;
     cout << "Owner: " << this->ownerUsername << endl;
     cout << "Date range: " << this->startDate.getDate() << " - " << this->endDate.getDate() << endl;
+    cout << "Rating: " << this->rating << endl;
     std::cout << "Status: " << this->status << std::endl;
 }
 
@@ -70,4 +71,12 @@ const CustomDate &House::getEndDate() const {
 
 float House::getRequiredRating() const {
     return requiredRating;
+}
+
+float House::getRating() const {
+    return rating;
+}
+
+void House::setRating(float rating) {
+    House::rating = rating;
 };

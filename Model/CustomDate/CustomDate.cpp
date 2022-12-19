@@ -5,7 +5,11 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <time.h>
+#include <ctime>
+
 #include <exception>
+#include <ctime>
 
 #include "CustomDate.h"
 #include "../CustomError/Errors.h"
@@ -29,9 +33,12 @@ CustomDate::CustomDate(int day, int month, int year) {
         if (month > 12 || month < 1) {
             throw ConversionErr("INVALID_MONTH");
         } else {
-            if (!(month % 2)) {
+            if (month % 2 == 0) {
                 //// Even Months
-                if (month == 2 && day > 29) throw ConversionErr("INVALID_DAY");
+                if (month == 2) {
+                    if (day > 29) throw ConversionErr("INVALID_DAY");
+                    else if (!((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) && day > 28) throw ConversionErr("INVALID_DAY"); // leap year check
+                }
                 else if (month < 8 && day > 30) throw ConversionErr("INVALID_DAY");
             } else {
                 //// Odd months
@@ -42,6 +49,29 @@ CustomDate::CustomDate(int day, int month, int year) {
         if (year < 2022) {
             throw ConversionErr("INVALID_YEAR");
         }
+
+
+        // Current time
+        time_t currentTime = std::time(0);
+        char* dt = ctime(&currentTime);
+
+        // Input time
+        time_t rawTime;
+        struct tm * inputTime;
+
+        time ( &rawTime );
+        inputTime = localtime ( &rawTime );
+        inputTime->tm_year = year - 1900;
+        inputTime->tm_mon = month - 1;
+        inputTime->tm_mday = day;
+
+        std::time_t time = mktime(inputTime);
+
+        char* dt1 = ctime(&time);
+
+        double diff =  difftime (time, currentTime);
+        if (diff < 0) throw ConversionErr("INVALID_DATE");
+
         this->day = day;
         this->month = month;
         this->year = year;
@@ -80,9 +110,12 @@ CustomDate::CustomDate(string inputString) {
         if (month > 12 || month < 1) {
             throw ConversionErr("INVALID_MONTH");
         } else {
-            if (!(month % 2)) {
+            if (month % 2 == 0) {
                 //// Even Months
-                if (month == 2 && day > 29) throw ConversionErr("INVALID_DAY");
+                if (month == 2) {
+                    if (day > 29) throw ConversionErr("INVALID_DAY");
+                    else if (!((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) && day > 28) throw ConversionErr("INVALID_DAY"); // leap year check
+                }
                 else if (month < 8 && day > 30) throw ConversionErr("INVALID_DAY");
             } else {
                 //// Odd months
@@ -93,12 +126,35 @@ CustomDate::CustomDate(string inputString) {
         if (year < 2022) {
             throw ConversionErr("INVALID_YEAR");
         }
+
+
+        // Current time
+        time_t currentTime = std::time(0);
+        char* dt = ctime(&currentTime);
+
+        // Input time
+        time_t rawTime;
+        struct tm * inputTime;
+
+        time ( &rawTime );
+        inputTime = localtime ( &rawTime );
+        inputTime->tm_year = year - 1900;
+        inputTime->tm_mon = month - 1;
+        inputTime->tm_mday = day;
+
+        std::time_t time = mktime(inputTime);
+
+//        char* dt1 = ctime(&time);
+
+//        double diff =  difftime (time, currentTime);
+//        if (diff < 0) throw DateErr("Invalid Date");
+
         this->day = day;
         this->month = month;
         this->year = year;
     } catch (std::exception const &e) {
-//        cout << e.what() << endl;
-        throw ConversionErr(e.what());
+//        cout <<
+        throw DateErr(e.what());
     }
 };
 
