@@ -38,6 +38,7 @@ public:
 
     void writeFile();
     void viewRequest(const User user, string currentPath);
+    void acceptRequest(User user, const string &id, const string &currentPath);
     void request(const User user, const House house);
 };
 

@@ -99,8 +99,9 @@ int main(int argc, const char *argv[]) {
     User user2 = *new User("user2", "123", "The first user", "0123456789", 500, 8);
     House house = *new House("900","happy house 1", "Hanoi", "The Happy house", "user1",100,start,end,6,0,0,150);
 
+    RC.acceptRequest(user1, "6712", currentPath);
 //    RC.request(user2, house);
-    RC.viewRequest(user1, currentPath);
+//    RC.viewRequest(user1, currentPath);
 
 //    UC.signup();
 //    HC.listNewHouse("user1");

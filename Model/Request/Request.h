@@ -17,6 +17,7 @@ enum Status {
 
 class Request {
 private:
+    string id;
     string user;
     string house;
     Status status; //// Enum: "requested", "accepted", "finished", "rejected"
@@ -24,6 +25,9 @@ private:
 
 public:
     Request() = default;
+
+    Request(const string &id, const string &user, const string &house, Status status, const CustomDate &startDate,
+            const CustomDate &endDate);
 
     Request(const string &user, const string &house, Status status, const CustomDate &startDate,
             const CustomDate &endDate);
@@ -52,12 +56,16 @@ public:
 
     void setEndDate(const CustomDate &endDate);
 
-
+    static int randomID();
     string to_string();
     void showInfo();
     Status stoE(const std::string& str);
     inline const char* enumToString(Status s);
     friend ostream & operator<<(ostream & os, Request & request);
+
+    const string &getId() const;
+
+    void setId(const string &id);
 
 };
 

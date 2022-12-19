@@ -24,6 +24,7 @@ inline const char* Request::enumToString(Status s) {
 }
 
 void Request::showInfo() {
+    cout << "RequestID: " << this->id << endl;
     cout << "Username: " << this->user << endl;
     cout << "HouseID: " << this->house << endl;
     cout << "Status: " << this->status << endl;
@@ -32,11 +33,12 @@ void Request::showInfo() {
 }
 
 string Request::to_string() {
-    return this->user + "," + this->house + "," + enumToString(this->status) + "," +
+    return this->id + "," + this->user + "," + this->house + "," + enumToString(this->status) + "," +
            this->startDate.getDate() + "," + this->endDate.getDate();
 }
 
 ostream & operator<<(ostream & os, Request & request) {
+    cout << "RequestID: " << request.id << endl;
     cout << "Username: " << request.user << endl;
     cout << "HouseID: " << request.house << endl;
     cout << "Status: " <<  request.enumToString(request.status) << endl;
@@ -46,9 +48,28 @@ ostream & operator<<(ostream & os, Request & request) {
 }
 
 //Constructor
+Request::Request(const string &id, const string &user, const string &house, Status status, const CustomDate &startDate,
+                 const CustomDate &endDate) : id(id), user(user), house(house), status(status), startDate(startDate),
+                                              endDate(endDate) {}
+
 Request::Request(const string &user, const string &house, Status status, const CustomDate &startDate,
                  const CustomDate &endDate) : user(user), house(house), status(status), startDate(startDate),
-                                              endDate(endDate) {}
+                                              endDate(endDate) {
+    this->id = std::to_string(this->randomID());
+}
+
+int Request::randomID() {
+    srand((unsigned) time(NULL));
+    return std::rand() % 10000 + 100;;
+}
+
+const string &Request::getId() const {
+    return id;
+}
+
+void Request::setId(const string &id) {
+    Request::id = id;
+}
 
 const string &Request::getUser() const {
     return user;

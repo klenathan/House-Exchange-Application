@@ -17,15 +17,14 @@ void RequestController::setRequestArray(const vector<Request> &requestArray) {
     this->requestArr = requestArr;
 }
 
-
 void RequestController::loadDataToArray() {
     vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath);
 
     for (vector<string> line: rawData) {
-        CustomDate startDate = CustomDate(line[3]);
-        CustomDate endDate = CustomDate(line[4]);
-        Status status = (*new Request).stoE(line[2]);
-        Request temp_request = Request(line[0], line[1], status, startDate, endDate);
+        Status status = (*new Request).stoE(line[3]);
+        CustomDate startDate = CustomDate(line[4]);
+        CustomDate endDate = CustomDate(line[5]);
+        Request temp_request = Request(line[0], line[1],line[2], status, startDate, endDate);
         this->requestArr.push_back(temp_request);
     }
 
@@ -38,13 +37,12 @@ void RequestController::create(const Request &newReq) {
 
 void RequestController::writeFile() {
     string content;
-    content += "username,house_id,status,start_date,end_date\n";
+    content += "request_id,username,house_id,status,start_date,end_date\n";
     for (Request request: this->requestArr) {
         content += request.to_string() + "\n";
     }
     cout << DataHandler::writeFile("requests.csv", content);
 }
-
 
 void RequestController::viewRequest(const User user, string currentPath) {
     for (Request request: this->requestArr) {
@@ -53,6 +51,25 @@ void RequestController::viewRequest(const User user, string currentPath) {
         }
     }
 };
+
+void RequestController::acceptRequest(const User user, const string &id, const string &currentPath) {
+    for (int i = 0; i < requestArr.size(); i++) {
+        if (user.getUsername() ==
+            (*new HouseController(currentPath)).findByKey(requestArr[i].getHouse()).getOwnerUsername() && requestArr[i].getId() == id) {
+            Status status = (*new Request).stoE("accepted");
+            requestArr[i].setStatus(status);
+            requestArr.at(i) = requestArr[i];
+        } else {
+            Status status = (*new Request).stoE("rejected");
+            requestArr[i].setStatus(status);
+            requestArr.at(i) = requestArr[i];
+        }
+    }
+
+    this->writeFile();
+
+}
+
 
 void RequestController::request(const User user, const House house) {
     string startDate, endDate;
@@ -102,6 +119,4 @@ void RequestController::request(const User user, const House house) {
 
     }
 }
-
-
 

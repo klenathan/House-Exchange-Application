@@ -88,8 +88,6 @@ void HouseController::create(const House &newHouse) {
 }
 
 void HouseController::unlistHouse(const string &username) {
-    vector<House>::iterator new_end;
-
     for (int i = 0; i< this->HouseArray.size(); i++) {
         if (this->HouseArray[i].getOwnerUsername() == username) {
             this->HouseArray.erase(this->HouseArray.begin() + i);
