@@ -7,7 +7,7 @@
 
 #include <vector>
 #include <map>
-//#include <bits/stdc++.h>
+#include <algorithm>
 #include "../../Data/DataLoader/DataHandler.h"
 #include "../../Model/HouseRating/HouseRating.h"
 #include "../../Model/UserRating/UserRating.h"
