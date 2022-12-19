@@ -22,11 +22,11 @@ void HouseRating::setUsername(const string &username) {
     HouseRating::username = username;
 }
 
-long HouseRating::getRatingScore() const {
+float HouseRating::getRatingScore() const {
     return ratingScore;
 }
 
-void HouseRating::setRatingScore(long ratingScore) {
+void HouseRating::setRatingScore(float ratingScore) {
     HouseRating::ratingScore = ratingScore;
 }
 
@@ -39,7 +39,7 @@ void HouseRating::setComment(const string &comment) {
 }
 
 
-HouseRating::HouseRating(string homeId, const string &username, long ratingScore, const string &comment) : homeID(
+HouseRating::HouseRating(string homeId, const string &username, float ratingScore, const string &comment) : homeID(
         homeId),
                                                                                                            username(
                                                                                                                    username),

@@ -31,6 +31,10 @@ public:
 
     void setCurrentUser(const User &currentUser);
 
+    const vector<User> &getUserArray() const;
+
+    void setUserArray(const vector<User> &userArray);
+
     /**
      * Methods
      * */

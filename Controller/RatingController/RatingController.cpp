@@ -1,7 +1,6 @@
 //
 // Created by phamv on 12/13/2022.
 //
-
 #include "RatingController.h"
 
 
@@ -90,7 +89,7 @@ void RatingController::userRatingWriteFile() {
  */
 void RatingController::rating(const House &house) {
     string tempRatingScore;
-    long ratingScore;
+    float ratingScore;
     string comment;
     const string &houseId = house.getId();
     string username = this->currentUser.getUsername();
@@ -106,7 +105,7 @@ void RatingController::rating(const House &house) {
             try {
                 cout << "Please input your rating score in the scale -10 to 10: ";
                 getline(cin, tempRatingScore);
-                ratingScore = std::stol(tempRatingScore);
+                ratingScore = std::stof(tempRatingScore);
                 try {
                     if (ratingScore <= -11 || ratingScore >= 11) {
                         throw ratingScore;
@@ -144,11 +143,11 @@ void RatingController::rating(const House &house) {
  * Rating method for house owner rate user who rented their house
  * @param user which is rated by house owner
  */
-void RatingController::rating(User user, vector<House> houseArray) {
+void RatingController::rating(User user, const vector<House> &houseArray) {
     string username = user.getUsername();
     string homeID;
     string tempRatingScore;
-    long ratingScore;
+    float ratingScore;
     string comment;
 
     bool check = true;
@@ -169,7 +168,7 @@ void RatingController::rating(User user, vector<House> houseArray) {
             try {
                 cout << "Please input your rating score in the scale -10 to 10: ";
                 getline(cin, tempRatingScore);
-                ratingScore = std::stol(tempRatingScore);
+                ratingScore = std::stof(tempRatingScore);
                 try {
                     if (ratingScore <= -11 || ratingScore >= 11) {
                         throw ratingScore;
@@ -205,6 +204,111 @@ void RatingController::rating(User user, vector<House> houseArray) {
 
 
 }
+
+bool compareUser(UserRating user1, UserRating user2) {
+    return (user1.getUsername() < user2.getUsername());
+}
+
+bool compareHouse(HouseRating house1, HouseRating house2) {
+    return (house1.getHomeId() < house1.getHomeId());
+}
+
+vector<User> RatingController::ratingAverage(vector<User> &userArray) {
+    std::map<string, float> userRating;
+    std::map<string, float>::iterator iterator;
+    int count;
+    float tempRating = 0;
+    float tempAverage = 0;
+    string tempUSerName;
+
+
+    std::sort(userRatingArray.begin(), userRatingArray.end(), compareUser);
+    for (const UserRating &user: this->userRatingArray) {
+        if (tempUSerName != user.getUsername()) {
+
+            count = 1;
+            tempUSerName = user.getUsername();
+            tempRating = user.getRatingScore();
+        } else {
+            count++;
+            tempRating += user.getRatingScore();
+        }
+
+
+        if (count != 0) {
+            tempAverage = tempRating / count;
+            userRating.insert(std::make_pair(tempUSerName, tempAverage));
+            iterator = userRating.find(tempUSerName);
+            if (iterator != userRating.end()) {
+                iterator->second = tempAverage;
+            }
+        }
+    }
+
+
+    for (iterator = userRating.begin(); iterator != userRating.end(); iterator++) {
+        for (User &user: userArray) {
+            if (user.getUsername() == iterator->first) {
+                float finalRating = (user.getRating() + iterator->second) / 2;
+
+                user.setRating(finalRating);
+            }
+        }
+    }
+
+    return userArray;
+}
+
+vector<House> RatingController::ratingAverage(vector<House> &houseArray) {
+    std::map<string, float> houseRating;
+    std::map<string, float>::iterator iterator;
+    int count;
+    float tempRating = 0;
+    float tempAverage = 0;
+    string tempHomeId;
+
+
+    std::sort(houseRatingArray.begin(), houseRatingArray.end(), compareHouse);
+    for (const HouseRating &house: this->houseRatingArray) {
+        if (tempHomeId != house.getHomeId()) {
+
+            count = 1;
+            tempHomeId = house.getHomeId();
+            tempRating = house.getRatingScore();
+        } else {
+            count++;
+            tempRating += house.getRatingScore();
+        }
+
+
+        if (count != 0) {
+            tempAverage = tempRating / count;
+            houseRating.insert(std::make_pair(tempHomeId, tempAverage));
+            iterator = houseRating.find(tempHomeId);
+            if (iterator != houseRating.end()) {
+                iterator->second = tempAverage;
+            }
+        }
+    }
+
+
+    for (iterator = houseRating.begin(); iterator != houseRating.end(); iterator++) {
+        for (House &house : houseArray) {
+            if (house.getId() == iterator->first) {
+                float finalRating = (house.getRating() + iterator->second) / 2;
+
+                house.setRating(finalRating);
+            }
+        }
+    }
+
+    return houseArray;
+}
+
+
+
+
+
 
 
 

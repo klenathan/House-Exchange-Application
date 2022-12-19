@@ -11,6 +11,9 @@ using std::string, std::endl, std::ostream;
 void User::showInfo() {
     std::cout << "Username: " << this->username << endl;
     std::cout << "Credit points: " << this->creditPoints << endl;
+    std::cout << "Rating: " << this->rating << endl;
+
+
 }
 
 bool User::authenticate(std::string inputPassword) {
@@ -34,9 +37,18 @@ ostream & operator<<(ostream & os, User & user) {
     os << "Fullname: " << user.fullname << endl;
     os << "Contact: " << user.phoneNum << endl;
     os << "Credit points: " << user.creditPoints << endl;
+    os << "Rating: " << user.rating << endl;
     return os;
 }
 
 User::User(const string &username, const string &password, const string &fullname, const string &phoneNum,
            long creditPoints, float rating) : username(username), password(password), fullname(fullname),
                                               phoneNum(phoneNum), creditPoints(creditPoints), rating(rating) {}
+
+float User::getRating() const {
+    return rating;
+}
+
+void User::setRating(float rating) {
+    User::rating = rating;
+}

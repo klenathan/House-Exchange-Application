@@ -6,13 +6,14 @@
 #define HOUSEEXCHANGEAPPLICATION_RATINGCONTROLLER_H
 
 #include <vector>
+#include <map>
+#include <bits/stdc++.h>
 #include "../../Data/DataLoader/DataHandler.h"
 #include "../../Model/HouseRating/HouseRating.h"
 #include "../../Model/UserRating/UserRating.h"
 #include "../../Model/House/House.h"
 #include "../../Model/User/User.h"
 #include "../../Model/CustomError/Errors.h"
-
 
 
 using std::cout, std::endl, std::string, std::getline, std::cin, std::cerr;
@@ -26,6 +27,7 @@ private:
     string dataPath;
 
     void loadDataToUserRatingArray();
+
     void loadDataToHouseRatingArray();
 
 public:
@@ -47,16 +49,24 @@ public:
      * Methods
      */
     void houseRatingWriteFile();
+
     void userRatingWriteFile();
 
-        /**
-         * Rating method
-         */
-    void rating(const House &house);
+    /**
+     * Rating method
+     */
+    void rating(const House &house); // Rating for house
 
-//    void rating(const User &user);
+    void rating(User user, const vector<House> &houseArray); // Rating for user
 
-    void rating(User user, vector<House> houseArray);
+    /**
+     * Calculate average rating
+     */
+    vector<User> ratingAverage(vector<User> &userArray);
+
+    vector<House> ratingAverage(vector<House> &houseArray);
+
+
 };
 
 

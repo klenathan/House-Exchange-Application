@@ -5,7 +5,7 @@
 #include "Controller/UserController/UserController.h"
 #include "Controller/HouseController/HouseController.h"
 #include "Controller/RatingController/RatingController.h"
-#include "View/View.h"
+
 #ifdef _WIN32
 #include <Windows.h>
 #else
@@ -21,26 +21,33 @@ using std::endl;
 int main(int argc, const char *argv[]) {
 
 
-    View view;
-    view.welcomeScreen();
-    view.validateUser();
 
     string currentPath = DataHandler::getPath(argv[0]);
     cout << currentPath << endl;
     UserController UC = UserController(currentPath);
     HouseController HC = HouseController(currentPath);
 
-//    User user = *new User("user3", "123", "Pham Vo Dong", "03926122231", 500, 10);
-////    House house = *new House("3","happy house","Hanoi","The Happy house 1","user1",100,*new CustomDate("12/02/2023"), *new CustomDate("28/02/2023"),3.0,8.000000,1);
-//
-//    User user2 = *new User("user2", "123", "Pham Vo Dong", "03926122231", 500, 10);
-//
-//    RatingController ratingController = RatingController(currentPath);
-//////
-//    ratingController.setCurrentUser(user);
-//
-//    ratingController.rating(user2, HC.getHouseArray());
+    User user = *new User("user3", "123", "Pham Vo Dong", "03926122231", 500, 10);
+//    House house = *new House("3","happy house","Hanoi","The Happy house 1","user1",100,*new CustomDate("12/02/2023"), *new CustomDate("28/02/2023"),3.0,8.000000,1);
 
+    User user2 = *new User("user2", "123", "Pham Vo Dong", "03926122231", 500, 10);
+
+    RatingController ratingController = RatingController(currentPath);
+////
+    ratingController.setCurrentUser(user);
+
+//    ratingController.rating(user2, HC.getHouseArray());
+//for (User user1 : ratingController.userRatingAverage(const_cast<vector<User> &>(UC.getUserArray()))){
+//    cout << user1;
+//}
+
+//UC.setUserArray(ratingController.userRatingAverage(const_cast<vector<User> &>(UC.getUserArray())));
+//
+//UC.showData();
+
+    HC.setHouseArray(ratingController.ratingAverage((vector<House> &) HC.getHouseArray()));
+
+    HC.showData();
 ////
 //    ratingController.rating(house);
 //UC.signup();
@@ -64,11 +71,10 @@ int main(int argc, const char *argv[]) {
 //                 "VACATION HOUSE EXCHANGE APPLICATION\n"
 //                 "Instructors: Mr. Linh Tran & Phong Ngo Group: Group Name\n\n"
 //                 "s3891890, Tran Nam Thai\n"
-//                 "s3878246, Pham Anh Thu\n"
-//                 "s3891968, Pham Vo Dong\n"
-//                 "s3927201, Tran Ngoc Khang\n\n"
-//                 "Main Menu"
-//                 "Use the app as \n1. Guest \n2. Member \n3. Admin" << std::endl;
+//                 "sXXXXXXX, Student Name\n"
+//                 "sXXXXXXX, Student Name\n"
+//                 "sXXXXXXX, Student Name\n\n"
+//                 "Use the app as 1. Guest 2. Member 3. Admin" << std::endl;
 //    User user1 = User("user1", "123", 123);
 //    cout << user1;
 //    ptr = &user1;

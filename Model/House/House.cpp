@@ -15,6 +15,7 @@ void House::showInfo() {
     cout << "Required rating: " << this->requiredRating << endl;
     cout << "Owner: " << this->ownerUsername << endl;
     cout << "Date range: " << this->startDate.getDate() << " - " << this->endDate.getDate() << endl;
+    cout << "Rating: " << this->rating << endl;
     std::cout << "Status: " << this->status << std::endl;
 }
 
@@ -22,30 +23,19 @@ void House::showInfo() {
  * Full data constructor
  * */
 House::House(const string &id, const string &name, const string &address, const string &desc,
-             const string &ownerUsername, long price, const CustomDate &startDate, const CustomDate &endDate,
-             float requiredRating, bool status) : id(id), name(name), address(address), desc(desc),
-                                                  ownerUsername(ownerUsername), price(price), startDate(startDate),
-                                                  endDate(endDate), requiredRating(requiredRating), status(status) {};
-
-
-/**
- * Constructor with status
- * */
-House::House(const string &name, const string &address, const string &desc, const string &ownerUsername, long price,
-             const CustomDate &startDate, const CustomDate &endDate, float requiredRating, bool status) :
-        name(name), address(address), desc(desc), ownerUsername(ownerUsername), price(price),
-        startDate(startDate), endDate(endDate), requiredRating(requiredRating), status(status) {
-    this->id = std::to_string(this->randomID());
-}
-
+             const string &ownerUsername, long price,
+             const CustomDate &startDate, const CustomDate &endDate, float requiredRating, float rating, bool status)
+        : id(id), name(name), address(address), desc(desc), ownerUsername(ownerUsername), price(price),
+          startDate(startDate),
+          endDate(endDate), requiredRating(requiredRating), rating(rating), status(status) {}
 
 /**
  * Constructor without status
  * */
 House::House(const string &name, const string &address, const string &desc, const string &ownerUsername, long price,
-             const CustomDate &startDate, const CustomDate &endDate, float requiredRating) :
+             const CustomDate &startDate, const CustomDate &endDate, float requiredRating, float rating) :
         name(name), address(address), desc(desc), ownerUsername(ownerUsername), price(price),
-        startDate(startDate), endDate(endDate), requiredRating(requiredRating) {
+        startDate(startDate), endDate(endDate), requiredRating(requiredRating), rating(rating) {
     this->id = std::to_string(this->randomID());
 }
 
@@ -60,7 +50,7 @@ string House::to_string() {
            this->desc + "," +
            this->ownerUsername + "," + std::to_string(this->price) + "," +
            this->startDate.getDate() + "," + this->endDate.getDate() + "," +
-           std::to_string(this->requiredRating) + "," + tempStatus;
+           std::to_string(this->rating) + "," + tempStatus;
 }
 
 const string &House::getId() const {
@@ -83,3 +73,10 @@ float House::getRequiredRating() const {
     return requiredRating;
 }
 
+float House::getRating() const {
+    return rating;
+}
+
+void House::setRating(float rating) {
+    House::rating = rating;
+};
