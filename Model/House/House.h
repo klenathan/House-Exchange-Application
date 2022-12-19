@@ -20,6 +20,8 @@ private:
     CustomDate startDate, endDate;
     float requiredRating;
     bool status;
+    float rating;
+
 public:
     /**
      * Constructor
@@ -28,22 +30,16 @@ public:
     House() {}
 
     /**
-     * Partial constructor without status
+     * Partial constructor
      * */
     House(const string &name, const string &address, const string &desc, const string &ownerUsername, long price,
-          const CustomDate &startDate, const CustomDate &endDate, float requiredRating);
-
-    /**
-   * Partial constructor with status
-   * */
-    House(const string &name, const string &address, const string &desc, const string &ownerUsername, long price,
-          const CustomDate &startDate, const CustomDate &endDate, float requiredRating, bool status);
+          const CustomDate &startDate, const CustomDate &endDate, float rating, float requiredRating);
 
     /**
      * Full constructor for read file
      */
     House(const string &id, const string &name, const string &address, const string &desc, const string &ownerUsername,
-          long price, const CustomDate &startDate, const CustomDate &endDate, float requiredRating, bool status);
+          long price, const CustomDate &startDate, const CustomDate &endDate, float requiredRating, float rating, bool status);
 
     /**
      * Getter-Setter
@@ -82,7 +78,6 @@ public:
     static int randomID();
 
     void showInfo();
-    void showInfoWithoutStatus();
     /**
      * Destructor
      * */

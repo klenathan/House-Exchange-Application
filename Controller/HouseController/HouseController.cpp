@@ -5,9 +5,8 @@
 
 #include "HouseController.h"
 #include <time.h>
-#include <ctime>
 
-using std::string, std::cout, std::endl, std::exception, std::stof, std::stol, std::stoi;
+using std::string, std::cout, std::endl, std::exception, std::remove;
 
 
 HouseController::HouseController(string path) {
@@ -40,7 +39,7 @@ void HouseController::loadDataToArray() {
 
         House temp_house = House(line[0], line[1], line[2],
                                  line[3], line[4], stol(line[5]),
-                                 startDate, endDate, stof(line[8]), stoi(line[9]));
+                                 startDate, endDate, stof(line[8]), stof(line[9]), (bool)stoi(line[10]));
         this->HouseArray.push_back(temp_house);
     }
 }
@@ -52,10 +51,11 @@ void HouseController::loadDataToArray() {
  * @Err: Throw not found error in the case the user does not list any house (Non existed)
  * */
 
-House HouseController::getUserHouse(const std::string &username) {
-//    House result;
+House HouseController::getUserHouse(string username) {
     for (House house: this->HouseArray) {
-        return house;
+        if (house.getOwner() == username) {
+            return house;
+        }
     }
     throw NotfoundErr(username + " have no house");
 }
@@ -80,12 +80,22 @@ void HouseController::create(const House &newHouse) {
     this->writeHouseData();
 }
 
+void HouseController::unlistHouse(const string &username) {
+    vector<House>::iterator new_end;
+
+    for (int i = 0; i< this->HouseArray.size(); i++) {
+        if (this->HouseArray[i].getOwner() == username) {
+            this->HouseArray.erase(this->HouseArray.begin() + i);
+            this->writeHouseData();
+        }
+    }
+}
 
 /**
  * Save the current state of data to file
  * */
 void HouseController::writeHouseData() {
-    string header = "id,name,address,desc,ownerUsername,price,startDate,endDate,requiredRating,status\n";
+    string header = "id,name,address,desc,ownerUsername,price,startDate,endDate,requiredRating,rating,status\n";
     string content = header;
     for (House house: this->HouseArray) {
         content += house.to_string() + "\n";
@@ -117,7 +127,7 @@ void HouseController::updateByID() {
  * @Err: The functions might throw some invalid format errors upon user inputs the data
  * */
 
-void HouseController::listNewHouse() {
+void HouseController::listNewHouse(const string &username) {
     string houseName, address, desc, ownerUsername, startDate, endDate;
     string tempPrice, tempMinRate;
     float minRate;
@@ -132,7 +142,7 @@ void HouseController::listNewHouse() {
 
 
         if (address == "Hanoi" || address == "Hue" || address == "Saigon") address = address;
-        else throw NotfoundErr("The application is only available to users in those cities: Ha Noi, Hue, Sai Gon.");
+        else throw NotfoundErr("The application is only available to users in those cities: Ha Noi, Hue, Sai Gon.\n");
 
         cout << "Price (number): ";
         std::getline(std::cin, tempPrice);
@@ -186,7 +196,7 @@ void HouseController::listNewHouse() {
         bool validDateInput = (end > start);
 
         if (validDateInput) {
-            House *tempHouse = new House(houseName, address, desc, "admin", price,
+            House *tempHouse = new House(houseName, address, desc, username, price,
                                          start, end, minRate, 0);
             this->create(*tempHouse);
             DataHandler::clear();
@@ -215,7 +225,6 @@ bool HouseController::validDate(string dateInp) {
         }
     }
 
-    //// Repeat the default constructor
     int day = tempArr.at(0);
     int month = tempArr.at(1);
     int year = tempArr.at(2);
@@ -246,8 +255,8 @@ bool HouseController::validDate(string dateInp) {
 vector<House> HouseController::searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate)  {
     vector<House> result;
     for (House house: this->HouseArray) {
-        bool suitableStartDate = (startDate>= house.getStartDate());
-        bool suitableEndDate = (endDate<= house.getEndDate());
+        bool suitableStartDate = (startDate >= house.getStartDate());
+        bool suitableEndDate = (endDate <= house.getEndDate());
         if (house.getAddress() == city && suitableStartDate && suitableEndDate) {
             result.push_back(house);
         }

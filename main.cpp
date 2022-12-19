@@ -19,35 +19,32 @@ using std::cout;
 using std::endl;
 
 int main(int argc, const char *argv[]) {
+//    string currentPath = DataHandler::getPath(argv[0]);
+//    cout << currentPath << endl;
+//    UserController UC = UserController(currentPath);
+//    HouseController HC = HouseController(currentPath);
 
-
-
-    string currentPath = DataHandler::getPath(argv[0]);
-    cout << currentPath << endl;
-    UserController UC = UserController(currentPath);
-    HouseController HC = HouseController(currentPath);
-
-    User user = *new User("user3", "123", "Pham Vo Dong", "03926122231", 500, 10);
-//    House house = *new House("3","happy house","Hanoi","The Happy house 1","user1",100,*new CustomDate("12/02/2023"), *new CustomDate("28/02/2023"),3.0,8.000000,1);
-
-    User user2 = *new User("user2", "123", "Pham Vo Dong", "03926122231", 500, 10);
-
-    RatingController ratingController = RatingController(currentPath);
-////
-    ratingController.setCurrentUser(user);
-
+//    User user = *new User("user3", "123", "Pham Vo Dong", "03926122231", 500, 10);
+////    House house = *new House("3","happy house","Hanoi","The Happy house 1","user1",100,*new CustomDate("12/02/2023"), *new CustomDate("28/02/2023"),3.0,8.000000,1);
+//
+//    User user2 = *new User("user2", "123", "Pham Vo Dong", "03926122231", 500, 10);
+//
+//    RatingController ratingController = RatingController(currentPath);
+//////
+//    ratingController.setCurrentUser(user);
+//
 //    ratingController.rating(user2, HC.getHouseArray());
-//for (User user1 : ratingController.userRatingAverage(const_cast<vector<User> &>(UC.getUserArray()))){
-//    cout << user1;
-//}
+//    for (User user1 : ratingController.ratingAverage(const_cast<vector<User> &>(UC.getUserArray()))){
+//        cout << user1;
+//    }
 
 //UC.setUserArray(ratingController.userRatingAverage(const_cast<vector<User> &>(UC.getUserArray())));
 //
 //UC.showData();
 
-    HC.setHouseArray(ratingController.ratingAverage((vector<House> &) HC.getHouseArray()));
-
-    HC.showData();
+//    HC.setHouseArray(ratingController.ratingAverage((vector<House> &) HC.getHouseArray()));
+//
+//    HC.showData();
 ////
 //    ratingController.rating(house);
 //UC.signup();
@@ -84,19 +81,27 @@ int main(int argc, const char *argv[]) {
 //    user1.addCreditPoints(100);
 //    user1.showInfo();
 ///////////////////////////////
-//    CustomDate start = CustomDate(12, 10, 2022);
-//    CustomDate end = CustomDate(12, 10, 2022);
-//    House house = House("happy house", "Hanoi", "The Happy house", "user1", 0,
-//                        start,
-//                        end, 100, 120);
-//    HC.create(house);
-//    string housePath = argv[0] + ;
+    string currentPath = DataHandler::getPath(argv[0]);
+    cout << currentPath << endl;
+    UserController UC = UserController(currentPath);
+    HouseController HC = HouseController(currentPath);
 
-//    string housePath = argv[0] + ;
 
-//    HC.listNewHouse();
+    UC.signup();
 
-//    HC.writeHouseData();
+//    User user = *new User("user1", "123", "Pham Vo Dong", "03926122231", 500, 10);
+//    string test = user.getUsername();
+//
+////    1.	Each member can only add one house to his/her account.
+//    if (test != HC.getUserHouse(test).getOwner()) {
+//        HC.listNewHouse(test);
+//    } else {
+//        cout << "Each member can only add one house to his/her account.\n";
+//    }
+//
+//    HC.getUserHouse("admin").showInfo();
+//    HC.unlistHouse("admin");
+
 
 ///////////////////////////////
     return 0;

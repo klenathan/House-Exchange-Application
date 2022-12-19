@@ -50,6 +50,7 @@ string House::to_string() {
            this->desc + "," +
            this->ownerUsername + "," + std::to_string(this->price) + "," +
            this->startDate.getDate() + "," + this->endDate.getDate() + "," +
+           std::to_string(this->requiredRating) + "," +
            std::to_string(this->rating) + "," + tempStatus;
 }
 

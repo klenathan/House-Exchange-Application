@@ -11,7 +11,7 @@
 #include "../../Model/House/House.h"
 #include "../../Data/DataLoader/DataHandler.h"
 #include "../../Model/CustomError/Errors.h"
-
+#include "../../Model/User/User.h"
 
 class HouseController {
 private:
@@ -28,7 +28,7 @@ public:
     /********************************************************************
      * Methods
      ******************************************************************/
-    House getUserHouse(const std::string& username);
+    House getUserHouse(string username);
     void showData();
 
     /**
@@ -38,22 +38,13 @@ public:
      * */
 
     void create(const House &newHouse);
-    /**
-     * Create new house by input all House attributes
-     * @params: House attributes :) too lazy to add in
-     * */
-    void create(const string &name, const string &address, const string &desc, const string &ownerUsername, long price,
-                     const CustomDate &startDate, const CustomDate &endDate, float requiredRating, float rating, bool status);
 
-    void listNewHouse();
-
-    House findByKey(const string &id);
-
-    void updateByID();
+    void listNewHouse(const string &username);
+    void unlistHouse(const string &username);
 
     bool validDate(string dateInp);
-
-    void destroy();
+    House findByKey(const string &id);
+    void updateByID();
 
     void writeHouseData();
 
