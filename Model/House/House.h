@@ -16,11 +16,11 @@ class House {
 private:
 
     std::string id, name, address, desc, ownerUsername;
-    long price;
+    long price, consumingPoint;
     CustomDate startDate, endDate;
-    float requiredRating;
+    float requiredRating, rating;
     bool status;
-    float rating;
+
 
 public:
     /**
@@ -32,14 +32,16 @@ public:
     /**
      * Partial constructor
      * */
-    House(const string &name, const string &address, const string &desc, const string &ownerUsername, long price,
-          const CustomDate &startDate, const CustomDate &endDate, float rating, float requiredRating);
+    House(const string &name, const string &address, const string &desc, const string &ownerUsername,
+          long price, const CustomDate &startDate, const CustomDate &endDate, float requiredRating,
+          float rating, long consumingPoint);
 
     /**
      * Full constructor for read file
      */
     House(const string &id, const string &name, const string &address, const string &desc, const string &ownerUsername,
-          long price, const CustomDate &startDate, const CustomDate &endDate, float requiredRating, float rating, bool status);
+          long price, const CustomDate &startDate, const CustomDate &endDate, float requiredRating,
+          float rating, bool status, long consumingPoint);
 
     /**
      * Getter-Setter
@@ -68,6 +70,9 @@ public:
 
     void setRating(float rating);
 
+    long getConsumingPoint() const;
+
+    void setConsumingPoint(long consumingPoint);
 
     string to_string();
 

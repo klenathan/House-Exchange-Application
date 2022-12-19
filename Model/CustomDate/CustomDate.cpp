@@ -197,7 +197,7 @@ bool operator>= (const CustomDate& d1, const CustomDate& d2) {
             //// d1.month == d2.month
             if (d1.day > d2.day) return true;
             else if (d1.day < d2.day) return false;
-            else return false;
+            else return true;
         }
     }
 };

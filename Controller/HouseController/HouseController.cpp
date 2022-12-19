@@ -2,8 +2,9 @@
 // Created by Nathan Tran on 08/12/2022.
 //
 
-
 #include "HouseController.h"
+#include "../../Model/User/User.h"
+
 #include <time.h>
 
 using std::string, std::cout, std::endl, std::exception, std::remove;
@@ -39,7 +40,7 @@ void HouseController::loadDataToArray() {
 
         House temp_house = House(line[0], line[1], line[2],
                                  line[3], line[4], stol(line[5]),
-                                 startDate, endDate, stof(line[8]), stof(line[9]), (bool)stoi(line[10]));
+                                 startDate, endDate, stof(line[8]), stof(line[9]), (bool)stoi(line[10]), stol(line[11]));
         this->HouseArray.push_back(temp_house);
     }
 }
@@ -60,11 +61,18 @@ House HouseController::getUserHouse(string username) {
     throw NotfoundErr(username + " have no house");
 }
 
+
+
 /**
  * Prompt house data from current dataState to the console
  * */
+
 void HouseController::showData() {
-    for (House house: this->HouseArray) {
+    houseData(this->HouseArray);
+}
+
+void HouseController::houseData(vector<House> houses) {
+    for (House house: houses) {
         cout << "-------- ID: " << house.getId() << " --------" << endl;
         house.showInfo();
         cout << endl;
@@ -95,12 +103,23 @@ void HouseController::unlistHouse(const string &username) {
  * Save the current state of data to file
  * */
 void HouseController::writeHouseData() {
-    string header = "id,name,address,desc,ownerUsername,price,startDate,endDate,requiredRating,rating,status\n";
+    string header = "id,name,address,desc,ownerUsername,price,startDate,endDate,requiredRating,rating,status,consumingPoint\n";
     string content = header;
     for (House house: this->HouseArray) {
         content += house.to_string() + "\n";
     }
     DataHandler::writeFile(this->dataPath, content);
+}
+
+/**
+ * Create new house by input all House attributes
+ * @params:
+ * */
+void HouseController::create(const std::string &name, const std::string &address, const std::string &desc,
+                             const std::string &ownerUsername, long price, const CustomDate &startDate,
+                             const CustomDate &endDate, float requiredRating, float rating, bool status, long consumingPoint) {
+    House newHouse = House(name, address, desc, ownerUsername, price, startDate, endDate, requiredRating, rating, consumingPoint);
+    this->HouseArray.push_back(newHouse);
 }
 
 /**
@@ -129,9 +148,9 @@ void HouseController::updateByID() {
 
 void HouseController::listNewHouse(const string &username) {
     string houseName, address, desc, ownerUsername, startDate, endDate;
-    string tempPrice, tempMinRate;
+    string tempPrice, tempMinRate, tempConsumingPoint;
     float minRate;
-    long price;
+    long price, consumingPoint;
 
     try {
         cout << "House title: ";
@@ -152,6 +171,13 @@ void HouseController::listNewHouse(const string &username) {
             throw ConversionErr("PRICE_CONVERSION_ERROR");
         }
 
+        cout << "Consuming point (number): ";
+        std::getline(std::cin, tempConsumingPoint);
+        try {
+            consumingPoint = stol(tempConsumingPoint);
+        } catch (...) {
+            throw ConversionErr("CONSUMING_POINT_CONVERSION_ERROR");
+        }
 
         cout << "Minimum rating (number): ";
         std::getline(std::cin, tempMinRate);
@@ -197,7 +223,7 @@ void HouseController::listNewHouse(const string &username) {
 
         if (validDateInput) {
             House *tempHouse = new House(houseName, address, desc, username, price,
-                                         start, end, minRate, 0);
+                                         start, end, minRate, 0, consumingPoint);
             this->create(*tempHouse);
             DataHandler::clear();
             cout << "-------- NEW HOUSE ADDED --------" << endl;
@@ -252,16 +278,19 @@ bool HouseController::validDate(string dateInp) {
     return 1;
 }
 
-vector<House> HouseController::searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate)  {
+vector<House> HouseController::searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate, User user)  {
+    long userCreditPoint = user.getCreditPoints();
+    float userRatingScore = user.getRating();
+
     vector<House> result;
     for (House house: this->HouseArray) {
         bool suitableStartDate = (startDate >= house.getStartDate());
         bool suitableEndDate = (endDate <= house.getEndDate());
-        if (house.getAddress() == city && suitableStartDate && suitableEndDate) {
+
+        if (house.getAddress() == city && suitableStartDate && suitableEndDate && userCreditPoint >= house.getConsumingPoint() && userRatingScore >= house.getRequiredRating()) {
             result.push_back(house);
         }
     }
+    houseData(result);
     return result;
 }
-
-
