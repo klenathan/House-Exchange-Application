@@ -16,11 +16,12 @@ class House {
 private:
 
     std::string id, name, address, desc, ownerUsername;
-    long price;
+    long price, consumingPoint;
     CustomDate startDate, endDate;
-    float requiredRating;
-    float rating;
+    float requiredRating, rating;
     bool status;
+
+
 public:
     /**
      * Constructor
@@ -29,46 +30,72 @@ public:
     House() {}
 
     /**
-     * Partial constructor for creating new object
+     * Partial constructor
      * */
-    House(const string &name, const string &address, const string &desc, const string &ownerUsername, long price,
-          const CustomDate &startDate, const CustomDate &endDate, float requiredRating, float rating);
+    House(const string &name, const string &address, const string &desc, const string &ownerUsername,
+          long price, const CustomDate &startDate, const CustomDate &endDate, float requiredRating,
+          float rating, long consumingPoint);
 
     /**
      * Full constructor for read file
      */
     House(const string &id, const string &name, const string &address, const string &desc, const string &ownerUsername,
-          long price,
-          const CustomDate &startDate, const CustomDate &endDate, float requiredRating, float rating, bool status);
-
+          long price, const CustomDate &startDate, const CustomDate &endDate, float requiredRating,
+          float rating, bool status, long consumingPoint);
 
     /**
      * Getter-Setter
      * */
 
 
-    void setStatus(bool status) {
-        this->status = status;
-    }
 
-    std::string getOwner() {
-        return this->ownerUsername;
-    }
+    void setConsumingPoint(long consumingPoint);
 
     const string &getId() const;
 
+    void setId(const string &id);
+
+    const string &getName() const;
+
+    void setName(const string &name);
+
     const string &getAddress() const;
+
+    void setAddress(const string &address);
+
+    const string &getDesc() const;
+
+    void setDesc(const string &desc);
+
+    const string &getOwnerUsername() const;
+
+    void setOwnerUsername(const string &ownerUsername);
+
+    long getPrice() const;
+
+    void setPrice(long price);
+
+    long getConsumingPoint() const;
 
     const CustomDate &getStartDate() const;
 
+    void setStartDate(const CustomDate &startDate);
+
     const CustomDate &getEndDate() const;
 
+    void setEndDate(const CustomDate &endDate);
+
     float getRequiredRating() const;
+
+    void setRequiredRating(float requiredRating);
 
     float getRating() const;
 
     void setRating(float rating);
 
+    bool isStatus() const;
+
+    void setStatus(bool status);
 
     string to_string();
 

@@ -5,6 +5,7 @@
 #include "Controller/UserController/UserController.h"
 #include "Controller/HouseController/HouseController.h"
 #include "Controller/RatingController/RatingController.h"
+#include "Controller/RequestController/RequestController.h"
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -20,30 +21,28 @@ using std::endl;
 
 int main(int argc, const char *argv[]) {
 
-
-
-    string currentPath = DataHandler::getPath(argv[0]);
-    cout << currentPath << endl;
-    UserController UC = UserController(currentPath);
-    HouseController HC = HouseController(currentPath);
-
-    User user = *new User("user3", "123", "Pham Vo Dong", "03926122231", 500, 10);
-//    House house = *new House("3","happy house","Hanoi","The Happy house 1","user1",100,*new CustomDate("12/02/2023"), *new CustomDate("28/02/2023"),3.0,8.000000,1);
-
-    User user2 = *new User("user2", "123", "Pham Vo Dong", "03926122231", 500, 10);
-
-    RatingController ratingController = RatingController(currentPath);
-////
-    ratingController.setCurrentUser(user);
-
-//    ratingController.rating(user2, HC.getHouseArray());
-//for (User user1 : ratingController.userRatingAverage(const_cast<vector<User> &>(UC.getUserArray()))){
-//    cout << user1;
-//}
-
-UC.setUserArray(ratingController.ratingAverage(const_cast<vector<User> &>(UC.getUserArray())));
-
-UC.showData();
+//    string currentPath = DataHandler::getPath(argv[0]);
+//    cout << currentPath << endl;
+//    UserController UC = UserController(currentPath);
+//    HouseController HC = HouseController(currentPath);
+//
+//    User user = *new User("user3", "123", "Pham Vo Dong", "03926122231", 500, 10);
+////    House house = *new House("3","happy house","Hanoi","The Happy house 1","user1",100,*new CustomDate("12/02/2023"), *new CustomDate("28/02/2023"),3.0,8.000000,1);
+//
+//    User user2 = *new User("user2", "123", "Pham Vo Dong", "03926122231", 500, 10);
+//
+//    RatingController ratingController = RatingController(currentPath);
+//////
+//    ratingController.setCurrentUser(user);
+//
+////    ratingController.rating(user2, HC.getHouseArray());
+////for (User user1 : ratingController.userRatingAverage(const_cast<vector<User> &>(UC.getUserArray()))){
+////    cout << user1;
+////}
+//
+//UC.setUserArray(ratingController.ratingAverage(const_cast<vector<User> &>(UC.getUserArray())));
+//
+//UC.showData();
 
 //    HC.setHouseArray(ratingController.ratingAverage((vector<House> &) HC.getHouseArray()));
 //
@@ -83,21 +82,46 @@ UC.showData();
 //
 //    user1.addCreditPoints(100);
 //    user1.showInfo();
-///////////////////////////////
-//    CustomDate start = CustomDate(12, 10, 2022);
-//    CustomDate end = CustomDate(12, 10, 2022);
-//    House house = House("happy house", "Hanoi", "The Happy house", "user1", 0,
-//                        start,
-//                        end, 100, 120);
-//    HC.create(house);
-//    string housePath = argv[0] + ;
 
-//    string housePath = argv[0] + ;
-
-//    HC.listNewHouse();
-
-//    HC.writeHouseData();
 
 ///////////////////////////////
+    string currentPath = DataHandler::getPath(argv[0]);
+    cout << currentPath << endl;
+    UserController UC = UserController(currentPath);
+    HouseController HC = HouseController(currentPath);
+    RequestController RC = RequestController(currentPath);
+
+    CustomDate start = CustomDate(12, 12, 2023);
+    CustomDate end = CustomDate(15, 12, 2023);
+
+    User user1 = *new User("user1", "123", "The first user", "0123456789", 500, 8);
+
+    User user2 = *new User("user2", "123", "The first user", "0123456789", 500, 8);
+    House house = *new House("900","happy house 1", "Hanoi", "The Happy house", "user1",100,start,end,6,0,0,150);
+
+    RC.acceptRequest(user1, "6712", currentPath);
+//    RC.request(user2, house);
+//    RC.viewRequest(user1, currentPath);
+
+//    UC.signup();
+//    HC.listNewHouse("user1");
+//    1.	Each member can only add one house to his/her account.
+//    if ("user1" != HC.getUserHouse("user1").getOwner()) {
+//        HC.listNewHouse("user1");
+//    } else {
+//        cout << "Each member can only add one house to his/her account.\n";
+//    }
+//    User user2 = *new User("user2", "123", "The first user", "0123456789", 500, 8);
+//
+
+//    HC.searchForSuitableHouses("Hanoi", start, end, user2);
+
+//    HC.showData();
+
+
+
+///////////////////////////////
+
+
     return 0;
 }

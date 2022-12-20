@@ -1,3 +1,2 @@
-username,houseID,ratingScore,comment
-user1,2,10,adsadsa
-user2,,1,asdasd
+username,password,creditPoints,fullname,phoneNum,rating,numberOfRate
+user1,123,500,user1,1234567890,5.000000,10

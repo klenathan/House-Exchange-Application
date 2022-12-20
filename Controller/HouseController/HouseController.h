@@ -11,7 +11,7 @@
 #include "../../Model/House/House.h"
 #include "../../Data/DataLoader/DataHandler.h"
 #include "../../Model/CustomError/Errors.h"
-
+#include "../../Model/User/User.h"
 
 class HouseController {
 private:
@@ -23,14 +23,15 @@ public:
     /********************************************************************
      * Constructors
      ******************************************************************/
+    HouseController() = default;
     HouseController(string path) ;
 
     /********************************************************************
      * Methods
      ******************************************************************/
-    House getUserHouse(const std::string& username);
+    House getUserHouse(string username);
     void showData();
-
+    void houseData(vector<House> houses);
     /**
      * Create new house with House object and add it to the current data array
      * @param: House newHouse
@@ -38,20 +39,16 @@ public:
      * */
 
     void create(const House &newHouse);
-    /**
-     * Create new house by input all House attributes
-     * @params: House attributes :) too lazy to add in
-     * */
-    void create(const string &name, const string &address, const string &desc, const string &ownerUsername, long price,
-                     const CustomDate &startDate, const CustomDate &endDate, float requiredRating, float rating, bool status);
 
-    void listNewHouse();
+    void create(const std::string &name, const std::string &address, const std::string &desc,
+                                 const std::string &ownerUsername, long price, const CustomDate &startDate,
+                                 const CustomDate &endDate, float requiredRating, float rating, bool status, long consumingPoint);
+
+    void listNewHouse(const string &username);
+    void unlistHouse(const string &username);
 
     House findByKey(const string &id);
-
     void updateByID();
-
-    void destroy();
 
     void writeHouseData();
 
@@ -59,10 +56,9 @@ public:
 
     void setHouseArray(const std::vector<House> &houseArray);
 
-    /** User interactions */
-    vector<House> searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate);
-    void generateRequest();
 
+    /** User interactions */
+    vector<House> searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate, User user);
 };
 
 #endif //HOUSEEXCHANGEAPPLICATION_HOUSECONTROLLER_H
