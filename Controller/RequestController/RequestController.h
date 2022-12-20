@@ -7,6 +7,7 @@
 
 #include <vector>
 #include "../HouseController/HouseController.h"
+#include "../UserController/UserController.h"
 #include "../../Model/Request/Request.h"
 #include "../../Data/DataLoader/DataHandler.h"
 #include "../../Model/CustomError/Errors.h"
@@ -20,6 +21,10 @@ private:
     vector<Request> requestArr;
     Request currentRequest;
     string dataPath;
+
+    HouseController HC;
+    UserController UC;
+
     void loadDataToArray();
 
 public:
@@ -27,18 +32,25 @@ public:
      * Constructor
      */
     RequestController() = default;
-    RequestController(string path);
+
+    RequestController(string path, HouseController HC, UserController UC);
+
     void setRequestArray(const vector<Request> &requestArray);
+
     /**
      * Method
      */
     void create(const Request &newReq);
+
     void create(const std::string &house, const std::string &name, const CustomDate &startDate,
                 const CustomDate &endDate, const Status &status);
 
     void writeFile();
-    void viewRequest(const User user, string currentPath);
-    void acceptRequest(User user, const string &id, const string &currentPath);
+
+    void viewRequest(const User user);
+
+    void acceptRequest(User user, const string &id, HouseController houseController);
+
     void request(const User user, const House house);
 };
 

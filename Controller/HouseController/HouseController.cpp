@@ -130,6 +130,7 @@ House HouseController::findByKey(const std::string &id) {
             return house;
         }
     }
+    throw NotfoundErr("HOUSE_"  + id + "_NOT_FOUND");
 }
 
 void HouseController::updateByID() {

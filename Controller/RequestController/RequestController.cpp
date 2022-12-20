@@ -8,8 +8,11 @@
 
 using std::string, std::cout, std::endl, std::exception;
 
-RequestController::RequestController(string path) {
+RequestController::RequestController(string path, HouseController HC, UserController UC) {
+
     this->dataPath = path + "./requests.csv";
+    this->HC = HC;
+    this->UC = UC;
     this->loadDataToArray();
 }
 
@@ -24,7 +27,10 @@ void RequestController::loadDataToArray() {
         Status status = (*new Request).stoE(line[3]);
         CustomDate startDate = CustomDate(line[4]);
         CustomDate endDate = CustomDate(line[5]);
-        Request temp_request = Request(line[0], line[1],line[2], status, startDate, endDate);
+//        User tempUser = this->UC.findByKey(line[1]);
+//        House tempHouse = this.HC.findByKey(line[2]);
+        Request temp_request = Request(this->UC, this->HC, line[0], line[1], line[2], status, startDate, endDate);
+//        cout << temp_request.to_string() << " " << temp_request.getHouse().getOwnerUsername() << endl;
         this->requestArr.push_back(temp_request);
     }
 
@@ -44,18 +50,18 @@ void RequestController::writeFile() {
     cout << DataHandler::writeFile("requests.csv", content);
 }
 
-void RequestController::viewRequest(const User user, string currentPath) {
+void RequestController::viewRequest(const User user) {
     for (Request request: this->requestArr) {
-        if (user.getUsername() == (*new HouseController(currentPath)).findByKey(request.getHouse()).getOwnerUsername()) {
+        if (user.getUsername() == request.getHouse().getOwnerUsername()) {
+            cout << "------------------------------" << endl;
             cout << request << endl;
         }
     }
 };
 
-void RequestController::acceptRequest(const User user, const string &id, const string &currentPath) {
+void RequestController::acceptRequest(const User user, const string &id, HouseController houseController) {
     for (int i = 0; i < requestArr.size(); i++) {
-        if (user.getUsername() ==
-            (*new HouseController(currentPath)).findByKey(requestArr[i].getHouse()).getOwnerUsername() && requestArr[i].getId() == id) {
+        if (user.getUsername() == requestArr[i].getHouse().getOwnerUsername() && requestArr[i].getId() == id) {
             Status status = (*new Request).stoE("accepted");
             requestArr[i].setStatus(status);
             requestArr.at(i) = requestArr[i];
@@ -67,7 +73,6 @@ void RequestController::acceptRequest(const User user, const string &id, const s
     }
 
     this->writeFile();
-
 }
 
 
@@ -103,9 +108,10 @@ void RequestController::request(const User user, const House house) {
 
         bool validDateInput = (end > start);
 
-        if (validDateInput && startDate >= house.getStartDate() && endDate <= house.getEndDate() && user.getUsername() != house.getOwnerUsername()) {
+        if (validDateInput && startDate >= house.getStartDate() && endDate <= house.getEndDate() &&
+            user.getUsername() != house.getOwnerUsername()) {
             Status status = (*new Request).stoE("requested");
-            Request *tempRequest = new Request(user.getUsername(), house.getId(), status, start, end);
+            Request *tempRequest = new Request(this->UC, this->HC, user.getUsername(), house.getId(), status, start, end);
             this->create(*tempRequest);
             DataHandler::clear();
             cout << "-------- NEW REQUEST --------" << endl;

@@ -72,6 +72,18 @@ void UserController::showData() {
 };
 
 /**
+ *
+ * */
+User UserController::findByKey(string username) {
+    for (User user: this->userArray) {
+        if (user.getUsername() == username) {
+            return user;
+        }
+    }
+    throw NotfoundErr("USER_NOT_FOUND");
+}
+
+/**
  * Sign up method
  * @return bool
  */

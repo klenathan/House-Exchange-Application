@@ -18,6 +18,7 @@ private:
     User currentUser;
     string dataPath;
 public:
+    UserController() {}
     /**
      * Controller
      */
@@ -44,10 +45,13 @@ public:
 
     void writeFile();
 
+    User findByKey(string username);
     // Authenticate method
     bool signup();
+
     bool login();
-    bool include(const std::string& username);
+
+    bool include(const std::string &username);
 };
 
 #endif //HOUSEEXCHANGEAPPLICATION_USERCONTROLLER_H
