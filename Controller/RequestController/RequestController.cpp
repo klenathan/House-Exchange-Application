@@ -61,14 +61,17 @@ void RequestController::viewRequest(const User user) {
 
 void RequestController::acceptRequest(const User user, const string &id, HouseController houseController) {
     for (int i = 0; i < requestArr.size(); i++) {
-        if (user.getUsername() == requestArr[i].getHouse().getOwnerUsername() && requestArr[i].getId() == id) {
-            Status status = (*new Request).stoE("accepted");
-            requestArr[i].setStatus(status);
-            requestArr.at(i) = requestArr[i];
-        } else {
-            Status status = (*new Request).stoE("rejected");
-            requestArr[i].setStatus(status);
-            requestArr.at(i) = requestArr[i];
+        if (user.getUsername() == requestArr[i].getHouse().getOwnerUsername()) {
+            if (requestArr[i].getId() == id) {
+                Status status = accepted;
+                requestArr[i].setStatus(status);
+                requestArr.at(i) = requestArr[i];
+                this->UC.updateCreditPoint(user, requestArr[i].getUser(), requestArr[i].getHouse().getConsumingPoint());
+            } else {
+                Status status = rejected;
+                requestArr[i].setStatus(status);
+                requestArr.at(i) = requestArr[i];
+            }
         }
     }
 

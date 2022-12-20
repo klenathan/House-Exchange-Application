@@ -46,6 +46,8 @@ public:
     void writeFile();
 
     User findByKey(string username);
+    void updateCreditPoint (User houseOwner, User occupier, long cosumingPoint);
+
     // Authenticate method
     bool signup();
 

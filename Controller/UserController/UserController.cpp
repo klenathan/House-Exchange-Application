@@ -83,6 +83,17 @@ User UserController::findByKey(string username) {
     throw NotfoundErr("USER_NOT_FOUND");
 }
 
+void UserController::updateCreditPoint (User houseOwner, User occupier, long consumingPoint) {
+    for (int i = 0; i < this->userArray.size(); i++) {
+        if (userArray[i].getUsername() == houseOwner.getUsername()) {
+            userArray[i].setCreditPoints(userArray[i].getCreditPoints() + consumingPoint);
+        } else if (userArray[i].getUsername() == occupier.getUsername()) {
+            userArray[i].setCreditPoints(userArray[i].getCreditPoints() - consumingPoint);
+        }
+    }
+    this->writeFile();
+}
+
 /**
  * Sign up method
  * @return bool
