@@ -42,8 +42,8 @@ public:
      */
     void create(const Request &newReq);
 
-    void create(const std::string &house, const std::string &name, const CustomDate &startDate,
-                const CustomDate &endDate, const Status &status);
+//    void create(const std::string &house, const std::string &name, const CustomDate &startDate,
+//                const CustomDate &endDate, const Status &status);
 
     void writeFile();
 
