@@ -43,7 +43,7 @@ string Request::to_string() {
 
 ostream &operator<<(ostream &os, Request &request) {
     cout << "RequestID: " << request.id << endl;
-    cout << "Username: " << request.user << endl;
+    cout << request.user << endl;
     cout << "HouseID: " << request.house.getId() << endl;
     cout << "Status: " << request.enumToString(request.status) << endl;
     cout << "Start date: " << request.startDate;
