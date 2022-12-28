@@ -110,6 +110,7 @@ bool UserController::signup() {
     try {
         while (check) {
             cout << "PLease input username: ";
+            cin.ignore();
             getline(cin, username);
             try {
                 for (char chr: username) {
@@ -202,6 +203,7 @@ bool UserController::login() {
     for (User user: this->userArray) {
         if (user.getUsername() == username && user.authenticate(password)) {
             this->currentUser = user;
+            
             return 1;
         } else if (user.getUsername() == username && !user.authenticate(password)) {
             cerr << "Wrong password";

@@ -9,9 +9,12 @@ class View {
 public:
 
     static void welcomeScreen();
-static bool inputValidate(std::string string);
+    static bool inputValidate(std::string string);
     static void validateUser();
+    static void guessFunction();
     View()=default;
+
+    static void memberFunction();
 };
 
 #endif //HOUSEEXCHANGEAPPLICATION_VIEW_H
