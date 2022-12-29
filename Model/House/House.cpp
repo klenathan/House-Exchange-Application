@@ -106,7 +106,6 @@ void House::setName(const string &name) {
     House::name = name;
 }
 
-
 void House::setAddress(const string &address) {
     House::address = address;
 }

@@ -45,9 +45,11 @@ public:
                                  const CustomDate &endDate, float requiredRating, float rating, bool status, long consumingPoint);
 
     void listNewHouse(const string &username);
+
     void unlistHouse(const string &username);
 
     House findByKey(const string &id);
+
     void updateByID();
 
     void writeHouseData();
@@ -57,8 +59,11 @@ public:
     void setHouseArray(const std::vector<House> &houseArray);
 
 
+
     /** User interactions */
     vector<House> searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate, User user);
+
+    vector<House> getUserHouseVector(string username);
 };
 
 #endif //HOUSEEXCHANGEAPPLICATION_HOUSECONTROLLER_H

@@ -5,7 +5,6 @@
 #include "HouseController.h"
 #include "../../Model/User/User.h"
 
-#include <time.h>
 
 using std::string, std::cout, std::endl, std::exception, std::remove;
 
@@ -18,11 +17,11 @@ HouseController::HouseController(string path) {
 /******************************************************************
  * Getter-Setter
  ******************************************************************/
-void HouseController::setHouseArray(const vector<House> &houseArray) {
+void HouseController::setHouseArray(const vector <House> &houseArray) {
     this->HouseArray = houseArray;
 }
 
-const vector<House> &HouseController::getHouseArray() const {
+const vector <House> &HouseController::getHouseArray() const {
     return HouseArray;
 }
 
@@ -31,15 +30,16 @@ const vector<House> &HouseController::getHouseArray() const {
  ******************************************************************/
 
 void HouseController::loadDataToArray() {
-    vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath);
+    vector <vector<string>> rawData = DataHandler::loadFile(this->dataPath);
 
-    for (vector<string> line: rawData) {
+    for (vector <string> line: rawData) {
         CustomDate startDate = CustomDate(line[6]);
         CustomDate endDate = CustomDate(line[7]);
 
         House temp_house = House(line[0], line[1], line[2],
                                  line[3], line[4], stol(line[5]),
-                                 startDate, endDate, stof(line[8]), stof(line[9]), (bool)stoi(line[10]), stol(line[11]));
+                                 startDate, endDate, stof(line[8]), stof(line[9]), (bool) stoi(line[10]),
+                                 stol(line[11]));
         this->HouseArray.push_back(temp_house);
     }
 }
@@ -60,7 +60,20 @@ House HouseController::getUserHouse(string username) {
     throw NotfoundErr(username + " have no house");
 }
 
-
+/**
+ * Get the House vector of the input user's username
+ * @param string username
+ * @return House house object of result
+ * @Err: Throw not found error in the case the user does not list any house (Non existed)
+ */
+vector <House> HouseController::getUserHouseVector(string username) {
+    for (House house: this->HouseArray) {
+        if (house.getOwnerUsername() == username) {
+            return this->HouseArray;
+        }
+    }
+    throw NotfoundErr(username + " have no house");
+}
 
 /**
  * Prompt house data from current dataState to the console
@@ -70,7 +83,7 @@ void HouseController::showData() {
     houseData(this->HouseArray);
 }
 
-void HouseController::houseData(vector<House> houses) {
+void HouseController::houseData(vector <House> houses) {
     for (House house: houses) {
         cout << "-------- ID: " << house.getId() << " --------" << endl;
         house.showInfo();
@@ -88,7 +101,7 @@ void HouseController::create(const House &newHouse) {
 }
 
 void HouseController::unlistHouse(const string &username) {
-    for (int i = 0; i< this->HouseArray.size(); i++) {
+    for (int i = 0; i < this->HouseArray.size(); i++) {
         if (this->HouseArray[i].getOwnerUsername() == username) {
             this->HouseArray.erase(this->HouseArray.begin() + i);
             this->writeHouseData();
@@ -114,8 +127,10 @@ void HouseController::writeHouseData() {
  * */
 void HouseController::create(const std::string &name, const std::string &address, const std::string &desc,
                              const std::string &ownerUsername, long price, const CustomDate &startDate,
-                             const CustomDate &endDate, float requiredRating, float rating, bool status, long consumingPoint) {
-    House newHouse = House(name, address, desc, ownerUsername, price, startDate, endDate, requiredRating, rating, consumingPoint);
+                             const CustomDate &endDate, float requiredRating, float rating, bool status,
+                             long consumingPoint) {
+    House newHouse = House(name, address, desc, ownerUsername, price, startDate, endDate, requiredRating, rating,
+                           consumingPoint);
     this->HouseArray.push_back(newHouse);
 }
 
@@ -130,7 +145,7 @@ House HouseController::findByKey(const std::string &id) {
             return house;
         }
     }
-    throw NotfoundErr("HOUSE_"  + id + "_NOT_FOUND");
+    throw NotfoundErr("HOUSE_" + id + "_NOT_FOUND");
 }
 
 void HouseController::updateByID() {
@@ -237,19 +252,22 @@ void HouseController::listNewHouse(const string &username) {
 }
 
 
-vector<House> HouseController::searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate, User user)  {
+vector <House>
+HouseController::searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate, User user) {
     long userCreditPoint = user.getCreditPoints();
     float userRatingScore = user.getRating();
 
-    vector<House> result;
+    vector <House> result;
     for (House house: this->HouseArray) {
         bool suitableStartDate = (startDate >= house.getStartDate());
         bool suitableEndDate = (endDate <= house.getEndDate());
 
-        if (house.getAddress() == city && suitableStartDate && suitableEndDate && userCreditPoint >= house.getConsumingPoint() && userRatingScore >= house.getRequiredRating()) {
+        if (house.getAddress() == city && suitableStartDate && suitableEndDate &&
+            userCreditPoint >= house.getConsumingPoint() && userRatingScore >= house.getRequiredRating()) {
             result.push_back(house);
         }
     }
     houseData(result);
     return result;
 }
+

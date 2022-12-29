@@ -71,6 +71,14 @@ void UserController::showData() {
     }
 };
 
+void UserController::showMyData(const string &username) {
+    for (User user: this->userArray) {
+        if (user.getUsername() == username) {
+            cout << user;
+        }
+    }
+};
+
 /**
  *
  * */
@@ -213,6 +221,8 @@ bool UserController::login() {
     cerr << "This account does not exits! PLease sign up! \n";
     return 0;
 }
+
+
 
 
 /**

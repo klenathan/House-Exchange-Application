@@ -33,7 +33,6 @@ void RequestController::loadDataToArray() {
 //        cout << temp_request.to_string() << " " << temp_request.getHouse().getOwnerUsername() << endl;
         this->requestArr.push_back(temp_request);
     }
-
 }
 
 void RequestController::create(const Request &newReq) {
@@ -77,7 +76,6 @@ void RequestController::acceptRequest(const User user, const string &id, HouseCo
 
     this->writeFile();
 }
-
 
 void RequestController::request(const User user, const House house) {
     string startDate, endDate;
@@ -128,4 +126,32 @@ void RequestController::request(const User user, const House house) {
 
     }
 }
+
+/**
+ * Get current house ID that the user is occupying or have benn occupied
+ * @param user
+ * @return house id
+ */
+string RequestController::getHouseForRating(const User user){
+    for (Request request: this->requestArr) {
+        if (user.getUsername() == request.getOccupyName() &&
+            (       (const char *) request.getStatus() == "accepted"
+                ||  (const char *) request.getStatus() == "finished")) {
+            return request.getHouse().getId();
+        }
+    }
+}
+
+/**
+ * Get username of the occupier
+ * @param House house
+ * @return occupier username
+ */
+string RequestController::getOccupierUsername(const House house) {
+    for (Request request: this->requestArr) {
+        if (house.getId() == request.getHouse().getId()) {
+            return request.getUser().getUsername();
+        }
+    }
+};
 

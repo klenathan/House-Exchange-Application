@@ -82,6 +82,9 @@ void Request::setId(const string &id) {
     Request::id = id;
 }
 
+const string &Request::getOccupyName() const {
+    return user.getUsername();
+}
 
 Status Request::getStatus() const {
     return status;
@@ -110,6 +113,7 @@ void Request::setEndDate(const CustomDate &endDate) {
 const User &Request::getUser() const {
     return user;
 }
+
 
 void Request::setUser(const User &user) {
     Request::user = user;

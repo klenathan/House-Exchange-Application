@@ -34,7 +34,8 @@ public:
             Status status, const CustomDate &startDate,
             const CustomDate &endDate);
 
-    Request(UserController UC, HouseController HC, const string &user, const string &house, Status status, const CustomDate &startDate,
+    Request(UserController UC, HouseController HC, const string &user, const string &house, Status status,
+            const CustomDate &startDate,
             const CustomDate &endDate);
 
     /**
@@ -79,6 +80,7 @@ public:
 
     void setId(const string &id);
 
+    const string &getOccupyName() const;
 };
 
 #endif //HOUSEEXCHANGEAPPLICATION_REQUEST_H

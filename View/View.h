@@ -7,14 +7,25 @@
 
 class View {
 public:
+    View() = default;
 
     static void welcomeScreen();
-    static bool inputValidate(std::string string);
+
     static void validateUser();
+
     static void guessFunction();
-    View()=default;
 
     static void memberFunction();
+
+    static bool isNumber(const std::string &s);
+
+    static std::string *dateInput(std::string *arr);
+
+    static std::string cityInput();
+
+    static std::string requestIdInput();
+
+    static void adminFunction();
 };
 
 #endif //HOUSEEXCHANGEAPPLICATION_VIEW_H

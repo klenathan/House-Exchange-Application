@@ -19,6 +19,7 @@ private:
     string dataPath;
 public:
     UserController() {}
+
     /**
      * Controller
      */
@@ -46,7 +47,10 @@ public:
     void writeFile();
 
     User findByKey(string username);
-    void updateCreditPoint (User houseOwner, User occupier, long cosumingPoint);
+
+    void updateCreditPoint(User houseOwner, User occupier, long cosumingPoint);
+
+    void showMyData(const string &username);
 
     // Authenticate method
     bool signup();

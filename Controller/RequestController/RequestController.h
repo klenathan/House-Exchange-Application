@@ -52,6 +52,10 @@ public:
     void acceptRequest(User user, const string &id, HouseController houseController);
 
     void request(const User user, const House house);
+
+    string getHouseForRating(const User user);
+
+    string getOccupierUsername(const House house);
 };
 
 #endif //HOUSEEXCHANGEAPPLICATION_REQUESTCONTROLLER_H
