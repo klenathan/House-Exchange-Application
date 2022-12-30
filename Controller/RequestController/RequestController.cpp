@@ -27,10 +27,7 @@ void RequestController::loadDataToArray() {
         Status status = (*new Request).stoE(line[3]);
         CustomDate startDate = CustomDate(line[4]);
         CustomDate endDate = CustomDate(line[5]);
-//        User tempUser = this->UC.findByKey(line[1]);
-//        House tempHouse = this.HC.findByKey(line[2]);
         Request temp_request = Request(this->UC, this->HC, line[0], line[1], line[2], status, startDate, endDate);
-//        cout << temp_request.to_string() << " " << temp_request.getHouse().getOwnerUsername() << endl;
         this->requestArr.push_back(temp_request);
     }
 }
