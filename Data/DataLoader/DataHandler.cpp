@@ -14,7 +14,6 @@ vector<vector<string>> DataHandler::loadFile(std::string src) {
     int counter = 0;
     std::string myText;
     std::ifstream MyReadFile(src);
-    cout << "File status: " << src << ": "<< MyReadFile.good() << endl;
     vector<vector<string>> result;
     while (getline(MyReadFile, myText)) {
         std::string cell;

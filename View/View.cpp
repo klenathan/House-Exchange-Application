@@ -4,16 +4,23 @@
 
 #include <iostream>
 #include "View.h"
-#include "../Controller/UserController/UserController.h"
-#include "../Controller/HouseController/HouseController.h"
-#include "../Controller/RequestController/RequestController.h"
-#include "../Controller/RatingController/RatingController.h"
+
 #include <string>
+#include <vector>
 
 using std::cout;
 using std::cin;
 using std::endl;
-using namespace std;
+using std::vector;
+using std::cerr;
+
+View::View(string path) {
+    this->dataPath = path;
+
+    this->HC = HouseController(path);
+    this->UC = UserController(path);
+    this->RC = RequestController(path, HC, UC);
+    this->RaC = RatingController(path);}
 
 
 void View::welcomeScreen() {
@@ -53,7 +60,7 @@ bool View::isNumber(const string &s) {
 void View::validateUser() {
     bool check = true;
     std::string input;
-    UserController UC;
+
     while (check) {
         try {
             typeAgain:
@@ -69,12 +76,23 @@ void View::validateUser() {
                     case 2:
                         // Code for member
                         if (UC.login()) {
-                            memberFunction();
+                            User user = UC.getCurrentUser();
+                            memberFunction(user);
                             break;
+                        } else {
+                            welcomeScreen();
+                            validateUser();
                         }
                     case 3:
                         // Code for admin
-                        adminFunction();
+                        if (UC.adminLogin()) {
+                            User admin = UC.getCurrentUser();
+                            adminFunction(admin);
+                            break;
+                        }
+
+                        welcomeScreen();
+                        validateUser();
                         break;
                     case 4:
                         // Exit
@@ -101,12 +119,11 @@ void View::validateUser() {
 void View::guessFunction() {
     std::cout << "1. Register \n"
                  "2. View All Houses Details\n"
-                 "3. Exit"
+                 "3. Return to main menu\n"
+                 "4. Exit"
               << std::endl;
     bool check = true;
     std::string input;
-    UserController UC;
-    HouseController HC;
     while (check) {
         try {
             typeAgain:
@@ -124,12 +141,15 @@ void View::guessFunction() {
                         HC.showData();
                         guessFunction();
                     case 3:
+                        // Return to main menu
+                        welcomeScreen();
+                        validateUser();
+                    case 4:
                         //Exit
                         break;
                     default:
                         cout << "Invalid input! Please try again.\n";
                         goto typeAgain;
-
                 }
                 check = false;
             } else {
@@ -145,27 +165,20 @@ void View::guessFunction() {
     }
 }
 
-void View::memberFunction() {
+void View::memberFunction(User user) {
     std::cout << "Member Menu\n"
                  "1.  View My Information\n"
                  "2.  List House\n"
                  "3.  Unlist House\n"
                  "4.  Search For Suitable House\n"
-                 "5.  Request To Occupy\n"
-                 "6.  View All Requests To My House\n"
-                 "7.  Request Handling\n"
-                 "8.  Rate Houses\n"
-                 "9.  Rate Occupiers\n"
-                 "10. Exit"
+                 "5.  View All Requests To My House\n"
+                 "6.  Rate Houses\n"
+                 "7.  Rate Occupiers\n"
+                 "8. Exit"
               << std::endl;
     bool check = true;
     std::string input;
-    UserController *UC;
-    HouseController *HC;
-    User *user;
-    RequestController *RequestC;
-    RatingController *RatingC;
-    vector<House> suitableHouses;
+
     while (check) {
         try {
             typeAgain:
@@ -176,60 +189,54 @@ void View::memberFunction() {
                 switch (num) {
                     case 1:
                         //View My Information
-                        UC->showMyData(user->getUsername());
-                        memberFunction();
+                        UC.showMyData(user.getUsername());
+                        memberFunction(user);
                     case 2:
                         //List House
-                        HC->listNewHouse(user->getUsername());
-                        memberFunction();
+                        HC.listNewHouse(user.getUsername());
+                        memberFunction(user);
                     case 3:
                         //Unlist House
-                        HC->unlistHouse(user->getUsername());
-                        memberFunction();
+                        HC.unlistHouse(user.getUsername());
+                        memberFunction(user);
                     case 4: {
                         //Search For Suitable House
                         string date[2];
                         View::dateInput(date);
-                        suitableHouses = HC->searchForSuitableHouses(cityInput(), date[0], date[1], (User &&) user);
+                        this->HouseArray = HC.searchForSuitableHouses(cityInput(), date[0], date[1], user);
                         cout << "Your suitable houses is:\n";
-                        HC->houseData(suitableHouses);
-                        memberFunction();
-                    }
-                    case 5: {
-                        //Request To Occupy
-                        if (!suitableHouses.empty()) {
-                            RequestC->request((User &&) user, (House &&) suitableHouses);
-                            break;
+                        HC.houseData(this->HouseArray);
+                        if (!this->HouseArray.empty()) {
+                            RC.request(user, requestToOccupy());
                         }
-                        cout << "Find your suitable house first";
-                        memberFunction();
+
+                        memberFunction(user);
                     }
-                    case 6:
+                    case 5:
                         //View All Requests To My House
-                        RequestC->viewRequest((User &&) user);
-                        memberFunction();
-                    case 7:
-                        //Request Handling
-                        RequestC->acceptRequest((User &&) user, requestIdInput(), (HouseController &&) HC);
-                        memberFunction();
-                    case 8:
+                        RC.viewRequest(user);
+
+                        if (RC.requestExist(user)) {
+                            RC.acceptRequest(user, requestIdInput(RC), HC);
+                        }
+                        memberFunction(user);
+                    case 6:
                         //Rate Houses
-                        RatingC->rating(HC->findByKey(RequestC->getHouseForRating((User &&) user)));
-                        memberFunction();
-                    case 9: {
+                        RaC.rating(HC.findByKey(RC.getHouseForRating((User &&) user)));
+                        memberFunction(user);
+                    case 7: {
                         //Rate Occupiers
-                        RatingC->rating(
-                                UC->findByKey(RequestC->getOccupierUsername(HC->getUserHouse(user->getUsername()))),
-                                HC->getUserHouseVector(user->getUsername()));
-                        memberFunction();
+                        RaC.rating(
+                                UC.findByKey(RC.getOccupierUsername(HC.getUserHouse(user.getUsername()))),
+                                HC.getUserHouseVector(user.getUsername()));
+                        memberFunction(user);
                     }
-                    case 10:
+                    case 8:
                         //Exit
                         break;
                     default:
                         cout << "Invalid input! Please try again.\n";
                         goto typeAgain;
-
                 }
                 check = false;
             } else {
@@ -245,15 +252,13 @@ void View::memberFunction() {
     }
 }
 
-void View::adminFunction() {
+void View::adminFunction(User admin) {
     std::cout << "1. Show all user data \n"
                  "2. View All Houses Details\n"
                  "3. Exit"
               << std::endl;
     bool check = true;
     std::string input;
-    UserController UC;
-    HouseController HC;
     while (check) {
         try {
             typeAgain:
@@ -263,13 +268,13 @@ void View::adminFunction() {
                 int num = stoi(input);
                 switch (num) {
                     case 1:
-                        //Register
+                        //Show all user data
                         UC.showData();
-                        adminFunction();
+                        adminFunction(admin);
                     case 2:
                         //View All Houses Details
                         HC.showData();
-                        adminFunction();
+                        adminFunction(admin);
                     case 3:
                         //Exit
                         break;
@@ -296,11 +301,9 @@ void View::adminFunction() {
  * @return: Array of startDate and endDate
  */
 string *View::dateInput(string arr[]) {
-    string startDate;
-    string endDate;
+    string startDate, endDate;
     while (true) {
         try {
-            typeAgain:
             cout << "Start date (dd/mm/yyyy): ";
             std::getline(std::cin, startDate);
             CustomDate start;
@@ -336,7 +339,6 @@ string *View::dateInput(string arr[]) {
 
             } else {
                 cout << "Invalid input! Please try again.\n";
-                goto typeAgain;
             }
         }
         catch (std::exception &e) {
@@ -355,14 +357,33 @@ string View::cityInput() {
     string city;
     while (true) {
         try {
-            typeAgain:
             cout << "Enter your city choice (Hanoi/Saigon/Hue):";
             getline(cin, city);
             if (city == "Hanoi" || city == "Saigon" || city == "Hue") {
                 return city;
             } else {
                 cout << "Invalid input! Please try again.\n";
-                goto typeAgain;
+            }
+        }
+        catch (std::exception &e) {
+            cout << "Function stopped due to err: " << e.what() << endl;
+            std::cin.ignore();
+        }
+    }
+}
+
+House View::requestToOccupy() {
+    string id;
+    while (true) {
+        try {
+            cout << "Enter the house ID you want to occupy:";
+            getline(cin, id);
+            for (House h:this->HouseArray){
+                if (id == h.getId()) {
+                    return h;
+                } else {
+                    cout << "Can't find this ID.\n";
+                }
             }
         }
         catch (std::exception &e) {
@@ -376,19 +397,19 @@ string View::cityInput() {
  * Get and validate request ID input from user
  * @return id
  */
-string View::requestIdInput() {
+string View::requestIdInput(RequestController rc) {
     string id;
-    Request R;
-    while (true) {
+    bool flag = true;
+    while (flag) {
         try {
-            typeAgain:
             cout << "Enter the request ID that you want to accept:";
             getline(cin, id);
-            if (id == R.getId()) {
-                return id;
-            } else {
-                cout << "Can't find this ID.\n";
-                goto typeAgain;
+
+            for (Request r: rc.getRequestArr()) {
+                if (id == r.getId()) {
+                    flag = false;
+                    return id;
+                }
             }
         }
         catch (std::exception &e) {

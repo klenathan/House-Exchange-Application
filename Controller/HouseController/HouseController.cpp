@@ -247,7 +247,7 @@ void HouseController::listNewHouse(const string &username) {
 
     } catch (exception const &e) {
         cout << "Function stopped due to err: " << "\033[31m" << e.what() << "\033[0m" << endl;
-
+        std::cin.ignore();
     }
 }
 
@@ -267,7 +267,6 @@ HouseController::searchForSuitableHouses(string city, CustomDate startDate, Cust
             result.push_back(house);
         }
     }
-    houseData(result);
     return result;
 }
 

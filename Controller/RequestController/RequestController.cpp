@@ -20,6 +20,10 @@ void RequestController::setRequestArray(const vector<Request> &requestArray) {
     this->requestArr = requestArr;
 }
 
+const vector<Request> &RequestController::getRequestArr() const {
+    return requestArr;
+}
+
 void RequestController::loadDataToArray() {
     vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath);
 
@@ -57,6 +61,15 @@ void RequestController::viewRequest(const User user) {
         }
     }
 };
+
+bool RequestController::requestExist(const User user) {
+    for (Request request: this->requestArr) {
+        if (user.getUsername() == request.getHouse().getOwnerUsername()) {
+            return true;
+        }
+    }
+    return false;
+}
 
 void RequestController::acceptRequest(const User user, const string &id, HouseController houseController) {
     for (int i = 0; i < requestArr.size(); i++) {
