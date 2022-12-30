@@ -84,10 +84,7 @@ void RatingController::userRatingWriteFile() {
 
 }
 
-/**
- * Rating method for users rate house which they rented
- * @param house which is rated by user
- */
+
 void RatingController::rating(const House &house) {
     string tempRatingScore;
     float ratingScore;
@@ -98,7 +95,6 @@ void RatingController::rating(const House &house) {
     bool check = true;
 
     // Display message for feedback
-    // TODO Khang please fix for about the words
     try {
         cout << "Welcome to feedback site\nNow you have permission for feedback about Houses\n";
 
@@ -156,14 +152,14 @@ void RatingController::rating(User user, const vector<House> &houseArray) {
     try {
         //Assign currentUser house ID to houseID
         for (House house: houseArray) {
-            if (this->currentUser.getUsername() == house.getOwner()) {
+            if (this->currentUser.getUsername() == house.getOwnerUsername()) {
                 homeID = house.getId();
                 break;
             }
         }
 
         //Rating Process
-        cout << "Welcome to feedback site\nNow you have permission for feedback about Houses\n";
+        cout << "Welcome to feedback site\nNow you have permission for feedback about occupier\n";
 
         while (check) {
             try {
@@ -202,8 +198,6 @@ void RatingController::rating(User user, const vector<House> &houseArray) {
     } catch (std::exception &e) {
         cout << "Function stopped due to err: " << "\033[31m" << e.what() << "\033[0m" << endl;
     }
-
-
 }
 
 bool compareUser(UserRating user1, UserRating user2) {

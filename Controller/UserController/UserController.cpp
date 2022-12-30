@@ -71,6 +71,37 @@ void UserController::showData() {
     }
 };
 
+void UserController::showMyData(const string &username) {
+    for (User user: this->userArray) {
+        if (user.getUsername() == username) {
+            cout << user;
+        }
+    }
+};
+
+/**
+ *
+ * */
+User UserController::findByKey(string username) {
+    for (User user: this->userArray) {
+        if (user.getUsername() == username) {
+            return user;
+        }
+    }
+    throw NotfoundErr("USER_NOT_FOUND");
+}
+
+void UserController::updateCreditPoint (User houseOwner, User occupier, long consumingPoint) {
+    for (int i = 0; i < this->userArray.size(); i++) {
+        if (userArray[i].getUsername() == houseOwner.getUsername()) {
+            userArray[i].setCreditPoints(userArray[i].getCreditPoints() + consumingPoint);
+        } else if (userArray[i].getUsername() == occupier.getUsername()) {
+            userArray[i].setCreditPoints(userArray[i].getCreditPoints() - consumingPoint);
+        }
+    }
+    this->writeFile();
+}
+
 /**
  * Sign up method
  * @return bool
@@ -87,6 +118,7 @@ bool UserController::signup() {
     try {
         while (check) {
             cout << "PLease input username: ";
+            cin.ignore();
             getline(cin, username);
             try {
                 for (char chr: username) {
@@ -179,6 +211,7 @@ bool UserController::login() {
     for (User user: this->userArray) {
         if (user.getUsername() == username && user.authenticate(password)) {
             this->currentUser = user;
+            
             return 1;
         } else if (user.getUsername() == username && !user.authenticate(password)) {
             cerr << "Wrong password";
@@ -188,6 +221,8 @@ bool UserController::login() {
     cerr << "This account does not exits! PLease sign up! \n";
     return 0;
 }
+
+
 
 
 /**

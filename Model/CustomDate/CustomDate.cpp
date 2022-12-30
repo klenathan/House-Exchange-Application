@@ -5,8 +5,6 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include <time.h>
-#include <ctime>
 
 #include <exception>
 #include <ctime>
@@ -49,28 +47,6 @@ CustomDate::CustomDate(int day, int month, int year) {
         if (year < 2022) {
             throw ConversionErr("INVALID_YEAR");
         }
-
-
-        // Current time
-        time_t currentTime = std::time(0);
-        char* dt = ctime(&currentTime);
-
-        // Input time
-        time_t rawTime;
-        struct tm * inputTime;
-
-        time ( &rawTime );
-        inputTime = localtime ( &rawTime );
-        inputTime->tm_year = year - 1900;
-        inputTime->tm_mon = month - 1;
-        inputTime->tm_mday = day;
-
-        std::time_t time = mktime(inputTime);
-
-        char* dt1 = ctime(&time);
-
-        double diff =  difftime (time, currentTime);
-        if (diff < 0) throw ConversionErr("INVALID_DATE");
 
         this->day = day;
         this->month = month;
@@ -127,37 +103,53 @@ CustomDate::CustomDate(string inputString) {
             throw ConversionErr("INVALID_YEAR");
         }
 
-
-        // Current time
-        time_t currentTime = std::time(0);
-        char* dt = ctime(&currentTime);
-
-        // Input time
-        time_t rawTime;
-        struct tm * inputTime;
-
-        time ( &rawTime );
-        inputTime = localtime ( &rawTime );
-        inputTime->tm_year = year - 1900;
-        inputTime->tm_mon = month - 1;
-        inputTime->tm_mday = day;
-
-        std::time_t time = mktime(inputTime);
-
-//        char* dt1 = ctime(&time);
-
-//        double diff =  difftime (time, currentTime);
-//        if (diff < 0) throw DateErr("Invalid Date");
-
         this->day = day;
         this->month = month;
         this->year = year;
     } catch (std::exception const &e) {
-//        cout <<
         throw DateErr(e.what());
     }
 };
 
+bool CustomDate::validDate(string dateInp) {
+    stringstream ss(dateInp);
+    string text;
+    vector<int> tempArr;
+
+    while (getline(ss, text, '/')) {
+        try { tempArr.push_back(stoi(text)); }
+        catch (std::exception &e) {
+            cout << e.what() << endl;
+            throw e;
+        }
+    }
+
+    int day = tempArr.at(0);
+    int month = tempArr.at(1);
+    int year = tempArr.at(2);
+
+    // Current time
+    time_t currentTime = std::time(0);
+    char* dt = ctime(&currentTime);
+
+    // Input time
+    time_t rawTime;
+    struct tm * inputTime;
+
+    time ( &rawTime );
+    inputTime = localtime ( &rawTime );
+    inputTime->tm_year = year - 1900;
+    inputTime->tm_mon = month - 1;
+    inputTime->tm_mday = day;
+
+    std::time_t time = mktime(inputTime);
+
+    char* dt1 = ctime(&time);
+
+    double diff =  difftime (time, currentTime);
+    if (diff < 0) return 0;
+    return 1;
+}
 
 /**
  * @return a string format of the date object (dd/mm/yyyy)
@@ -245,7 +237,7 @@ bool operator>= (const CustomDate& d1, const CustomDate& d2) {
             //// d1.month == d2.month
             if (d1.day > d2.day) return true;
             else if (d1.day < d2.day) return false;
-            else return false;
+            else return true;
         }
     }
 };

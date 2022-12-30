@@ -8,7 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
+#include <vector>
 using std::string, std::vector, std::stringstream;
 
 class DataHandler {

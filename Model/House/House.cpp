@@ -16,26 +16,30 @@ void House::showInfo() {
     cout << "Owner: " << this->ownerUsername << endl;
     cout << "Date range: " << this->startDate.getDate() << " - " << this->endDate.getDate() << endl;
     cout << "Rating: " << this->rating << endl;
-    std::cout << "Status: " << this->status << std::endl;
+    cout << "Status: " << this->status << endl;
+    cout << "Consuming point/day: " << this->consumingPoint << endl;
 }
 
 /**
  * Full data constructor
  * */
 House::House(const string &id, const string &name, const string &address, const string &desc,
-             const string &ownerUsername, long price,
-             const CustomDate &startDate, const CustomDate &endDate, float requiredRating, float rating, bool status)
-        : id(id), name(name), address(address), desc(desc), ownerUsername(ownerUsername), price(price),
-          startDate(startDate),
-          endDate(endDate), requiredRating(requiredRating), rating(rating), status(status) {}
-
+             const string &ownerUsername, long price, const CustomDate &startDate,
+             const CustomDate &endDate, float requiredRating, float rating, bool status, long consumingPoint) : id(id), name(name),
+                                                                                           address(address), desc(desc),
+                                                                                           ownerUsername(ownerUsername),
+                                                                                           price(price), startDate(startDate), endDate(endDate), requiredRating(requiredRating), rating(rating),
+                                                                                           status(status), consumingPoint(consumingPoint) {}
 /**
  * Constructor without status
  * */
-House::House(const string &name, const string &address, const string &desc, const string &ownerUsername, long price,
-             const CustomDate &startDate, const CustomDate &endDate, float requiredRating, float rating) :
-        name(name), address(address), desc(desc), ownerUsername(ownerUsername), price(price),
-        startDate(startDate), endDate(endDate), requiredRating(requiredRating), rating(rating) {
+House::House(const string &name, const string &address, const string &desc,
+             const string &ownerUsername, long price, const CustomDate &startDate,
+             const CustomDate &endDate, float requiredRating, float rating, long consumingPoint) : name(name),
+                                                                                                address(address), desc(desc),
+                                                                                                ownerUsername(ownerUsername),
+                                                                                                price(price), startDate(startDate), endDate(endDate), requiredRating(requiredRating), rating(rating),
+                                                                                                consumingPoint(consumingPoint) {
     this->id = std::to_string(this->randomID());
 }
 
@@ -50,7 +54,8 @@ string House::to_string() {
            this->desc + "," +
            this->ownerUsername + "," + std::to_string(this->price) + "," +
            this->startDate.getDate() + "," + this->endDate.getDate() + "," +
-           std::to_string(this->rating) + "," + tempStatus;
+           std::to_string(this->requiredRating) + "," +
+           std::to_string(this->rating) + "," + tempStatus + "," + std::to_string(this->consumingPoint);
 }
 
 const string &House::getId() const {
@@ -79,4 +84,74 @@ float House::getRating() const {
 
 void House::setRating(float rating) {
     House::rating = rating;
-};
+}
+
+long House::getConsumingPoint() const {
+    return consumingPoint;
+}
+
+void House::setConsumingPoint(long consumingPoint) {
+    House::consumingPoint = consumingPoint;
+}
+
+void House::setId(const string &id) {
+    House::id = id;
+}
+
+const string &House::getName() const {
+    return name;
+}
+
+void House::setName(const string &name) {
+    House::name = name;
+}
+
+void House::setAddress(const string &address) {
+    House::address = address;
+}
+
+const string &House::getDesc() const {
+    return desc;
+}
+
+void House::setDesc(const string &desc) {
+    House::desc = desc;
+}
+
+const string &House::getOwnerUsername() const {
+    return ownerUsername;
+}
+
+void House::setOwnerUsername(const string &ownerUsername) {
+    House::ownerUsername = ownerUsername;
+}
+
+long House::getPrice() const {
+    return price;
+}
+
+void House::setPrice(long price) {
+    House::price = price;
+}
+
+void House::setStartDate(const CustomDate &startDate) {
+    House::startDate = startDate;
+}
+
+void House::setEndDate(const CustomDate &endDate) {
+    House::endDate = endDate;
+}
+
+void House::setRequiredRating(float requiredRating) {
+    House::requiredRating = requiredRating;
+}
+
+bool House::isStatus() const {
+    return status;
+}
+
+void House::setStatus(bool status) {
+    House::status = status;
+}
+
+
