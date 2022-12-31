@@ -96,7 +96,7 @@ void View::validateUser() {
                         break;
                     case 4:
                         // Exit
-                        break;
+                        exit(1);
                     default:
                         // Code
                         cout << "Invalid input! Please try again.\n";
@@ -146,7 +146,7 @@ void View::guessFunction() {
                         validateUser();
                     case 4:
                         //Exit
-                        break;
+                        exit(1);
                     default:
                         cout << "Invalid input! Please try again.\n";
                         goto typeAgain;
@@ -184,6 +184,7 @@ void View::memberFunction(User user) {
             typeAgain:
             std::cout << "Enter your choice:";
             std::cin >> input;
+            std::cin.ignore();
             if (View::isNumber(input)) {
                 int num = stoi(input);
                 switch (num) {
@@ -193,7 +194,11 @@ void View::memberFunction(User user) {
                         memberFunction(user);
                     case 2:
                         //List House
-                        HC.listNewHouse(user.getUsername());
+                        if(!HC.houseExist(user.getUsername())) {
+                            HC.listNewHouse(user.getUsername());
+                        } else {
+                            cout << "A user can only list 1 house!";
+                        }
                         memberFunction(user);
                     case 3:
                         //Unlist House
@@ -222,7 +227,7 @@ void View::memberFunction(User user) {
                         memberFunction(user);
                     case 6:
                         //Rate Houses
-                        RaC.rating(HC.findByKey(RC.getHouseForRating((User &&) user)));
+                        RaC.rating(HC.findByKey(RC.getHouseForRating(user)));
                         memberFunction(user);
                     case 7: {
                         //Rate Occupiers
@@ -233,7 +238,7 @@ void View::memberFunction(User user) {
                     }
                     case 8:
                         //Exit
-                        break;
+                        exit(1);
                     default:
                         cout << "Invalid input! Please try again.\n";
                         goto typeAgain;
@@ -264,6 +269,7 @@ void View::adminFunction(User admin) {
             typeAgain:
             std::cout << "Enter your choice:";
             std::cin >> input;
+            std::cin.ignore();
             if (View::isNumber(input)) {
                 int num = stoi(input);
                 switch (num) {
@@ -277,7 +283,7 @@ void View::adminFunction(User admin) {
                         adminFunction(admin);
                     case 3:
                         //Exit
-                        break;
+                        exit(1);
                     default:
                         cout << "Invalid input! Please try again.\n";
                         goto typeAgain;
@@ -376,14 +382,17 @@ House View::requestToOccupy() {
     string id;
     while (true) {
         try {
+            bool found = false;
             cout << "Enter the house ID you want to occupy:";
             getline(cin, id);
             for (House h:this->HouseArray){
                 if (id == h.getId()) {
+                    found = true;
                     return h;
-                } else {
-                    cout << "Can't find this ID.\n";
                 }
+            }
+            if (found == false) {
+                cout << "The id is not exist!\n";
             }
         }
         catch (std::exception &e) {

@@ -60,6 +60,15 @@ House HouseController::getUserHouse(string username) {
     throw NotfoundErr(username + " have no house");
 }
 
+bool HouseController::houseExist(string username) {
+    for (House house: this->HouseArray) {
+        if(house.getOwnerUsername() == username) {
+            return true;
+        }
+    }
+    return false;
+}
+
 /**
  * Get the House vector of the input user's username
  * @param string username
@@ -145,11 +154,7 @@ House HouseController::findByKey(const std::string &id) {
             return house;
         }
     }
-    throw NotfoundErr("HOUSE_" + id + "_NOT_FOUND");
-}
-
-void HouseController::updateByID() {
-    cout << "Not yet implemented";
+    throw NotfoundErr("HOUSE_" + id + "_NOT_FOUND\n");
 }
 
 /**
@@ -197,7 +202,7 @@ void HouseController::listNewHouse(const string &username) {
         try {
             minRate = std::stof(tempMinRate);
             if (-10 <= minRate && minRate <= 10) minRate = minRate;
-            else throw NotfoundErr("Ratings can vary from -10 to +10");
+            else throw NotfoundErr("Ratings can vary from -10 to +10\n");
         } catch (...) {
             throw ConversionErr("MIN_RATE_CONVERSION_ERROR");
         }
@@ -242,7 +247,7 @@ void HouseController::listNewHouse(const string &username) {
             cout << "-------- NEW HOUSE ADDED --------" << endl;
             tempHouse->showInfo();
         } else {
-            cout << "The end date must be greater than the start date!";
+            cout << "The end date must be greater than the start date!\n";
         }
 
     } catch (exception const &e) {

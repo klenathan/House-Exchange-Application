@@ -58,7 +58,7 @@ public:
 
     void setHouseArray(const std::vector<House> &houseArray);
 
-
+    bool houseExist(string username);
 
     /** User interactions */
     vector<House> searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate, User user);
