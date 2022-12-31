@@ -4,6 +4,7 @@
 
 #ifndef HOUSEEXCHANGEAPPLICATION_VIEW_H
 #define HOUSEEXCHANGEAPPLICATION_VIEW_H
+
 #include <iostream>
 #include "../Model/User/User.h"
 #include "../Model/CustomError/Errors.h"
@@ -12,6 +13,7 @@
 #include "../Controller/UserController/UserController.h"
 #include "../Controller/RequestController/RequestController.h"
 #include "../Controller/RatingController/RatingController.h"
+
 using std::string;
 
 class View {
@@ -26,6 +28,7 @@ private:
 
 public:
     View() = default;
+
     View(string path);
 
     void welcomeScreen();
@@ -36,15 +39,20 @@ public:
 
     void memberFunction(User user);
 
-    bool isNumber(const std::string &s);
+    bool isNumber(const string &s);
 
     House requestToOccupy();
 
-    std::string *dateInput(std::string *arr);
+    string inputHouseRating(vector<Request> pendingArray);
+    string inputUserRating(vector<Request> pendingArray);
 
-    std::string cityInput();
+    string takeCurrentHomeID();
 
-    std::string requestIdInput(RequestController rc);
+    string *dateInput(std::string *arr);
+
+    string cityInput();
+
+    string requestIdInput(RequestController rc);
 
     void adminFunction(User admin);
 

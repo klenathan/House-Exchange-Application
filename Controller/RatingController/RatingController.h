@@ -57,7 +57,7 @@ public:
      */
     void rating(const House &house); // Rating for house
 
-    void rating(User user, const vector<House> &houseArray); // Rating for user
+    void rating(User user); // Rating for user
 
     /**
      * Calculate average rating

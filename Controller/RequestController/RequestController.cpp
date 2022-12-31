@@ -142,15 +142,14 @@ void RequestController::request(const User user, const House house) {
  * @param user
  * @return house id
  */
-string RequestController::getHouseForRating(const User user){
-    for (Request request: this->requestArr) {
-        if (user.getUsername() == request.getOccupyName() &&
-            (       (const char *) request.getStatus() == "accepted"
-                ||  (const char *) request.getStatus() == "finished")) {
-            cout << request.getHouse().getId();
-            return request.getHouse().getId();
+vector<Request> RequestController::getHouseForRating(const User user){
+    vector<Request> pendingHouseRating;
+    for (const Request& request: this->requestArr) {
+        if (user.getUsername() == request.getOccupyName() && request.getStatus() == finished) {
+            pendingHouseRating.push_back(request);
         }
     }
+    return pendingHouseRating;
 }
 
 /**
@@ -158,11 +157,13 @@ string RequestController::getHouseForRating(const User user){
  * @param House house
  * @return occupier username
  */
-string RequestController::getOccupierUsername(const House house) {
+vector<Request> RequestController::getOccupierUsername(string homeID) {
+    vector<Request> pendingUseRating;
     for (Request request: this->requestArr) {
-        if (house.getId() == request.getHouse().getId()) {
-            return request.getUser().getUsername();
+        if (homeID == request.getHouse().getId() && request.getStatus() == finished) {
+            pendingUseRating.push_back(request);
         }
     }
+    return pendingUseRating;
 };
 

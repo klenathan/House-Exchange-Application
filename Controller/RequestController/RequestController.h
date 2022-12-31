@@ -53,9 +53,8 @@ public:
 
     void request(const User user, const House house);
 
-    string getHouseForRating(const User user);
-
-    string getOccupierUsername(const House house);
+    vector<Request> getHouseForRating(const User user);
+    vector<Request> getOccupierUsername(string homeID);
 
     const vector<Request> &getRequestArr() const;
     bool requestExist(const User user);

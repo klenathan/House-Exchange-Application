@@ -1,6 +1,4 @@
-username,houseID,ratingScore,comment
-user1,2,10,adsadsa
-user2,,1,asdasdasd
-user2,,1,asdasdasd
-user2,,10,adasdasd
-user1,2,9,adsadsa
+houseID,username,ratingScore,comment
+1,dong,3.000000,Dasdasd
+1,dong,3.000000,Dasdasd
+4974,,10.000000,asdasdas

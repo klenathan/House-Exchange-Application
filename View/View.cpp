@@ -20,7 +20,8 @@ View::View(string path) {
     this->HC = HouseController(path);
     this->UC = UserController(path);
     this->RC = RequestController(path, HC, UC);
-    this->RaC = RatingController(path);}
+    this->RaC = RatingController(path);
+}
 
 
 void View::welcomeScreen() {
@@ -178,6 +179,7 @@ void View::memberFunction(User user) {
               << std::endl;
     bool check = true;
     std::string input;
+    UC.setCurrentUser(user);
 
     while (check) {
         try {
@@ -194,7 +196,7 @@ void View::memberFunction(User user) {
                         memberFunction(user);
                     case 2:
                         //List House
-                        if(!HC.houseExist(user.getUsername())) {
+                        if (!HC.houseExist(user.getUsername())) {
                             HC.listNewHouse(user.getUsername());
                         } else {
                             cout << "A user can only list 1 house!";
@@ -226,14 +228,30 @@ void View::memberFunction(User user) {
                         }
                         memberFunction(user);
                     case 6:
-                        //Rate Houses
-                        RaC.rating(HC.findByKey(RC.getHouseForRating(user)));
+                        //Rate House
+                        cout << "Pending house for rating\n";
+
+                        for (Request request: RC.getHouseForRating(user)) {
+                            cout << "\n-------------------------\n";
+                            request.showInfo();
+                        }
+
+                        RaC.rating(HC.findByKey(inputHouseRating(RC.getHouseForRating(user))));
+
                         memberFunction(user);
                     case 7: {
                         //Rate Occupiers
+                        cout << "Pending user for rating\n";
+
+
+                        for (Request request: RC.getOccupierUsername(takeCurrentHomeID())) {
+                            cout << "\n-------------------------\n";
+                            request.showInfo();
+                        }
+
                         RaC.rating(
-                                UC.findByKey(RC.getOccupierUsername(HC.getUserHouse(user.getUsername()))),
-                                HC.getUserHouseVector(user.getUsername()));
+                                UC.findByKey(inputUserRating(RC.getOccupierUsername(takeCurrentHomeID()))));
+
                         memberFunction(user);
                     }
                     case 8:
@@ -378,6 +396,7 @@ string View::cityInput() {
     }
 }
 
+
 House View::requestToOccupy() {
     string id;
     while (true) {
@@ -385,7 +404,7 @@ House View::requestToOccupy() {
             bool found = false;
             cout << "Enter the house ID you want to occupy:";
             getline(cin, id);
-            for (House h:this->HouseArray){
+            for (House h: this->HouseArray) {
                 if (id == h.getId()) {
                     found = true;
                     return h;
@@ -427,3 +446,64 @@ string View::requestIdInput(RequestController rc) {
         }
     }
 }
+
+std::string View::inputHouseRating(vector<Request> pendingArray) {
+    string id;
+    while (true) {
+        try {
+            bool found = false;
+            cout << "Enter the house ID you want to rating:";
+            getline(cin, id);
+            for (Request request: pendingArray) {
+                if (id == request.getHouse().getId()) {
+                    return id;
+                }
+            }
+            if (found == false) {
+                cout << "The id is not exist!\n";
+            }
+        }
+        catch (std::exception &e) {
+            cout << "Function stopped due to err: " << e.what() << endl;
+            std::cin.ignore();
+        }
+    }
+}
+
+string View::takeCurrentHomeID() {
+    string homeID;
+
+    for (House house: HC.getHouseArray()) {
+        if (UC.getCurrentUser().getUsername() == house.getOwnerUsername()) {
+            homeID = house.getId();
+            return homeID;
+        }
+    }
+
+}
+
+string View::inputUserRating(vector<Request> pendingArray) {
+    string username;
+    while (true) {
+        try {
+            bool found = false;
+            cout << "Enter the username you want to rating:";
+            getline(cin, username);
+            for (Request request: pendingArray) {
+                if (username == request.getUser().getUsername()) {
+                    return username;
+                }
+            }
+            if (found == false) {
+                cout << "Username is not exist!\n";
+            }
+        }
+        catch (std::exception &e) {
+            cout << "Function stopped due to err: " << e.what() << endl;
+            std::cin.ignore();
+        }
+    }
+}
+
+
+
