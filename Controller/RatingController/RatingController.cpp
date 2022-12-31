@@ -67,7 +67,7 @@ void RatingController::houseRatingWriteFile() {
         content += houseRating.getHouseRatingWriteFormat() + "\n";
     }
 
-    cout << DataHandler::writeFile("../Data/data-test.txt", content);
+    cout << DataHandler::writeFile("./user_rating_data.csv", content);
 }
 
 /**
@@ -80,7 +80,7 @@ void RatingController::userRatingWriteFile() {
         content += userRating.getUserRatingWriteFormat() + "\n";
     }
 
-    cout << DataHandler::writeFile("../Data/data-test.txt", content);
+    cout << DataHandler::writeFile("./user_rating_data.csv", content);
 
 }
 
@@ -132,6 +132,7 @@ void RatingController::rating(const House &house) {
         delete newHouseRatting;
     } catch (std::exception &e) {
         cout << "Function stopped due to err: " << "\033[31m" << e.what() << "\033[0m" << endl;
+        std::cin.ignore();
     }
 
 }

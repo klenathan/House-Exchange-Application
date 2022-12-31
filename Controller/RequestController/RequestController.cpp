@@ -20,6 +20,10 @@ void RequestController::setRequestArray(const vector<Request> &requestArray) {
     this->requestArr = requestArr;
 }
 
+const vector<Request> &RequestController::getRequestArr() const {
+    return requestArr;
+}
+
 void RequestController::loadDataToArray() {
     vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath);
 
@@ -54,6 +58,15 @@ void RequestController::viewRequest(const User user) {
         }
     }
 };
+
+bool RequestController::requestExist(const User user) {
+    for (Request request: this->requestArr) {
+        if (user.getUsername() == request.getHouse().getOwnerUsername()) {
+            return true;
+        }
+    }
+    return false;
+}
 
 void RequestController::acceptRequest(const User user, const string &id, HouseController houseController) {
     for (int i = 0; i < requestArr.size(); i++) {
@@ -115,7 +128,7 @@ void RequestController::request(const User user, const House house) {
             cout << "-------- NEW REQUEST --------" << endl;
             tempRequest->showInfo();
         } else {
-            cout << "The end date must be greater than the start date/The date input is out of range!";
+            cout << "The end date must be greater than the start date/The date input is out of range!\n";
         }
 
     } catch (exception const &e) {
@@ -134,6 +147,7 @@ string RequestController::getHouseForRating(const User user){
         if (user.getUsername() == request.getOccupyName() &&
             (       (const char *) request.getStatus() == "accepted"
                 ||  (const char *) request.getStatus() == "finished")) {
+            cout << request.getHouse().getId();
             return request.getHouse().getId();
         }
     }

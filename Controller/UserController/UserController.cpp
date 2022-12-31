@@ -59,7 +59,7 @@ void UserController::writeFile() {
     for (User user: this->userArray) {
         content += user.getWriteFormat() + "\n";
     }
-    cout << DataHandler::writeFile("../Data/data-test.txt", content);
+    cout << DataHandler::writeFile(this->dataPath, content);
 }
 
 /**
@@ -211,18 +211,35 @@ bool UserController::login() {
     for (User user: this->userArray) {
         if (user.getUsername() == username && user.authenticate(password)) {
             this->currentUser = user;
-            
             return 1;
         } else if (user.getUsername() == username && !user.authenticate(password)) {
-            cerr << "Wrong password";
+            cout << "Wrong password\n";
             return 0;
         }
     }
-    cerr << "This account does not exits! PLease sign up! \n";
+    cout << "This account does not exits! PLease sign up! \n";
     return 0;
 }
 
+bool UserController::adminLogin() {
+    string username;
+    string password;
 
+    cout << "Input your username: ";
+    cin >> username;
+
+    cout << "Input your password: ";
+    cin >> password;
+
+    if (username == "admin" && password == "admin") {
+        User admin = *new User(username, password, "admin", "087654321", 500, 5);
+        this->currentUser = admin;
+        return 1;
+    }
+    cout << "Wrong username or password\n";
+    return 0;
+
+}
 
 
 /**

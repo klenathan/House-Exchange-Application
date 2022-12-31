@@ -57,6 +57,8 @@ public:
 
     bool login();
 
+    bool adminLogin();
+
     bool include(const std::string &username);
 };
 

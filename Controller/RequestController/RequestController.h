@@ -56,6 +56,10 @@ public:
     string getHouseForRating(const User user);
 
     string getOccupierUsername(const House house);
+
+    const vector<Request> &getRequestArr() const;
+    bool requestExist(const User user);
+
 };
 
 #endif //HOUSEEXCHANGEAPPLICATION_REQUESTCONTROLLER_H

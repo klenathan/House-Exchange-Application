@@ -130,7 +130,6 @@ bool CustomDate::validDate(string dateInp) {
 
     // Current time
     time_t currentTime = std::time(0);
-    char* dt = ctime(&currentTime);
 
     // Input time
     time_t rawTime;
@@ -143,8 +142,6 @@ bool CustomDate::validDate(string dateInp) {
     inputTime->tm_mday = day;
 
     std::time_t time = mktime(inputTime);
-
-    char* dt1 = ctime(&time);
 
     double diff =  difftime (time, currentTime);
     if (diff < 0) return 0;

@@ -4,28 +4,50 @@
 
 #ifndef HOUSEEXCHANGEAPPLICATION_VIEW_H
 #define HOUSEEXCHANGEAPPLICATION_VIEW_H
+#include <iostream>
+#include "../Model/User/User.h"
+#include "../Model/CustomError/Errors.h"
+#include "../Model/House/House.h"
+#include "../Controller/HouseController/HouseController.h"
+#include "../Controller/UserController/UserController.h"
+#include "../Controller/RequestController/RequestController.h"
+#include "../Controller/RatingController/RatingController.h"
+using std::string;
 
 class View {
+private:
+    string dataPath;
+    std::vector<House> HouseArray;
+
+    HouseController HC;
+    UserController UC;
+    RequestController RC;
+    RatingController RaC;
+
 public:
     View() = default;
+    View(string path);
 
-    static void welcomeScreen();
+    void welcomeScreen();
 
-    static void validateUser();
+    void validateUser();
 
-    static void guessFunction();
+    void guessFunction();
 
-    static void memberFunction();
+    void memberFunction(User user);
 
-    static bool isNumber(const std::string &s);
+    bool isNumber(const std::string &s);
 
-    static std::string *dateInput(std::string *arr);
+    House requestToOccupy();
 
-    static std::string cityInput();
+    std::string *dateInput(std::string *arr);
 
-    static std::string requestIdInput();
+    std::string cityInput();
 
-    static void adminFunction();
+    std::string requestIdInput(RequestController rc);
+
+    void adminFunction(User admin);
+
 };
 
 #endif //HOUSEEXCHANGEAPPLICATION_VIEW_H
