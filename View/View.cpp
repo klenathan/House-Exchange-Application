@@ -192,14 +192,17 @@ void View::memberFunction(User user) {
                 switch (num) {
                     case 1:
                         //View My Information
+                        cout << "\nYour information:\n";
                         UC.showMyData(user.getUsername());
+                        cout << "\nYour house:\n";
+                        HC.showUserHouse(user.getUsername());
                         memberFunction(user);
                     case 2:
                         //List House
                         if (!HC.houseExist(user.getUsername())) {
                             HC.listNewHouse(user.getUsername());
                         } else {
-                            cout << "A user can only list 1 house!";
+                            cout << "A user can only list 1 house!\n";
                         }
                         memberFunction(user);
                     case 3:

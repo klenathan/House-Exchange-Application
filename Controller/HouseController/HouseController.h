@@ -41,7 +41,7 @@ public:
     void create(const House &newHouse);
 
     void create(const std::string &name, const std::string &address, const std::string &desc,
-                                 const std::string &ownerUsername, long price, const CustomDate &startDate,
+                                 const std::string &ownerUsername, const CustomDate &startDate,
                                  const CustomDate &endDate, float requiredRating, float rating, bool status, long consumingPoint);
 
     void listNewHouse(const string &username);
@@ -60,7 +60,9 @@ public:
 
     bool houseExist(string username);
 
-    /** User interactions */
+    void showUserHouse(string username);
+
+        /** User interactions */
     vector<House> searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate, User user);
 
     vector<House> getUserHouseVector(string username);

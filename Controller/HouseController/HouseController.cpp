@@ -3,7 +3,6 @@
 //
 
 #include "HouseController.h"
-#include "../../Model/User/User.h"
 
 
 using std::string, std::cout, std::endl, std::exception, std::remove;
@@ -33,13 +32,13 @@ void HouseController::loadDataToArray() {
     vector <vector<string>> rawData = DataHandler::loadFile(this->dataPath);
 
     for (vector <string> line: rawData) {
-        CustomDate startDate = CustomDate(line[6]);
-        CustomDate endDate = CustomDate(line[7]);
+        CustomDate startDate = CustomDate(line[5]);
+        CustomDate endDate = CustomDate(line[6]);
 
         House temp_house = House(line[0], line[1], line[2],
-                                 line[3], line[4], stol(line[5]),
-                                 startDate, endDate, stof(line[8]), stof(line[9]), (bool) stoi(line[10]),
-                                 stol(line[11]));
+                                 line[3], line[4],
+                                 startDate, endDate, stof(line[7]), stof(line[8]), (bool) stoi(line[9]),
+                                 stol(line[10]));
         this->HouseArray.push_back(temp_house);
     }
 }
@@ -58,6 +57,11 @@ House HouseController::getUserHouse(string username) {
         }
     }
     throw NotfoundErr(username + " have no house");
+}
+
+void HouseController::showUserHouse(string username) {
+    House h = getUserHouse(username);
+    h.showInfo();
 }
 
 bool HouseController::houseExist(string username) {
@@ -110,11 +114,18 @@ void HouseController::create(const House &newHouse) {
 }
 
 void HouseController::unlistHouse(const string &username) {
+    bool success = 0;
     for (int i = 0; i < this->HouseArray.size(); i++) {
         if (this->HouseArray[i].getOwnerUsername() == username) {
             this->HouseArray.erase(this->HouseArray.begin() + i);
             this->writeHouseData();
+            success =  1;
         }
+    }
+    if (success == 0) {
+        cout << "You do not have any house to unlist!\n";
+    } else {
+        cout << "Successfully unlist the house!\n";
     }
 }
 
@@ -122,7 +133,7 @@ void HouseController::unlistHouse(const string &username) {
  * Save the current state of data to file
  * */
 void HouseController::writeHouseData() {
-    string header = "id,name,address,desc,ownerUsername,price,startDate,endDate,requiredRating,rating,status,consumingPoint\n";
+    string header = "id,name,address,desc,ownerUsername,startDate,endDate,requiredRating,rating,status,consumingPoint\n";
     string content = header;
     for (House house: this->HouseArray) {
         content += house.to_string() + "\n";
@@ -135,10 +146,10 @@ void HouseController::writeHouseData() {
  * @params:
  * */
 void HouseController::create(const std::string &name, const std::string &address, const std::string &desc,
-                             const std::string &ownerUsername, long price, const CustomDate &startDate,
+                             const std::string &ownerUsername, const CustomDate &startDate,
                              const CustomDate &endDate, float requiredRating, float rating, bool status,
                              long consumingPoint) {
-    House newHouse = House(name, address, desc, ownerUsername, price, startDate, endDate, requiredRating, rating,
+    House newHouse = House(name, address, desc, ownerUsername, startDate, endDate, requiredRating, rating,
                            consumingPoint);
     this->HouseArray.push_back(newHouse);
 }
@@ -166,9 +177,9 @@ House HouseController::findByKey(const std::string &id) {
 
 void HouseController::listNewHouse(const string &username) {
     string houseName, address, desc, ownerUsername, startDate, endDate;
-    string tempPrice, tempMinRate, tempConsumingPoint;
+    string tempMinRate, tempConsumingPoint;
     float minRate;
-    long price, consumingPoint;
+    long consumingPoint;
 
     try {
         cout << "House title: ";
@@ -180,14 +191,6 @@ void HouseController::listNewHouse(const string &username) {
 
         if (address == "Hanoi" || address == "Hue" || address == "Saigon") address = address;
         else throw NotfoundErr("The application is only available to users in those cities: Ha Noi, Hue, Sai Gon.\n");
-
-        cout << "Price (number): ";
-        std::getline(std::cin, tempPrice);
-        try {
-            price = stol(tempPrice);
-        } catch (...) {
-            throw ConversionErr("PRICE_CONVERSION_ERROR");
-        }
 
         cout << "Consuming point (number): ";
         std::getline(std::cin, tempConsumingPoint);
@@ -240,7 +243,7 @@ void HouseController::listNewHouse(const string &username) {
         bool validDateInput = (end > start);
 
         if (validDateInput) {
-            House *tempHouse = new House(houseName, address, desc, username, price,
+            House *tempHouse = new House(houseName, address, desc, username,
                                          start, end, minRate, 0, consumingPoint);
             this->create(*tempHouse);
             DataHandler::clear();

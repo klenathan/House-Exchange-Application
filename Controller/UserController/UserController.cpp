@@ -59,7 +59,7 @@ void UserController::writeFile() {
     for (User user: this->userArray) {
         content += user.getWriteFormat() + "\n";
     }
-    cout << DataHandler::writeFile(this->dataPath, content);
+    DataHandler::writeFile(this->dataPath, content);
 }
 
 /**
@@ -188,6 +188,7 @@ bool UserController::signup() {
 
         delete newUser;
 
+        cout << "Successfully create an account!\n";
         return true;
     } catch (std::exception &e) {
         cout << "Function stopped due to err: " << "\033[31m" << e.what() << "\033[0m" << endl;
