@@ -91,12 +91,12 @@ User UserController::findByKey(string username) {
     throw NotfoundErr("USER_NOT_FOUND");
 }
 
-void UserController::updateCreditPoint (User houseOwner, User occupier, long consumingPoint) {
+void UserController::updateCreditPoint (User houseOwner, User occupier, long consumingPoint, CustomDate startDate, CustomDate endDate) {
     for (int i = 0; i < this->userArray.size(); i++) {
         if (userArray[i].getUsername() == houseOwner.getUsername()) {
-            userArray[i].setCreditPoints(userArray[i].getCreditPoints() + consumingPoint);
+            userArray[i].setCreditPoints(userArray[i].getCreditPoints() + consumingPoint * ((*new CustomDate).getDateRange(startDate, endDate)));
         } else if (userArray[i].getUsername() == occupier.getUsername()) {
-            userArray[i].setCreditPoints(userArray[i].getCreditPoints() - consumingPoint);
+            userArray[i].setCreditPoints(userArray[i].getCreditPoints() - consumingPoint * ((*new CustomDate).getDateRange(startDate, endDate)));
         }
     }
     this->writeFile();

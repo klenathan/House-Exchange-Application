@@ -75,7 +75,7 @@ void RequestController::acceptRequest(const User user, const string &id, HouseCo
                 Status status = accepted;
                 requestArr[i].setStatus(status);
                 requestArr.at(i) = requestArr[i];
-                this->UC.updateCreditPoint(user, requestArr[i].getUser(), requestArr[i].getHouse().getConsumingPoint());
+                this->UC.updateCreditPoint(user, requestArr[i].getUser(), requestArr[i].getHouse().getConsumingPoint(), requestArr[i].getStartDate(), requestArr[i].getEndDate());
             } else {
                 Status status = rejected;
                 requestArr[i].setStatus(status);
@@ -118,9 +118,11 @@ void RequestController::request(const User user, const House house) {
         }
 
         bool validDateInput = (end > start);
+        long totalPrice = house.getConsumingPoint() * ((*new CustomDate).getDateRange(start, end));
 
         if (validDateInput && startDate >= house.getStartDate() && endDate <= house.getEndDate() &&
-            user.getUsername() != house.getOwnerUsername()) {
+            user.getUsername() != house.getOwnerUsername() &&
+            user.getCreditPoints() > totalPrice) {
             Status status = (*new Request).stoE("requested");
             Request *tempRequest = new Request(this->UC, this->HC, user.getUsername(), house.getId(), status, start, end);
             this->create(*tempRequest);

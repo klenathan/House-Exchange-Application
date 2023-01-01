@@ -67,7 +67,7 @@ void RatingController::houseRatingWriteFile() {
         content += houseRating.getHouseRatingWriteFormat() + "\n";
     }
 
-    cout << DataHandler::writeFile("./user_rating_data.csv", content);
+    cout << DataHandler::writeFile("./house_rating_data.csv", content);
 }
 
 /**

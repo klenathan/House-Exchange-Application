@@ -8,11 +8,12 @@
 
 #include <exception>
 #include <ctime>
+#include <time.h>
 
 #include "CustomDate.h"
 #include "../CustomError/Errors.h"
 
-using std::stringstream, std::string, std::cout, std::endl, std::vector, std::ostream;
+using std::stringstream, std::string, std::cout, std::endl, std::vector, std::ostream, std::to_string;
 
 /**
  *
@@ -142,11 +143,36 @@ bool CustomDate::validDate(string dateInp) {
     inputTime->tm_mday = day;
 
     std::time_t time = mktime(inputTime);
-
+    cout << time;
     double diff =  difftime (time, currentTime);
     if (diff < 0) return 0;
     return 1;
 }
+
+time_t CustomDate::convertToTimeT (CustomDate d) {
+    int day = d.getDay();
+    int month = d.getMonth();
+    int year = d.getYear();
+
+    time_t rawTime;
+    struct tm * inputTime;
+
+    time ( &rawTime );
+    inputTime = localtime ( &rawTime );
+    inputTime->tm_year = year - 1900;
+    inputTime->tm_mon = month - 1;
+    inputTime->tm_mday = day;
+
+    time_t time = mktime(inputTime);
+    return time;
+}
+
+double CustomDate::getDateRange(const CustomDate& d1, const CustomDate& d2) {
+    double sec =  difftime (CustomDate::convertToTimeT(d1), CustomDate::convertToTimeT(d2));
+    return sec / 86400;
+}
+
+
 
 /**
  * @return a string format of the date object (dd/mm/yyyy)
@@ -237,4 +263,29 @@ bool operator>= (const CustomDate& d1, const CustomDate& d2) {
             else return true;
         }
     }
+};
+
+
+int CustomDate::getDay() const {
+    return day;
+}
+
+void CustomDate::setDay(int day) {
+    CustomDate::day = day;
+}
+
+int CustomDate::getMonth() const {
+    return month;
+}
+
+void CustomDate::setMonth(int month) {
+    CustomDate::month = month;
+}
+
+int CustomDate::getYear() const {
+    return year;
+}
+
+void CustomDate::setYear(int year) {
+    CustomDate::year = year;
 };
