@@ -47,7 +47,7 @@ ostream &operator<<(ostream &os, Request &request) {
     cout << "HouseID: " << request.house.getId() << endl;
     cout << "Status: " << request.enumToString(request.status) << endl;
     cout << "Start date: " << request.startDate;
-    cout << "End date: " << request.endDate;
+    cout << " - End date: " << request.endDate;
     return os;
 }
 

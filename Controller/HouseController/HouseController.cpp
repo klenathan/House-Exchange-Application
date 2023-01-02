@@ -16,11 +16,11 @@ HouseController::HouseController(string path) {
 /******************************************************************
  * Getter-Setter
  ******************************************************************/
-void HouseController::setHouseArray(const vector <House> &houseArray) {
+void HouseController::setHouseArray(const vector<House> &houseArray) {
     this->HouseArray = houseArray;
 }
 
-const vector <House> &HouseController::getHouseArray() const {
+const vector<House> &HouseController::getHouseArray() const {
     return HouseArray;
 }
 
@@ -29,9 +29,9 @@ const vector <House> &HouseController::getHouseArray() const {
  ******************************************************************/
 
 void HouseController::loadDataToArray() {
-    vector <vector<string>> rawData = DataHandler::loadFile(this->dataPath);
+    vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath);
 
-    for (vector <string> line: rawData) {
+    for (vector<string> line: rawData) {
         CustomDate startDate = CustomDate(line[5]);
         CustomDate endDate = CustomDate(line[6]);
 
@@ -66,7 +66,7 @@ void HouseController::showUserHouse(string username) {
 
 bool HouseController::houseExist(string username) {
     for (House house: this->HouseArray) {
-        if(house.getOwnerUsername() == username) {
+        if (house.getOwnerUsername() == username) {
             return true;
         }
     }
@@ -79,7 +79,7 @@ bool HouseController::houseExist(string username) {
  * @return House house object of result
  * @Err: Throw not found error in the case the user does not list any house (Non existed)
  */
-vector <House> HouseController::getUserHouseVector(string username) {
+vector<House> HouseController::getUserHouseVector(string username) {
     for (House house: this->HouseArray) {
         if (house.getOwnerUsername() == username) {
             return this->HouseArray;
@@ -96,7 +96,7 @@ void HouseController::showData() {
     houseData(this->HouseArray);
 }
 
-void HouseController::houseData(vector <House> houses) {
+void HouseController::houseData(vector<House> houses) {
     for (House house: houses) {
         cout << "-------- ID: " << house.getId() << " --------" << endl;
         house.showInfo();
@@ -119,7 +119,7 @@ void HouseController::unlistHouse(const string &username) {
         if (this->HouseArray[i].getOwnerUsername() == username) {
             this->HouseArray.erase(this->HouseArray.begin() + i);
             this->writeHouseData();
-            success =  1;
+            success = 1;
         }
     }
     if (success == 0) {
@@ -217,7 +217,7 @@ void HouseController::listNewHouse(const string &username) {
         cout << "Start date (dd/mm/yyyy): ";
         std::getline(std::cin, startDate);
         CustomDate start;
-        if ((*new CustomDate).validDate(startDate)) {
+        if (CustomDate::validDate(startDate)) {
             try {
                 start = CustomDate(startDate);
             } catch (...) {
@@ -230,7 +230,7 @@ void HouseController::listNewHouse(const string &username) {
         cout << "End date (dd/mm/yyyy): ";
         std::getline(std::cin, endDate);
         CustomDate end;
-        if ((*new CustomDate).validDate(endDate)) {
+        if (CustomDate::validDate(endDate)) {
             try {
                 end = CustomDate(endDate);
             } catch (...) {
@@ -260,18 +260,18 @@ void HouseController::listNewHouse(const string &username) {
 }
 
 
-vector <House>
+vector<House>
 HouseController::searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate, User user) {
     long userCreditPoint = user.getCreditPoints();
     float userRatingScore = user.getRating();
 
-    vector <House> result;
+    vector<House> result;
     for (House house: this->HouseArray) {
         bool suitableStartDate = (startDate >= house.getStartDate());
         bool suitableEndDate = (endDate <= house.getEndDate());
 
-        if (house.getAddress() == city && suitableStartDate && suitableEndDate &&
-            userCreditPoint >= house.getConsumingPoint() && userRatingScore >= house.getRequiredRating()) {
+        if ((house.getAddress() == city) && suitableStartDate && suitableEndDate &&
+            (userCreditPoint >= house.getConsumingPoint()) && (userRatingScore >= house.getRequiredRating())) {
             result.push_back(house);
         }
     }

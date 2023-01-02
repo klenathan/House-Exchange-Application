@@ -75,7 +75,9 @@ void RequestController::acceptRequest(const User user, const string &id, HouseCo
                 Status status = accepted;
                 requestArr[i].setStatus(status);
                 requestArr.at(i) = requestArr[i];
-                this->UC.updateCreditPoint(user, requestArr[i].getUser(), requestArr[i].getHouse().getConsumingPoint(), requestArr[i].getStartDate(), requestArr[i].getEndDate());
+                this->UC.updateCreditPoint(user, requestArr[i].getUser(),
+                                           requestArr[i].getHouse().getConsumingPoint(),
+                                           requestArr[i].getStartDate(), requestArr[i].getEndDate());
             } else {
                 Status status = rejected;
                 requestArr[i].setStatus(status);
@@ -94,7 +96,7 @@ void RequestController::request(const User user, const House house) {
         cout << "Start date (dd/mm/yyyy): ";
         std::getline(std::cin, startDate);
         CustomDate start;
-        if ((*new CustomDate).validDate(startDate)) {
+        if (CustomDate::validDate(startDate)) {
             try {
                 start = CustomDate(startDate);
             } catch (...) {
@@ -107,7 +109,7 @@ void RequestController::request(const User user, const House house) {
         cout << "End date (dd/mm/yyyy): ";
         std::getline(std::cin, endDate);
         CustomDate end;
-        if ((*new CustomDate).validDate(endDate)) {
+        if (CustomDate::validDate(endDate)) {
             try {
                 end = CustomDate(endDate);
             } catch (...) {
@@ -134,7 +136,7 @@ void RequestController::request(const User user, const House house) {
         }
 
     } catch (exception const &e) {
-        cout << "Function stopped due to err: " << "\033[31m" << e.what() << "\033[0m" << endl;
+        cout << "Function stopped due to error: " << "\033[31m" << e.what() << "\033[0m" << endl;
 
     }
 }

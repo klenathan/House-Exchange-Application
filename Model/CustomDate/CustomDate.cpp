@@ -143,7 +143,7 @@ bool CustomDate::validDate(string dateInp) {
     inputTime->tm_mday = day;
 
     std::time_t time = mktime(inputTime);
-    cout << time;
+//    cout << time;
     double diff =  difftime (time, currentTime);
     if (diff < 0) return 0;
     return 1;
@@ -192,7 +192,7 @@ void CustomDate::showInfo() { cout << day << "/" << month << "/" << year << endl
  *
  * */
 ostream &operator<<(ostream &os, const CustomDate &dt) {
-    os << dt.day << "/" << dt.month << "/" << dt.year << endl;
+    os << dt.day << "/" << dt.month << "/" << dt.year;
     return os;
 };
 

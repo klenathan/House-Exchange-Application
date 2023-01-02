@@ -50,9 +50,9 @@ public:
      * */
     std::string getDate() const;
     void showInfo();
-    bool validDate(string dateInp);
-    double getDateRange(const CustomDate& d1, const CustomDate& d2);
-    time_t convertToTimeT(CustomDate d);
+    static bool validDate(string dateInp);
+    static double getDateRange(const CustomDate& d1, const CustomDate& d2);
+    static time_t convertToTimeT(CustomDate d);
 
     friend std::ostream &operator<<(std::ostream &os, const CustomDate &dt);
 
