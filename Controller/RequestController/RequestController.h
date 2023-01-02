@@ -47,17 +47,23 @@ public:
 
     void writeFile();
 
-    void viewRequest(const User user);
+    void viewRequest(const User &user);
+
+    void viewSentRequest(const User &user);
 
     void acceptRequest(User user, const string &id, HouseController houseController);
 
     void request(const User user, const House house);
 
     vector<Request> getHouseForRating(const User user);
+
     vector<Request> getOccupierUsername(string homeID);
 
     const vector<Request> &getRequestArr() const;
+
     bool requestExist(const User user);
+
+    bool updateRequestStatusToFinish(const string &requestid);
 
 };
 
