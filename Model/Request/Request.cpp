@@ -31,7 +31,7 @@ void Request::showInfo() {
     cout << "Username: " << this->user << endl;
     cout << "HouseID: " << this->house.getId() << endl;
     cout << "Status: " << this->status << endl;
-    cout << "Start date: " << this->startDate;
+    cout << "Start date: " << this->startDate << endl;
     cout << "End date: " << this->endDate << endl;
 }
 

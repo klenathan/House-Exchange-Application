@@ -49,7 +49,7 @@ public:
 
     void viewRequest(const User &user);
 
-    void viewSentRequest(const User &user);
+    bool viewSentRequest(const User &user);
 
     void acceptRequest(User user, const string &id, HouseController houseController);
 

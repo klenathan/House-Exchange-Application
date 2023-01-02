@@ -26,15 +26,13 @@ const vector<Request> &RequestController::getRequestArr() const {
 
 void RequestController::loadDataToArray() {
     vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath);
-    bool dataChange = false;
 
     for (vector<string> line: rawData) {
         Status status = (*new Request).stoE(line[3]);
         CustomDate startDate = CustomDate(line[4]);
         CustomDate endDate = CustomDate(line[5]);
         if (CustomDate::getToday() > endDate) {
-            status = Status::finished;
-            dataChange = 1;
+            status = finished;
         }
         Request temp_request = Request(this->UC, this->HC, line[0], line[1], line[2], status, startDate, endDate);
         this->requestArr.push_back(temp_request);
@@ -70,7 +68,7 @@ void RequestController::viewRequest(const User &user) {
     }
 };
 
-void RequestController::viewSentRequest(const User &user) {
+bool RequestController::viewSentRequest(const User &user) {
     bool exist = 0;
     for (Request req: this->requestArr) {
         if (req.getUser().getUsername() == user.getUsername()) {
@@ -81,7 +79,9 @@ void RequestController::viewSentRequest(const User &user) {
     }
     if (exist == 0) {
         cout << "-> You haven't sent any request! <-\n";
+        return 0;
     }
+    return 1;
 }
 
 bool RequestController::requestExist(const User user) {
@@ -95,23 +95,29 @@ bool RequestController::requestExist(const User user) {
 
 void RequestController::acceptRequest(const User user, const string &id, HouseController houseController) {
     for (int i = 0; i < requestArr.size(); i++) {
+        Status status;
+        bool accept = 0;
         if (user.getUsername() == requestArr[i].getHouse().getOwnerUsername()) {
             if (requestArr[i].getId() == id) {
-                if (requestArr[i].getStatus() != Status::requested) {
+                if (requestArr[i].getStatus() != requested) {
                     cout << "-> Request " << requestArr[i].getId() << " is not in pending status <-" << endl;
-                    return;
+                    status = requestArr[i].getStatus();
+                } else {
+                    status = accepted;
+                    this->UC.updateCreditPoint(user, requestArr[i].getUser(),
+                                               requestArr[i].getHouse().getConsumingPoint(),
+                                               requestArr[i].getStartDate(), requestArr[i].getEndDate());
+                    accept = 1;
                 }
-                Status status = accepted;
-                requestArr[i].setStatus(status);
-                requestArr.at(i) = requestArr[i];
-                this->UC.updateCreditPoint(user, requestArr[i].getUser(),
-                                           requestArr[i].getHouse().getConsumingPoint(),
-                                           requestArr[i].getStartDate(), requestArr[i].getEndDate());
             } else {
-                Status status = rejected;
-                requestArr[i].setStatus(status);
-                requestArr.at(i) = requestArr[i];
+                if (accept == 1) {
+                    status = rejected;
+                } else {
+                    status = requestArr[i].getStatus();
+                }
             }
+            requestArr[i].setStatus(status);
+            requestArr.at(i) = requestArr[i];
         }
     }
 
@@ -173,7 +179,7 @@ void RequestController::request(const User user, const House house) {
                             continue;
                         } else {
                             cout << "You have already requested/occupied a house from " << requestArr[i].getStartDate()
-                                 << "to " << requestArr[i].getEndDate() << endl;
+                                 << " to " << requestArr[i].getEndDate() << endl;
                             success = false;
                         }
                     }
@@ -183,7 +189,7 @@ void RequestController::request(const User user, const House house) {
 
 
         if (success == true) {
-            Status status = (*new Request).stoE("requested");
+            Status status = requested;
             Request *tempRequest = new Request(this->UC, this->HC, user.getUsername(), house.getId(), status, start,
                                                end);
             this->create(*tempRequest);
@@ -232,17 +238,17 @@ bool RequestController::updateRequestStatusToFinish(const std::string &requestid
 
     for (Request &request: this->requestArr) {
         if (request.getId() == requestid) {
-            if (request.getStatus() == Status::rejected) {
+            if (request.getStatus() == rejected) {
                 cout << requestid << " has already been rejected" << endl;
                 return false;
-            } else if (request.getStatus() == Status::requested) {
+            } else if (request.getStatus() == requested) {
                 cout << requestid << " has not been approved" << endl;
                 return false;
-            } else if (request.getStatus() == Status::finished) {
+            } else if (request.getStatus() == finished) {
                 cout << requestid << " has already finished" << endl;
                 return false;
             }
-            request.setStatus(Status::finished);
+            request.setStatus(finished);
             this->writeFile();
             return true;
         }

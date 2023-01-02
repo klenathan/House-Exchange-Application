@@ -174,10 +174,10 @@ void View::memberFunction(User user) {
               "2. Search For Suitable House\n"
               "3. View all available house\n"
               "4. View sent request\n"
+              "5. View All Requests To My House\n"
               "------\n"
-              "5. List House\n"
-              "6. Unlist House\n"
-              "7. View All Requests To My House\n"
+              "6. List House\n"
+              "7. Unlist House\n"
               "8. Rate Houses\n"
               "9. Rate Occupiers\n"
               "0. Exit"
@@ -215,7 +215,7 @@ void View::memberFunction(User user) {
                                 RC.request(user, requestToOccupy());
                             }
                         } else {
-                            cout << "There are no suitable house for your need: " << endl;
+                            cout << "There are no suitable house for your need " << endl;
                         }
 
                         memberFunction(user);
@@ -232,18 +232,6 @@ void View::memberFunction(User user) {
                         View::renterUpdateRequestStatus();
                         memberFunction(user);
                     case 5:
-                        //List House
-                        if (!HC.houseExist(user.getUsername())) {
-                            HC.listNewHouse(user.getUsername());
-                        } else {
-                            cout << "A user can only list 1 house!\n";
-                        }
-                        memberFunction(user);
-                    case 6:
-                        //// Unlist House
-                        HC.unlistHouse(user.getUsername());
-                        memberFunction(user);
-                    case 7:
                         //// View All Requests To My House
                         RC.viewRequest(user);
 
@@ -252,6 +240,19 @@ void View::memberFunction(User user) {
                         }
 
                         memberFunction(user);
+                    case 6:
+                        //List House
+                        if (!HC.houseExist(user.getUsername())) {
+                            HC.listNewHouse(user.getUsername());
+                        } else {
+                            cout << "A user can only list 1 house!\n";
+                        }
+                        memberFunction(user);
+                    case 7:
+                        //// Unlist House
+                        HC.unlistHouse(user.getUsername());
+                        memberFunction(user);
+
                     case 8:
                         //Rate House
                         cout << "Pending house for rating\n";
@@ -404,12 +405,13 @@ string *View::dateInput(string arr[]) {
 void View::renterUpdateRequestStatus() {
     string id;
     cout << ">> Sent requests: <<" << endl;
-    RC.viewSentRequest(UC.getCurrentUser());
-    cout << "Select a request to update its status: ";
-    cin >> id;
-    if (RC.updateRequestStatusToFinish(id)) {
-        cout << "Updated " << id << "'s status to finished" << endl;
-    }
+    if (RC.viewSentRequest(UC.getCurrentUser())) {
+        cout << "Select a request to update its status: ";
+        cin >> id;
+        if (RC.updateRequestStatusToFinish(id)) {
+            cout << "Updated " << id << "'s status to finished" << endl;
+        }
+    };
 }
 
 /**

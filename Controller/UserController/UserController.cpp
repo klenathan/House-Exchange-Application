@@ -59,6 +59,7 @@ void UserController::writeFile() {
     for (User user: this->userArray) {
         content += user.getWriteFormat() + "\n";
     }
+
     DataHandler::writeFile(this->dataPath, content);
 }
 
@@ -112,7 +113,7 @@ bool UserController::signup() {
     string fullname;
     string phoneNum;
 
-    //Check username exited
+    //Check username exists
     bool check = true;
 
     try {
@@ -218,7 +219,7 @@ bool UserController::login() {
             return 0;
         }
     }
-    cout << "This account does not exits! PLease sign up! \n";
+    cout << "This account does not exist! PLease sign up! \n";
     return 0;
 }
 
