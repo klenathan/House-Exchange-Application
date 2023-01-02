@@ -47,15 +47,20 @@ void RequestController::writeFile() {
     for (Request request: this->requestArr) {
         content += request.to_string() + "\n";
     }
-    cout << DataHandler::writeFile("requests.csv", content);
+    DataHandler::writeFile("requests.csv", content);
 }
 
 void RequestController::viewRequest(const User user) {
+    bool exist = 0;
     for (Request request: this->requestArr) {
         if (user.getUsername() == request.getHouse().getOwnerUsername()) {
             cout << "------------------------------" << endl;
             cout << request << endl;
+            exist = 1;
         }
+    }
+    if (exist == 0) {
+        cout << "You don't have any request!\n";
     }
 };
 
@@ -120,19 +125,45 @@ void RequestController::request(const User user, const House house) {
         }
 
         bool validDateInput = (end > start);
-        long totalPrice = house.getConsumingPoint() * ((*new CustomDate).getDateRange(start, end));
+        long totalPrice = house.getConsumingPoint() * ((*new CustomDate).getDateRange(end, start));
 
-        if (validDateInput && startDate >= house.getStartDate() && endDate <= house.getEndDate() &&
-            user.getUsername() != house.getOwnerUsername() &&
-            user.getCreditPoints() > totalPrice) {
+
+        bool success = true;
+        if (user.getUsername() == house.getOwnerUsername()) {
+            cout << "You are the owner of this house so you cannot occupy this house!\n";
+            success = false;
+        } else if (!validDateInput || startDate < house.getStartDate() || endDate > house.getEndDate()) {
+            cout << "The end date must be greater than the start date/The date input is out of range!\n";
+            success = false;
+        } else if (user.getCreditPoints() < totalPrice) {
+            cout << "You don't have enough money!\n";
+            success = false;
+        } else {
+            for (int i = 0; i < requestArr.size(); i++) {
+                if (requestArr[i].getOccupyName() == user.getUsername()) {
+                    if ((requestArr[i].getStartDate() < startDate && requestArr[i].getEndDate() < startDate) ||
+                    (requestArr[i].getStartDate() > startDate && requestArr[i].getEndDate() > startDate)) {
+                        continue;
+                    } else {
+                        if (requestArr[i].getStatus() == rejected) {
+                            continue;
+                        } else {
+                            cout << "You have already requested/occupied a house from " << requestArr[i].getStartDate() << "to " << requestArr[i].getEndDate() << endl;
+                            success = false;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        if (success == true) {
             Status status = (*new Request).stoE("requested");
             Request *tempRequest = new Request(this->UC, this->HC, user.getUsername(), house.getId(), status, start, end);
             this->create(*tempRequest);
             DataHandler::clear();
             cout << "-------- NEW REQUEST --------" << endl;
             tempRequest->showInfo();
-        } else {
-            cout << "The end date must be greater than the start date/The date input is out of range!\n";
         }
 
     } catch (exception const &e) {
