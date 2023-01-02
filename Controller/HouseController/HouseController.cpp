@@ -278,3 +278,14 @@ HouseController::searchForSuitableHouses(string city, CustomDate startDate, Cust
     return result;
 }
 
+vector<House> HouseController::allAvailableHouse() {
+    vector<House> result;
+    for (House house : this->HouseArray) {
+        if (house.getStartDate() > CustomDate::getToday()) {
+            result.push_back(house);
+            house.showInfo();
+        }
+    }
+    return result;
+}
+

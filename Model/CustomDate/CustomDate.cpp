@@ -36,9 +36,9 @@ CustomDate::CustomDate(int day, int month, int year) {
                 //// Even Months
                 if (month == 2) {
                     if (day > 29) throw ConversionErr("INVALID_DAY");
-                    else if (!((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) && day > 28) throw ConversionErr("INVALID_DAY"); // leap year check
-                }
-                else if (month < 8 && day > 30) throw ConversionErr("INVALID_DAY");
+                    else if (!((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) && day > 28)
+                        throw ConversionErr("INVALID_DAY"); // leap year check
+                } else if (month < 8 && day > 30) throw ConversionErr("INVALID_DAY");
             } else {
                 //// Odd months
                 if (month > 8 && day > 30) throw ConversionErr("INVALID_DAY");
@@ -91,9 +91,9 @@ CustomDate::CustomDate(string inputString) {
                 //// Even Months
                 if (month == 2) {
                     if (day > 29) throw ConversionErr("INVALID_DAY");
-                    else if (!((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) && day > 28) throw ConversionErr("INVALID_DAY"); // leap year check
-                }
-                else if (month < 8 && day > 30) throw ConversionErr("INVALID_DAY");
+                    else if (!((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) && day > 28)
+                        throw ConversionErr("INVALID_DAY"); // leap year check
+                } else if (month < 8 && day > 30) throw ConversionErr("INVALID_DAY");
             } else {
                 //// Odd months
                 if (month > 8 && day > 30) throw ConversionErr("INVALID_DAY");
@@ -134,30 +134,30 @@ bool CustomDate::validDate(string dateInp) {
 
     // Input time
     time_t rawTime;
-    struct tm * inputTime;
+    struct tm *inputTime;
 
-    time ( &rawTime );
-    inputTime = localtime ( &rawTime );
+    time(&rawTime);
+    inputTime = localtime(&rawTime);
     inputTime->tm_year = year - 1900;
     inputTime->tm_mon = month - 1;
     inputTime->tm_mday = day;
 
     std::time_t time = mktime(inputTime);
-    double diff =  difftime (time, currentTime);
+    double diff = difftime(time, currentTime);
     if (diff < 0) return 0;
     return 1;
 }
 
-time_t CustomDate::convertToTimeT (CustomDate d) {
+time_t CustomDate::convertToTimeT(CustomDate d) {
     int day = d.getDay();
     int month = d.getMonth();
     int year = d.getYear();
 
     time_t rawTime;
-    struct tm * inputTime;
+    struct tm *inputTime;
 
-    time ( &rawTime );
-    inputTime = localtime ( &rawTime );
+    time(&rawTime);
+    inputTime = localtime(&rawTime);
     inputTime->tm_year = year - 1900;
     inputTime->tm_mon = month - 1;
     inputTime->tm_mday = day;
@@ -166,11 +166,10 @@ time_t CustomDate::convertToTimeT (CustomDate d) {
     return time;
 }
 
-double CustomDate::getDateRange(const CustomDate& d1, const CustomDate& d2) {
-    double sec =  difftime (CustomDate::convertToTimeT(d1), CustomDate::convertToTimeT(d2));
+double CustomDate::getDateRange(const CustomDate &d1, const CustomDate &d2) {
+    double sec = difftime(CustomDate::convertToTimeT(d1), CustomDate::convertToTimeT(d2));
     return sec / 86400;
 }
-
 
 
 /**
@@ -186,6 +185,11 @@ string CustomDate::getDate() const {
 void CustomDate::showInfo() { cout << day << "/" << month << "/" << year << endl; }
 
 
+CustomDate CustomDate::getToday() {
+    time_t time = std::time(0);
+    return CustomDate(localtime(&time)->tm_mday, localtime(&time)->tm_mon + 1, localtime(&time)->tm_year + 1900);
+}
+
 /**
  * @overload the bit-wise << operation
  *
@@ -197,18 +201,19 @@ ostream &operator<<(ostream &os, const CustomDate &dt) {
 
 
 /** @OVERLOAD DATA COMPARATOR **/
-bool operator== (const CustomDate& d1, const CustomDate& d2) {
+bool operator==(const CustomDate &d1, const CustomDate &d2) {
     return d1.year == d2.year && d1.month == d2.month && d1.day == d2.day;
 };
-bool operator!= (const CustomDate& d1, const CustomDate& d2) {
+
+bool operator!=(const CustomDate &d1, const CustomDate &d2) {
     return d1.year != d2.year || d1.month != d2.month || d1.day != d2.day;
 };
 
-bool operator< (const CustomDate& d1, const CustomDate& d2) {
+bool operator<(const CustomDate &d1, const CustomDate &d2) {
     if (d1.year < d2.year) return true;
     else if (d1.year > d2.year) return false;
-    else{
-       //// d1.year == d2.year
+    else {
+        //// d1.year == d2.year
         if (d1.month < d2.month) return true;
         else if (d1.month > d2.month) return false;
         else {
@@ -218,10 +223,11 @@ bool operator< (const CustomDate& d1, const CustomDate& d2) {
         }
     }
 };
-bool operator> (const CustomDate& d1, const CustomDate& d2) {
+
+bool operator>(const CustomDate &d1, const CustomDate &d2) {
     if (d1.year > d2.year) return true;
     else if (d1.year < d2.year) return false;
-    else{
+    else {
         //// d1.year == d2.year
         if (d1.month > d2.month) return true;
         else if (d1.month < d2.month) return false;
@@ -233,10 +239,10 @@ bool operator> (const CustomDate& d1, const CustomDate& d2) {
     }
 };
 
-bool operator<= (const CustomDate& d1, const CustomDate& d2) {
+bool operator<=(const CustomDate &d1, const CustomDate &d2) {
     if (d1.year < d2.year) return true;
     else if (d1.year > d2.year) return false;
-    else{
+    else {
         //// d1.year == d2.year
         if (d1.month < d2.month) return true;
         else if (d1.month > d2.month) return false;
@@ -248,10 +254,11 @@ bool operator<= (const CustomDate& d1, const CustomDate& d2) {
         }
     }
 };
-bool operator>= (const CustomDate& d1, const CustomDate& d2) {
+
+bool operator>=(const CustomDate &d1, const CustomDate &d2) {
     if (d1.year > d2.year) return true;
     else if (d1.year < d2.year) return false;
-    else{
+    else {
         //// d1.year == d2.year
         if (d1.month > d2.month) return true;
         else if (d1.month < d2.month) return false;

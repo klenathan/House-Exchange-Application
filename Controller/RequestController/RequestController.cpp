@@ -77,6 +77,10 @@ void RequestController::acceptRequest(const User user, const string &id, HouseCo
     for (int i = 0; i < requestArr.size(); i++) {
         if (user.getUsername() == requestArr[i].getHouse().getOwnerUsername()) {
             if (requestArr[i].getId() == id) {
+                if (requestArr[i].getStatus() == Status::accepted ) {
+                    cout << "-> Request id " << requestArr[i].getId() << " has already been accepted <-" << endl;
+                    return;
+                }
                 Status status = accepted;
                 requestArr[i].setStatus(status);
                 requestArr.at(i) = requestArr[i];

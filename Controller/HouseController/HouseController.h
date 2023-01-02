@@ -31,7 +31,9 @@ public:
      ******************************************************************/
     House getUserHouse(string username);
     void showData();
+
     void houseData(vector<House> houses);
+
     /**
      * Create new house with House object and add it to the current data array
      * @param: House newHouse
@@ -64,6 +66,8 @@ public:
 
         /** User interactions */
     vector<House> searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate, User user);
+
+    vector<House> allAvailableHouse();
 
     vector<House> getUserHouseVector(string username);
 };

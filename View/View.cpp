@@ -21,24 +21,24 @@ View::View(string path) {
     this->UC = UserController(path);
     this->RC = RequestController(path, HC, UC);
     this->RaC = RatingController(path);
-}
-
-
-void View::welcomeScreen() {
     std::cout << "EEET2482/COSC2082 ASSIGNMENT\n"
                  "VACATION HOUSE EXCHANGE APPLICATION\n"
                  "Instructors: Mr. Linh Tran & Phong Ngo Group: Group Name\n"
                  "s3891890, Tran Nam Thai\n"
                  "s3878246, Pham Anh Thu\n"
                  "s3891968, Pham Vo Dong\n"
-                 "s3927201, Tran Ngoc Khang\n"
-                 "Main Menu\n"
-                 "Use the app as \n"
-                 "1. Guest \n"
-                 "2. Member \n"
-                 "3. Admin\n"
-                 "4. Exit"
-              << std::endl;
+                 "s3927201, Tran Ngoc Khang\n";
+}
+
+
+void View::welcomeScreen() {
+    cout << "-------- Main Menu --------\n"
+            "Use the app as \n"
+            "1. Guest \n"
+            "2. Member \n"
+            "3. Admin\n"
+            "4. Exit"
+         << std::endl;
 }
 
 /**
@@ -168,16 +168,18 @@ void View::guessFunction() {
 }
 
 void View::memberFunction(User user) {
-    cout << "--------------------------------------------" << endl;
-    std::cout << "Member Menu\n"
-                 "1.  View My Information\n"
-                 "2.  List House\n"
-                 "3.  Unlist House\n"
-                 "4.  Search For Suitable House\n"
-                 "5.  View All Requests To My House\n"
-                 "6.  Rate Houses\n"
-                 "7.  Rate Occupiers\n"
-                 "8. Exit"
+    cout << "--------------Member Menu--------------" << endl;
+    std::cout <<
+              "1. View My Information\n"
+              "2. Search For Suitable House\n"
+              "3. View all available house\n"
+              "------\n"
+              "4. List House\n"
+              "5. Unlist House\n"
+              "6. View All Requests To My House\n"
+              "7. Rate Houses\n"
+              "8. Rate Occupiers\n"
+              "9. Exit"
               << std::endl;
     bool check = true;
     std::string input;
@@ -186,7 +188,7 @@ void View::memberFunction(User user) {
     while (check) {
         try {
             typeAgain:
-            std::cout << "Enter your choice: ";
+            std::cout << "-> Enter your choice: ";
             std::cin >> input;
             std::cin.ignore();
             if (View::isNumber(input)) {
@@ -199,19 +201,7 @@ void View::memberFunction(User user) {
                         cout << "\nYour house:\n";
                         HC.showUserHouse(user.getUsername());
                         memberFunction(user);
-                    case 2:
-                        //List House
-                        if (!HC.houseExist(user.getUsername())) {
-                            HC.listNewHouse(user.getUsername());
-                        } else {
-                            cout << "A user can only list 1 house!\n";
-                        }
-                        memberFunction(user);
-                    case 3:
-                        //// Unlist House
-                        HC.unlistHouse(user.getUsername());
-                        memberFunction(user);
-                    case 4: {
+                    case 2: {
                         //// Search For Suitable House
                         string date[2];
                         View::dateInput(date);
@@ -229,7 +219,26 @@ void View::memberFunction(User user) {
 
                         memberFunction(user);
                     }
+                    case 3:
+                        //List House
+                        cout << "Available houses: " << endl;
+                        if (HC.allAvailableHouse().size() == 0) {
+                            cout << "There is no listing house in the system" << endl;
+                        }
+                        memberFunction(user);
+                    case 4:
+                        //List House
+                        if (!HC.houseExist(user.getUsername())) {
+                            HC.listNewHouse(user.getUsername());
+                        } else {
+                            cout << "A user can only list 1 house!\n";
+                        }
+                        memberFunction(user);
                     case 5:
+                        //// Unlist House
+                        HC.unlistHouse(user.getUsername());
+                        memberFunction(user);
+                    case 6:
                         //// View All Requests To My House
                         RC.viewRequest(user);
 
@@ -240,7 +249,7 @@ void View::memberFunction(User user) {
                         }
 
                         memberFunction(user);
-                    case 6:
+                    case 7:
                         //Rate House
                         cout << "Pending house for rating\n";
 
@@ -252,7 +261,7 @@ void View::memberFunction(User user) {
                         RaC.rating(HC.findByKey(inputHouseRating(RC.getHouseForRating(user))));
 
                         memberFunction(user);
-                    case 7: {
+                    case 8: {
                         //Rate Occupiers
                         cout << "Pending user for rating\n";
 
@@ -266,7 +275,7 @@ void View::memberFunction(User user) {
 
                         memberFunction(user);
                     }
-                    case 8:
+                    case 9:
                         //Exit
                         exit(1);
                     default:
