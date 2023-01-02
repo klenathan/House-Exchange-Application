@@ -50,6 +50,8 @@ public:
 
     string *dateInput(std::string *arr);
 
+    void renterUpdateRequestStatus ();
+
     string cityInput();
 
     string requestIdInput(RequestController rc);
