@@ -143,7 +143,7 @@ bool CustomDate::validDate(string dateInp) {
     inputTime->tm_mday = day;
 
     std::time_t time = mktime(inputTime);
-    cout << time;
+
     double diff =  difftime (time, currentTime);
     if (diff < 0) return 0;
     return 1;
