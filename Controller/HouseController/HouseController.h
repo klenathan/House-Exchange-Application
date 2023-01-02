@@ -31,7 +31,9 @@ public:
      ******************************************************************/
     House getUserHouse(string username);
     void showData();
+
     void houseData(vector<House> houses);
+
     /**
      * Create new house with House object and add it to the current data array
      * @param: House newHouse
@@ -41,7 +43,7 @@ public:
     void create(const House &newHouse);
 
     void create(const std::string &name, const std::string &address, const std::string &desc,
-                                 const std::string &ownerUsername, long price, const CustomDate &startDate,
+                                 const std::string &ownerUsername, const CustomDate &startDate,
                                  const CustomDate &endDate, float requiredRating, float rating, bool status, long consumingPoint);
 
     void listNewHouse(const string &username);
@@ -58,10 +60,14 @@ public:
 
     void setHouseArray(const std::vector<House> &houseArray);
 
+    bool houseExist(string username);
 
+    void showUserHouse(string username);
 
-    /** User interactions */
+        /** User interactions */
     vector<House> searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate, User user);
+
+    vector<House> allAvailableHouse();
 
     vector<House> getUserHouseVector(string username);
 };

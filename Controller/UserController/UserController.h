@@ -48,14 +48,15 @@ public:
 
     User findByKey(string username);
 
-    void updateCreditPoint(User houseOwner, User occupier, long cosumingPoint);
-
+    void updateCreditPoint (User houseOwner, User occupier, long consumingPoint, CustomDate startDate, CustomDate endDate);
     void showMyData(const string &username);
 
     // Authenticate method
     bool signup();
 
     bool login();
+
+    bool adminLogin();
 
     bool include(const std::string &username);
 };

@@ -67,7 +67,7 @@ void RatingController::houseRatingWriteFile() {
         content += houseRating.getHouseRatingWriteFormat() + "\n";
     }
 
-    cout << DataHandler::writeFile("../Data/data-test.txt", content);
+    cout << DataHandler::writeFile("./house_rating_data.csv", content);
 }
 
 /**
@@ -80,7 +80,7 @@ void RatingController::userRatingWriteFile() {
         content += userRating.getUserRatingWriteFormat() + "\n";
     }
 
-    cout << DataHandler::writeFile("../Data/data-test.txt", content);
+    cout << DataHandler::writeFile("./user_rating_data.csv", content);
 
 }
 
@@ -132,6 +132,7 @@ void RatingController::rating(const House &house) {
         delete newHouseRatting;
     } catch (std::exception &e) {
         cout << "Function stopped due to err: " << "\033[31m" << e.what() << "\033[0m" << endl;
+        std::cin.ignore();
     }
 
 }
@@ -140,7 +141,7 @@ void RatingController::rating(const House &house) {
  * Rating method for house owner rate user who rented their house
  * @param user which is rated by house owner
  */
-void RatingController::rating(User user, const vector<House> &houseArray) {
+void RatingController::rating(User user) {
     string username = user.getUsername();
     string homeID;
     string tempRatingScore;
@@ -150,14 +151,6 @@ void RatingController::rating(User user, const vector<House> &houseArray) {
     bool check = true;
 
     try {
-        //Assign currentUser house ID to houseID
-        for (House house: houseArray) {
-            if (this->currentUser.getUsername() == house.getOwnerUsername()) {
-                homeID = house.getId();
-                break;
-            }
-        }
-
         //Rating Process
         cout << "Welcome to feedback site\nNow you have permission for feedback about occupier\n";
 

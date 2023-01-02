@@ -53,9 +53,12 @@ public:
 
     void request(const User user, const House house);
 
-    string getHouseForRating(const User user);
+    vector<Request> getHouseForRating(const User user);
+    vector<Request> getOccupierUsername(string homeID);
 
-    string getOccupierUsername(const House house);
+    const vector<Request> &getRequestArr() const;
+    bool requestExist(const User user);
+
 };
 
 #endif //HOUSEEXCHANGEAPPLICATION_REQUESTCONTROLLER_H

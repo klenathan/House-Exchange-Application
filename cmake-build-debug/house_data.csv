@@ -1,9 +1,9 @@
-id,name,address,desc,ownerUsername,price,startDate,endDate,requiredRating,rating,status,consumingPoint
-900,happy house 1,Hanoi,The Happy house,user1,100,12/12/2023,15/12/2023,6.000000,0.000000,0,150
-9830,happy house 2,Hanoi,The Happy house,user2,200,12/10/2023,14/10/2023,7.000000,8.000000,0,150
-5161,happy house 3,Saigon,The Happy house,user3,250,12/10/2023,19/10/2023,3.000000,5.000000,0,150
-5615,happy house 4,Saigon,The Happy house,user4,180,12/10/2023,19/10/2023,7.000000,8.000000,0,80
-1395,happy house 5,Hue,The Happy house,user5,100,12/12/2023,15/12/2023,6.000000,0.000000,0,350
-5179,happy house 6,Hue,The Happy house,user6,200,12/10/2023,19/10/2023,7.000000,8.000000,0,150
-4974,happy house 7,Saigon,The Happy house,user7,250,12/10/2023,19/10/2023,3.000000,5.000000,0,250
-6283,happy house 8,Saigon,The Happy house,user8,180,12/10/2023,19/10/2023,7.000000,8.000000,0,80
+id,name,address,desc,ownerUsername,startDate,endDate,requiredRating,rating,status,consumingPoint
+900,Hanoi1,Hanoi,The Happy house,user1,12/12/2023,15/12/2023,6.000000,0.000000,0,150
+9830,Hanoi2,Hanoi,The Happy house,user2,12/10/2023,14/10/2023,7.000000,8.000000,0,150
+5161,SG1,Saigon,The Happy house,user3,12/10/2023,19/10/2023,3.000000,5.000000,0,150
+5615,SG2,Saigon,The Happy house,user4,12/10/2023,19/10/2023,7.000000,8.000000,0,80
+1395,Hue1,Hue,The Happy house,user5,12/12/2023,15/12/2023,6.000000,0.000000,0,350
+5179,Hue2,Hue,The Happy house,user6,12/10/2023,19/10/2023,7.000000,8.000000,0,150
+4974,SG3,Saigon,The Happy house,user7,12/10/2023,19/10/2023,3.000000,5.000000,0,250
+6283,SG4,Saigon,The Happy house,user8,12/10/2023,19/10/2023,7.000000,8.000000,0,80

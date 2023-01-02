@@ -59,7 +59,7 @@ void UserController::writeFile() {
     for (User user: this->userArray) {
         content += user.getWriteFormat() + "\n";
     }
-    cout << DataHandler::writeFile("../Data/data-test.txt", content);
+    DataHandler::writeFile(this->dataPath, content);
 }
 
 /**
@@ -91,12 +91,12 @@ User UserController::findByKey(string username) {
     throw NotfoundErr("USER_NOT_FOUND");
 }
 
-void UserController::updateCreditPoint (User houseOwner, User occupier, long consumingPoint) {
+void UserController::updateCreditPoint (User houseOwner, User occupier, long consumingPoint, CustomDate startDate, CustomDate endDate) {
     for (int i = 0; i < this->userArray.size(); i++) {
         if (userArray[i].getUsername() == houseOwner.getUsername()) {
-            userArray[i].setCreditPoints(userArray[i].getCreditPoints() + consumingPoint);
+            userArray[i].setCreditPoints(userArray[i].getCreditPoints() + consumingPoint * ((*new CustomDate).getDateRange(endDate, startDate)));
         } else if (userArray[i].getUsername() == occupier.getUsername()) {
-            userArray[i].setCreditPoints(userArray[i].getCreditPoints() - consumingPoint);
+            userArray[i].setCreditPoints(userArray[i].getCreditPoints() - consumingPoint * ((*new CustomDate).getDateRange(endDate, startDate)));
         }
     }
     this->writeFile();
@@ -188,6 +188,7 @@ bool UserController::signup() {
 
         delete newUser;
 
+        cout << "Successfully create an account!\n";
         return true;
     } catch (std::exception &e) {
         cout << "Function stopped due to err: " << "\033[31m" << e.what() << "\033[0m" << endl;
@@ -211,18 +212,35 @@ bool UserController::login() {
     for (User user: this->userArray) {
         if (user.getUsername() == username && user.authenticate(password)) {
             this->currentUser = user;
-            
             return 1;
         } else if (user.getUsername() == username && !user.authenticate(password)) {
-            cerr << "Wrong password";
+            cout << "Wrong password\n";
             return 0;
         }
     }
-    cerr << "This account does not exits! PLease sign up! \n";
+    cout << "This account does not exits! PLease sign up! \n";
     return 0;
 }
 
+bool UserController::adminLogin() {
+    string username;
+    string password;
 
+    cout << "Input your username: ";
+    cin >> username;
+
+    cout << "Input your password: ";
+    cin >> password;
+
+    if (username == "admin" && password == "admin") {
+        User admin = *new User(username, password, "admin", "087654321", 500, 5);
+        this->currentUser = admin;
+        return 1;
+    }
+    cout << "Wrong username or password\n";
+    return 0;
+
+}
 
 
 /**

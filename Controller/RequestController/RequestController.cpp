@@ -20,6 +20,10 @@ void RequestController::setRequestArray(const vector<Request> &requestArray) {
     this->requestArr = requestArr;
 }
 
+const vector<Request> &RequestController::getRequestArr() const {
+    return requestArr;
+}
+
 void RequestController::loadDataToArray() {
     vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath);
 
@@ -43,26 +47,46 @@ void RequestController::writeFile() {
     for (Request request: this->requestArr) {
         content += request.to_string() + "\n";
     }
-    cout << DataHandler::writeFile("requests.csv", content);
+    DataHandler::writeFile("requests.csv", content);
 }
 
 void RequestController::viewRequest(const User user) {
+    bool exist = 0;
     for (Request request: this->requestArr) {
         if (user.getUsername() == request.getHouse().getOwnerUsername()) {
             cout << "------------------------------" << endl;
             cout << request << endl;
+            exist = 1;
         }
     }
+    if (exist == 0) {
+        cout << "You don't have any request!\n";
+    }
 };
+
+bool RequestController::requestExist(const User user) {
+    for (Request request: this->requestArr) {
+        if (user.getUsername() == request.getHouse().getOwnerUsername()) {
+            return true;
+        }
+    }
+    return false;
+}
 
 void RequestController::acceptRequest(const User user, const string &id, HouseController houseController) {
     for (int i = 0; i < requestArr.size(); i++) {
         if (user.getUsername() == requestArr[i].getHouse().getOwnerUsername()) {
             if (requestArr[i].getId() == id) {
+                if (requestArr[i].getStatus() == Status::accepted ) {
+                    cout << "-> Request id " << requestArr[i].getId() << " has already been accepted <-" << endl;
+                    return;
+                }
                 Status status = accepted;
                 requestArr[i].setStatus(status);
                 requestArr.at(i) = requestArr[i];
-                this->UC.updateCreditPoint(user, requestArr[i].getUser(), requestArr[i].getHouse().getConsumingPoint());
+                this->UC.updateCreditPoint(user, requestArr[i].getUser(),
+                                           requestArr[i].getHouse().getConsumingPoint(),
+                                           requestArr[i].getStartDate(), requestArr[i].getEndDate());
             } else {
                 Status status = rejected;
                 requestArr[i].setStatus(status);
@@ -81,7 +105,7 @@ void RequestController::request(const User user, const House house) {
         cout << "Start date (dd/mm/yyyy): ";
         std::getline(std::cin, startDate);
         CustomDate start;
-        if ((*new CustomDate).validDate(startDate)) {
+        if (CustomDate::validDate(startDate)) {
             try {
                 start = CustomDate(startDate);
             } catch (...) {
@@ -94,7 +118,7 @@ void RequestController::request(const User user, const House house) {
         cout << "End date (dd/mm/yyyy): ";
         std::getline(std::cin, endDate);
         CustomDate end;
-        if ((*new CustomDate).validDate(endDate)) {
+        if (CustomDate::validDate(endDate)) {
             try {
                 end = CustomDate(endDate);
             } catch (...) {
@@ -105,21 +129,49 @@ void RequestController::request(const User user, const House house) {
         }
 
         bool validDateInput = (end > start);
+        long totalPrice = house.getConsumingPoint() * ((*new CustomDate).getDateRange(end, start));
 
-        if (validDateInput && startDate >= house.getStartDate() && endDate <= house.getEndDate() &&
-            user.getUsername() != house.getOwnerUsername()) {
+
+        bool success = true;
+        if (user.getUsername() == house.getOwnerUsername()) {
+            cout << "You are the owner of this house so you cannot occupy this house!\n";
+            success = false;
+        } else if (!validDateInput || startDate < house.getStartDate() || endDate > house.getEndDate()) {
+            cout << "The end date must be greater than the start date/The date input is out of range!\n";
+            success = false;
+        } else if (user.getCreditPoints() < totalPrice) {
+            cout << "You don't have enough money!\n";
+            success = false;
+        } else {
+            for (int i = 0; i < requestArr.size(); i++) {
+                if (requestArr[i].getOccupyName() == user.getUsername()) {
+                    if ((requestArr[i].getStartDate() < startDate && requestArr[i].getEndDate() < startDate) ||
+                    (requestArr[i].getStartDate() > startDate && requestArr[i].getEndDate() > startDate)) {
+                        continue;
+                    } else {
+                        if (requestArr[i].getStatus() == rejected) {
+                            continue;
+                        } else {
+                            cout << "You have already requested/occupied a house from " << requestArr[i].getStartDate() << "to " << requestArr[i].getEndDate() << endl;
+                            success = false;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        if (success == true) {
             Status status = (*new Request).stoE("requested");
             Request *tempRequest = new Request(this->UC, this->HC, user.getUsername(), house.getId(), status, start, end);
             this->create(*tempRequest);
             DataHandler::clear();
             cout << "-------- NEW REQUEST --------" << endl;
             tempRequest->showInfo();
-        } else {
-            cout << "The end date must be greater than the start date/The date input is out of range!";
         }
 
     } catch (exception const &e) {
-        cout << "Function stopped due to err: " << "\033[31m" << e.what() << "\033[0m" << endl;
+        cout << "Function stopped due to error: " << "\033[31m" << e.what() << "\033[0m" << endl;
 
     }
 }
@@ -129,14 +181,14 @@ void RequestController::request(const User user, const House house) {
  * @param user
  * @return house id
  */
-string RequestController::getHouseForRating(const User user){
-    for (Request request: this->requestArr) {
-        if (user.getUsername() == request.getOccupyName() &&
-            (       (const char *) request.getStatus() == "accepted"
-                ||  (const char *) request.getStatus() == "finished")) {
-            return request.getHouse().getId();
+vector<Request> RequestController::getHouseForRating(const User user){
+    vector<Request> pendingHouseRating;
+    for (const Request& request: this->requestArr) {
+        if (user.getUsername() == request.getOccupyName() && request.getStatus() == finished) {
+            pendingHouseRating.push_back(request);
         }
     }
+    return pendingHouseRating;
 }
 
 /**
@@ -144,11 +196,13 @@ string RequestController::getHouseForRating(const User user){
  * @param House house
  * @return occupier username
  */
-string RequestController::getOccupierUsername(const House house) {
+vector<Request> RequestController::getOccupierUsername(string homeID) {
+    vector<Request> pendingUseRating;
     for (Request request: this->requestArr) {
-        if (house.getId() == request.getHouse().getId()) {
-            return request.getUser().getUsername();
+        if (homeID == request.getHouse().getId() && request.getStatus() == finished) {
+            pendingUseRating.push_back(request);
         }
     }
+    return pendingUseRating;
 };
 
