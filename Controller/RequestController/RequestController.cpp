@@ -26,14 +26,20 @@ const vector<Request> &RequestController::getRequestArr() const {
 
 void RequestController::loadDataToArray() {
     vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath);
+    bool dataChange = false;
 
     for (vector<string> line: rawData) {
         Status status = (*new Request).stoE(line[3]);
         CustomDate startDate = CustomDate(line[4]);
         CustomDate endDate = CustomDate(line[5]);
+        if (CustomDate::getToday() > endDate) {
+            status = Status::finished;
+            dataChange = 1;
+        }
         Request temp_request = Request(this->UC, this->HC, line[0], line[1], line[2], status, startDate, endDate);
         this->requestArr.push_back(temp_request);
     }
+    this->writeFile();
 }
 
 void RequestController::create(const Request &newReq) {
@@ -50,7 +56,7 @@ void RequestController::writeFile() {
     DataHandler::writeFile("requests.csv", content);
 }
 
-void RequestController::viewRequest(const User user) {
+void RequestController::viewRequest(const User &user) {
     bool exist = 0;
     for (Request request: this->requestArr) {
         if (user.getUsername() == request.getHouse().getOwnerUsername()) {
@@ -60,9 +66,23 @@ void RequestController::viewRequest(const User user) {
         }
     }
     if (exist == 0) {
-        cout << "You don't have any request!\n";
+        cout << "-> You don't have any request! <-\n";
     }
 };
+
+void RequestController::viewSentRequest(const User &user) {
+    bool exist = 0;
+    for (Request req: this->requestArr) {
+        if (req.getUser().getUsername() == user.getUsername()) {
+            cout << "------------------------------" << endl;
+            cout << req << endl;
+            exist = 1;
+        }
+    }
+    if (exist == 0) {
+        cout << "-> You haven't sent any request! <-\n";
+    }
+}
 
 bool RequestController::requestExist(const User user) {
     for (Request request: this->requestArr) {
@@ -77,8 +97,8 @@ void RequestController::acceptRequest(const User user, const string &id, HouseCo
     for (int i = 0; i < requestArr.size(); i++) {
         if (user.getUsername() == requestArr[i].getHouse().getOwnerUsername()) {
             if (requestArr[i].getId() == id) {
-                if (requestArr[i].getStatus() == Status::accepted ) {
-                    cout << "-> Request id " << requestArr[i].getId() << " has already been accepted <-" << endl;
+                if (requestArr[i].getStatus() != Status::requested) {
+                    cout << "-> Request " << requestArr[i].getId() << " is not in pending status <-" << endl;
                     return;
                 }
                 Status status = accepted;
@@ -146,13 +166,14 @@ void RequestController::request(const User user, const House house) {
             for (int i = 0; i < requestArr.size(); i++) {
                 if (requestArr[i].getOccupyName() == user.getUsername()) {
                     if ((requestArr[i].getStartDate() < startDate && requestArr[i].getEndDate() < startDate) ||
-                    (requestArr[i].getStartDate() > startDate && requestArr[i].getEndDate() > startDate)) {
+                        (requestArr[i].getStartDate() > startDate && requestArr[i].getEndDate() > startDate)) {
                         continue;
                     } else {
                         if (requestArr[i].getStatus() == rejected) {
                             continue;
                         } else {
-                            cout << "You have already requested/occupied a house from " << requestArr[i].getStartDate() << "to " << requestArr[i].getEndDate() << endl;
+                            cout << "You have already requested/occupied a house from " << requestArr[i].getStartDate()
+                                 << "to " << requestArr[i].getEndDate() << endl;
                             success = false;
                         }
                     }
@@ -163,7 +184,8 @@ void RequestController::request(const User user, const House house) {
 
         if (success == true) {
             Status status = (*new Request).stoE("requested");
-            Request *tempRequest = new Request(this->UC, this->HC, user.getUsername(), house.getId(), status, start, end);
+            Request *tempRequest = new Request(this->UC, this->HC, user.getUsername(), house.getId(), status, start,
+                                               end);
             this->create(*tempRequest);
             DataHandler::clear();
             cout << "-------- NEW REQUEST --------" << endl;
@@ -181,9 +203,9 @@ void RequestController::request(const User user, const House house) {
  * @param user
  * @return house id
  */
-vector<Request> RequestController::getHouseForRating(const User user){
+vector<Request> RequestController::getHouseForRating(const User user) {
     vector<Request> pendingHouseRating;
-    for (const Request& request: this->requestArr) {
+    for (const Request &request: this->requestArr) {
         if (user.getUsername() == request.getOccupyName() && request.getStatus() == finished) {
             pendingHouseRating.push_back(request);
         }
@@ -205,4 +227,26 @@ vector<Request> RequestController::getOccupierUsername(string homeID) {
     }
     return pendingUseRating;
 };
+
+bool RequestController::updateRequestStatusToFinish(const std::string &requestid) {
+
+    for (Request &request: this->requestArr) {
+        if (request.getId() == requestid) {
+            if (request.getStatus() == Status::rejected) {
+                cout << requestid << " has already been rejected" << endl;
+                return false;
+            } else if (request.getStatus() == Status::requested) {
+                cout << requestid << " has not been approved" << endl;
+                return false;
+            } else if (request.getStatus() == Status::finished) {
+                cout << requestid << " has already finished" << endl;
+                return false;
+            }
+            request.setStatus(Status::finished);
+            this->writeFile();
+            return true;
+        }
+    }
+    return false;
+}
 
