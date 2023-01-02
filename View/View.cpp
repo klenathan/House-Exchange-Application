@@ -255,14 +255,19 @@ void View::memberFunction(User user) {
 
                     case 8:
                         //Rate House
-                        cout << "Pending house for rating\n";
+                        if (!RC.getHouseForRating(user).empty()) {
+                            cout << "Pending house for rating\n";
 
-                        for (Request request: RC.getHouseForRating(user)) {
+                            for (Request request: RC.getHouseForRating(user)) {
+                                cout << "\n-------------------------\n";
+                                request.showInfo();
+                            }
                             cout << "\n-------------------------\n";
-                            request.showInfo();
-                        }
 
-                        RaC.rating(HC.findByKey(inputHouseRating(RC.getHouseForRating(user))));
+                            RaC.rating(HC.findByKey(inputHouseRating(RC.getHouseForRating(user))));
+                        } else {
+                            cout << "You haven't occupied a house yet!/ Your request hasn't been finished yet!\n";
+                        }
 
                         memberFunction(user);
                     case 9: {

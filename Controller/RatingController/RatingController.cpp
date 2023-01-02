@@ -211,10 +211,6 @@ vector<User> RatingController::ratingAverage(vector<User> &userArray) {
 
 
     std::sort(this->userRatingArray.begin(), this->userRatingArray.end(), compareUser);
-//    for(UserRating rate: this->userRatingArray) {
-//        cout << this->userRatingArray.size();
-//        cout << rate.getRatingScore() << endl;
-//    }
     for (const UserRating &user: this->userRatingArray) {
         if (tempUSerName != user.getUsername()) {
 
@@ -245,8 +241,6 @@ vector<User> RatingController::ratingAverage(vector<User> &userArray) {
                 float finalRating = (user.getRating() + iterator->second) / 2;
 
                 user.setRating(finalRating);
-//                cout << "debug: " << endl;
-//                cout << finalRating << endl;
             }
         }
     }
@@ -301,19 +295,3 @@ vector<House> RatingController::ratingAverage(vector<House> &houseArray) {
 
     return houseArray;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

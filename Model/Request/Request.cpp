@@ -28,7 +28,7 @@ inline const char *Request::enumToString(Status s) {
 
 void Request::showInfo() {
     cout << "RequestID: " << this->id << endl;
-    cout << "Username: " << this->user << endl;
+    cout <<  this->user << endl;
     cout << "HouseID: " << this->house.getId() << endl;
     cout << "Status: " << this->status << endl;
     cout << "Start date: " << this->startDate << endl;
