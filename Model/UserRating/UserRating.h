@@ -13,6 +13,7 @@ class UserRating {
 private:
     string username;
     string homeID;
+    string requestID;
     float ratingScore;
     string comment;
 
@@ -22,7 +23,8 @@ public:
      */
     UserRating() = default;
 
-    UserRating(const string &username, const string &homeId, float ratingScore, const string &comment);
+    UserRating(const string &username, const string &homeId, const string &requestId, float ratingScore,
+               const string &comment);
 
     /**
      * Getter Setter

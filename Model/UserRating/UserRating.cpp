@@ -4,8 +4,9 @@
 
 #include "UserRating.h"
 
-UserRating::UserRating(const string &username, const string &homeId, float ratingScore, const string &comment)
-        : username(username), homeID(homeId), ratingScore(ratingScore), comment(comment) {}
+UserRating::UserRating(const string &username, const string &homeId, const string &requestId, float ratingScore,
+                       const string &comment) : username(username), homeID(homeId), requestID(requestId),
+                                                ratingScore(ratingScore), comment(comment) {}
 
 const string &UserRating::getUsername() const {
     return username;
@@ -40,5 +41,7 @@ void UserRating::setComment(const string &comment) {
 }
 
 string UserRating::getUserRatingWriteFormat() {
-    return this->username + "," + this->homeID + "," + to_string(this->ratingScore) + "," + this->comment;
+    return this->username + "," + this->homeID + "," + this->requestID + "," + to_string(this->ratingScore) + "," + this->comment;
 }
+
+

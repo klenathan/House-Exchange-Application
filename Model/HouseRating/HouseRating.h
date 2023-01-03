@@ -14,6 +14,7 @@ class HouseRating {
 private:
     string homeID;
     string username;
+    string requestID;
     float ratingScore;
     string comment;
 
@@ -23,7 +24,8 @@ public:
     */
     HouseRating() = default;
 
-    HouseRating(string homeId, const string &username, float ratingScore, const string &comment);
+    HouseRating(const string &homeId, const string &username, const string &requestId, float ratingScore,
+                const string &comment);
 
     /**
      * Getter Setter
@@ -43,6 +45,10 @@ public:
     const string &getComment() const;
 
     void setComment(const string &comment);
+
+    const string &getRequestId() const;
+
+    void setRequestId(const string &requestId);
 
     /**
      * Method
