@@ -174,10 +174,10 @@ void View::memberFunction(User user) {
               "2. Search For Suitable House\n"
               "3. View all available house\n"
               "4. View sent request\n"
+              "5. View All Requests To My House\n"
               "------\n"
-              "5. List House\n"
-              "6. Unlist House\n"
-              "7. View All Requests To My House\n"
+              "6. List House\n"
+              "7. Unlist House\n"
               "8. Rate Houses\n"
               "9. Rate Occupiers\n"
               "0. Exit"
@@ -185,6 +185,7 @@ void View::memberFunction(User user) {
     bool check = true;
     std::string input;
     UC.setCurrentUser(user);
+    RaC.setCurrentUser(user);
 
     while (check) {
         try {
@@ -215,7 +216,7 @@ void View::memberFunction(User user) {
                                 RC.request(user, requestToOccupy());
                             }
                         } else {
-                            cout << "There are no suitable house for your need: " << endl;
+                            cout << "There are no suitable house for your need " << endl;
                         }
 
                         memberFunction(user);
@@ -232,18 +233,6 @@ void View::memberFunction(User user) {
                         View::renterUpdateRequestStatus();
                         memberFunction(user);
                     case 5:
-                        //List House
-                        if (!HC.houseExist(user.getUsername())) {
-                            HC.listNewHouse(user.getUsername());
-                        } else {
-                            cout << "A user can only list 1 house!\n";
-                        }
-                        memberFunction(user);
-                    case 6:
-                        //// Unlist House
-                        HC.unlistHouse(user.getUsername());
-                        memberFunction(user);
-                    case 7:
                         //// View All Requests To My House
                         RC.viewRequest(user);
 
@@ -252,29 +241,55 @@ void View::memberFunction(User user) {
                         }
 
                         memberFunction(user);
+                    case 6:
+                        //List House
+                        if (!HC.houseExist(user.getUsername())) {
+                            HC.listNewHouse(user.getUsername());
+                        } else {
+                            cout << "A user can only list 1 house!\n";
+                        }
+                        memberFunction(user);
+                    case 7:
+                        //// Unlist House
+                        HC.unlistHouse(user.getUsername());
+                        memberFunction(user);
+
                     case 8:
                         //Rate House
-                        cout << "Pending house for rating\n";
+                        if (!RC.getHouseForRating(user).empty()) {
+                            cout << "Pending house for rating\n";
 
-                        for (Request request: RC.getHouseForRating(user)) {
+                            for (Request request: RC.getHouseForRating(user)) {
+                                cout << "\n-------------------------\n";
+                                request.showInfo();
+                            }
                             cout << "\n-------------------------\n";
-                            request.showInfo();
-                        }
 
-                        RaC.rating(HC.findByKey(inputHouseRating(RC.getHouseForRating(user))));
+                            House houseForRating;
+                            houseForRating = HC.findByKey(inputHouseRating(RC.getHouseForRating(user)));
+
+                            RaC.rating( houseForRating, takeRequestId(houseForRating, RC.getHouseForRating(user)));
+                        } else {
+                            cout << "You haven't occupied a house yet!/ Your request hasn't been finished yet!\n";
+                        }
 
                         memberFunction(user);
                     case 9: {
                         //Rate Occupiers
-                        cout << "Pending user for rating\n";
+                        if(!RC.getOccupierUsername(takeCurrentHomeID()).empty()){
+                            cout << "Pending user for rating\n";
 
-                        for (Request request: RC.getOccupierUsername(takeCurrentHomeID())) {
-                            cout << "\n-------------------------\n";
-                            request.showInfo();
+                            for (Request request: RC.getOccupierUsername(takeCurrentHomeID())) {
+                                cout << "\n-------------------------\n";
+                                request.showInfo();
+                            }
+                            User userForRating;
+                            userForRating = UC.findByKey(inputUserRating(RC.getOccupierUsername(takeCurrentHomeID())));
+                            RaC.rating(userForRating, takeRequestId(userForRating, RC.getOccupierUsername(takeCurrentHomeID())), takeCurrentHomeID());
+                        } else {
+                            cout << "You haven't occupied a house yet!/ Your request hasn't been finished yet!\n";
                         }
 
-                        RaC.rating(
-                                UC.findByKey(inputUserRating(RC.getOccupierUsername(takeCurrentHomeID()))));
 
                         memberFunction(user);
                     }
@@ -404,12 +419,13 @@ string *View::dateInput(string arr[]) {
 void View::renterUpdateRequestStatus() {
     string id;
     cout << ">> Sent requests: <<" << endl;
-    RC.viewSentRequest(UC.getCurrentUser());
-    cout << "Select a request to update its status: ";
-    cin >> id;
-    if (RC.updateRequestStatusToFinish(id)) {
-        cout << "Updated " << id << "'s status to finished" << endl;
-    }
+    if (RC.viewSentRequest(UC.getCurrentUser())) {
+        cout << "Select a request to update its status: ";
+        cin >> id;
+        if (RC.updateRequestStatusToFinish(id)) {
+            cout << "Updated " << id << "'s status to finished" << endl;
+        }
+    };
 }
 
 /**
@@ -515,11 +531,33 @@ string View::takeCurrentHomeID() {
     for (House house: HC.getHouseArray()) {
         if (UC.getCurrentUser().getUsername() == house.getOwnerUsername()) {
             homeID = house.getId();
-            return homeID;
+            break;
         }
     }
-
+    return homeID;
 }
+string View::takeRequestId(House house, vector<Request> pendingArray) {
+    string requestID;
+    for(Request request : pendingArray){
+        if(house.getId() == request.getHouse().getId()){
+            requestID = request.getId();
+        }
+    }
+    return requestID;
+}
+
+string View::takeRequestId(User user, vector<Request> pendingArray) {
+    string requestID;
+    for(Request request : pendingArray){
+        if(user.getUsername() == request.getOccupyName()){
+            requestID = request.getId();
+        }
+    }
+    return requestID;
+}
+
+
+
 
 string View::inputUserRating(vector<Request> pendingArray) {
     string username;
@@ -543,6 +581,8 @@ string View::inputUserRating(vector<Request> pendingArray) {
         }
     }
 }
+
+
 
 
 
