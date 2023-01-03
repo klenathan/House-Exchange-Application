@@ -26,7 +26,8 @@ private:
     UserController UC;
 
     void loadDataToArray();
-
+    bool dateOverlap(const CustomDate &startDate1, const CustomDate &endDate1, const CustomDate &startDate2,
+                const CustomDate &endDate2);
 public:
     /**
      * Constructor
@@ -51,9 +52,9 @@ public:
 
     bool viewSentRequest(const User &user);
 
-    void acceptRequest(User user, const string &id, HouseController houseController);
+    void acceptRequest(const string &id);
 
-    void request(const User user, const House house);
+    void request(const User &user, const House & house);
 
     vector<Request> getHouseForRating(const User user);
 

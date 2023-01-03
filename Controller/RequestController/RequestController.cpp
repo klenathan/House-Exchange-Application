@@ -29,8 +29,7 @@ const vector<Request> &RequestController::getRequestArr() const {
  */
 void RequestController::loadDataToArray() {
     vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath);
-
-    bool dataChange = false;
+    bool dataChange = 0;
 
     for (vector<string> line: rawData) {
         Status status = (*new Request).stoE(line[3]);
@@ -106,55 +105,59 @@ bool RequestController::viewSentRequest(const User &user) {
     return 1;
 }
 
+
 /**
- * Check existent of request
- * @param user
- * @return bool
- */
-bool RequestController::requestExist(const User user) {
-    for (Request request: this->requestArr) {
-        if (user.getUsername() == request.getHouse().getOwnerUsername()) {
-            return true;
+ * Function accept request from House owner through request ID
+ * It will print out upon err occurs
+ * */
+
+void RequestController::acceptRequest(const string &id) {
+    bool idFound = false;
+    Request resultRequest;
+    for (Request &request: this->requestArr) {
+        if (request.getId() == id) {
+            if (request.getStatus() != Status::requested) {
+                cout << "Request " << id << " is not in requested status, please check again" << endl;
+            } else {
+                idFound = true;
+                request.setStatus(Status::accepted);
+                resultRequest = request;
+                cout << "Request " << id << " has been accepted successfully" << endl;
+            }
         }
     }
-    return false;
+
+    if (idFound) {
+
+        for (Request &request: this->requestArr) {
+            if (
+                    (request.getHouse().getId() == resultRequest.getHouse().getId())
+                    && (request.getId() != id)
+                    && (request.getStatus() == Status::requested)
+                    && this->dateOverlap(request.getStartDate(), request.getEndDate(), resultRequest.getStartDate(),
+                                         resultRequest.getEndDate())
+                    ) {
+
+                request.setStatus(Status::rejected);
+            }
+        }
+        this->writeFile();
+        cout << "wrote to file" << endl;
+    } else {
+        cout << "Cannot find request ID " << id << endl;
+    }
 }
 
-/**
- * Accept Request using ID input
- * @param user
- * @param id
- * @param houseController
- */
-void RequestController::acceptRequest(const User user, const string &id, HouseController houseController) {
-    for (int i = 0; i < requestArr.size(); i++) {
-        Status status;
-        bool accept = 0;
-        if (user.getUsername() == requestArr[i].getHouse().getOwnerUsername()) {
-            if (requestArr[i].getId() == id) {
-                if (requestArr[i].getStatus() != requested) {
-                    cout << "-> Request " << requestArr[i].getId() << " is not in pending status <-" << endl;
-                    status = requestArr[i].getStatus();
-                } else {
-                    status = accepted;
-                    this->UC.updateCreditPoint(user, requestArr[i].getUser(),
-                                               requestArr[i].getHouse().getConsumingPoint(),
-                                               requestArr[i].getStartDate(), requestArr[i].getEndDate());
-                    accept = 1;
-                }
-            } else {
-                if (accept == 1) {
-                    status = rejected;
-                } else {
-                    status = requestArr[i].getStatus();
-                }
-            }
-            requestArr[i].setStatus(status);
-            requestArr.at(i) = requestArr[i];
-        }
+bool RequestController::dateOverlap(const CustomDate &startDate1, const CustomDate &endDate1,
+                                    const CustomDate &startDate2, const CustomDate &endDate2) {
+    if ((startDate1 == endDate2) || (startDate2 == endDate1)) {
+        return true;
+    } else if ((startDate1 <= startDate2) && (endDate1 >= startDate2)) {
+        return true;
+    } else if ((startDate2 <= startDate1) && (endDate2 >= startDate1)) {
+        return true;
     }
-
-    this->writeFile();
+    return false;
 }
 
 /**
@@ -162,7 +165,8 @@ void RequestController::acceptRequest(const User user, const string &id, HouseCo
  * @param user
  * @param house
  */
-void RequestController::request(const User user, const House house) {
+
+void RequestController::request(const User &user, const House &house) {
     string startDate, endDate;
 
     try {
@@ -193,42 +197,45 @@ void RequestController::request(const User user, const House house) {
         }
 
         bool validDateInput = (end > start);
-        long totalPrice = house.getConsumingPoint() * ((*new CustomDate).getDateRange(end, start));
+        long totalPrice = house.getConsumingPoint() * (CustomDate::getDateRange(end, start));
+
 
         bool success = true;
         if (user.getUsername() == house.getOwnerUsername()) {
             cout << "You are the owner of this house so you cannot occupy this house!\n";
             success = false;
-        } else if (!validDateInput || startDate < house.getStartDate() || endDate > house.getEndDate()) {
+        } else if (!validDateInput || (startDate < house.getStartDate()) || (endDate > house.getEndDate())) {
             cout << "The end date must be greater than the start date/The date input is out of range!\n";
             success = false;
         } else if (user.getCreditPoints() < totalPrice) {
             cout << "You don't have enough money!\n";
             success = false;
         } else {
-            for (int i = 0; i < requestArr.size(); i++) {
-                if (requestArr[i].getOccupyName() == user.getUsername()) {
-                    if ((requestArr[i].getStartDate() < startDate && requestArr[i].getEndDate() < startDate) ||
-                        (requestArr[i].getStartDate() > startDate && requestArr[i].getEndDate() > startDate)) {
-                        continue;
-                    } else {
-                        if (requestArr[i].getStatus() == rejected) {
-                            continue;
-                        } else {
-                            cout << "You have already requested/occupied a house from " << requestArr[i].getStartDate()
-                                 << " to " << requestArr[i].getEndDate() << endl;
-                            success = false;
-                        }
+            for (Request &req: this->requestArr) {
+                if (
+                        (req.getStatus() == Status::accepted) &&
+                        (this->dateOverlap(req.getStartDate(), req.getEndDate(), start, end))
+                        ) {
+                    if ((req.getOccupyName() == user.getUsername())) {
+                        cout << "You have already requested/occupied a house from " << req.getStartDate()
+                             << " to " << req.getEndDate() << endl;
+                        success = false;
+
+                    } else if (req.getHouse().getId() == house.getId()) {
+                        cout << "The house " << house.getId() << " is occupied from " <<
+                             req.getStartDate() << " to " << req.getEndDate() << endl;
+                        success = false;
                     }
                 }
+
             }
         }
 
 
         if (success == true) {
             Status status = requested;
-            Request *tempRequest = new Request(this->UC, this->HC, user.getUsername(), house.getId(), status, start,
-                                               end);
+            Request *tempRequest = new Request(this->UC, this->HC, user.getUsername(), house.getId(),
+                                               status, start, end);
             this->create(*tempRequest);
             DataHandler::clear();
             cout << "-------- NEW REQUEST --------" << endl;

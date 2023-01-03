@@ -129,18 +129,22 @@ void HouseController::create(const House &newHouse) {
  * @param username
  */
 void HouseController::unlistHouse(const string &username) {
-    bool success = 0;
-    for (int i = 0; i < this->HouseArray.size(); i++) {
-        if (this->HouseArray[i].getOwnerUsername() == username) {
-            this->HouseArray.erase(this->HouseArray.begin() + i);
-            this->writeHouseData();
-            success = 1;
+    for (House &house: this->HouseArray) {
+        if ((house.getOwnerUsername() == username) && house.isStatus()) {
+
+            if ((house.getStartDate() <= CustomDate::getToday()) && (house.getEndDate() >= CustomDate::getToday())) {
+                cout << "The house is in renting period and cannot be unlisted" << endl;
+            } else if (house.isStatus()) {
+                house.setStatus(0);
+                this->writeHouseData();
+                cout << house.isStatus() << ": " << house.getId() << endl;
+                cout << "Successfully unlisted the house " << house.getId() << "!\n";
+                return;
+            }
+        } else if ((house.getOwnerUsername() == username) && (!house.isStatus())) {
+            cout << "House " << house.getId() << " of owner " << house.getOwnerUsername() << " is already unlisted\n"
+                 << "You can now create another listing\n" << endl;
         }
-    }
-    if (success == 0) {
-        cout << "You do not have any house to unlist!\n";
-    } else {
-        cout << "Successfully unlist the house!\n";
     }
 }
 
@@ -192,6 +196,20 @@ House HouseController::findByKey(const std::string &id) {
     throw NotfoundErr("HOUSE_" + id + "_NOT_FOUND\n");
 }
 
+
+/**
+ * Check if the user has already listed a house
+ * */
+bool HouseController::listedHouseCheck(const string &username) {
+    for (House house: this->HouseArray) {
+        if ((house.getOwnerUsername() == username) && (house.getEndDate() >= CustomDate::getToday()) &&
+            (house.isStatus())) {
+            return true;
+        }
+    }
+    return false;
+}
+
 /**
  * The function gathers new House information from User and update the current data state within the program
  * and also trigger write to file function to update the data state on the .csv file
@@ -206,6 +224,8 @@ void HouseController::listNewHouse(const string &username) {
     long consumingPoint;
 
     try {
+
+        //// Get user's input of the house's details
         cout << "House title: ";
         std::getline(std::cin, houseName);
 
@@ -296,31 +316,52 @@ HouseController::searchForSuitableHouses(string city, CustomDate startDate, Cust
     long userCreditPoint = user.getCreditPoints();
     float userRatingScore = user.getRating();
 
+    bool satisfied;
+
     vector<House> result;
     for (House house: this->HouseArray) {
+
         bool suitableStartDate = (startDate >= house.getStartDate());
         bool suitableEndDate = (endDate <= house.getEndDate());
 
-        if ((house.getAddress() == city) && suitableStartDate && suitableEndDate &&
-            (userCreditPoint >= house.getConsumingPoint()) && (userRatingScore >= house.getRequiredRating())) {
+        satisfied = (
+                (house.getAddress() == city)
+                && suitableStartDate
+                && suitableEndDate
+                && (userCreditPoint >= house.getConsumingPoint())
+                && (userRatingScore >= house.getRequiredRating())
+                && house.isStatus()
+        );
+
+        if (satisfied) {
             result.push_back(house);
         }
     }
     return result;
 }
 
+//vector<House> HouseController::eliminateRequestOverlap() {
+//
+//}
+
 /**
- * Load all available house info into an array
- * @return result
- */
+ * Return all houses in the system with start date later than CustomDate::getToday()
+ * @return: :vector<House> a vector of result house
+ * */
 vector<House> HouseController::allAvailableHouse() {
     vector<House> result;
-    for (House house : this->HouseArray) {
-        if (house.getStartDate() > CustomDate::getToday()) {
+    for (House house: this->HouseArray) {
+        if (house.getStartDate() > CustomDate::getToday() && house.isStatus()) {
             result.push_back(house);
+            cout << "---------- ID:" << house.getId() << " ----------" << endl;
             house.showInfo();
         }
     }
+    cout << endl;
     return result;
 }
 
+
+void recalculateDateRange() {
+
+}

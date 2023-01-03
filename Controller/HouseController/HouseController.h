@@ -19,6 +19,13 @@ private:
     House currentUserHouse;
     string dataPath;
     void loadDataToArray();
+
+    /********************************************************************
+     * Methods
+     ******************************************************************/
+
+    bool listedHouseCheck(const string &username);
+
 public:
     /********************************************************************
      * Constructors
@@ -66,6 +73,8 @@ public:
 
         /** User interactions */
     vector<House> searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate, User user);
+
+    vector<House> getRequestOver();
 
     vector<House> allAvailableHouse();
 
