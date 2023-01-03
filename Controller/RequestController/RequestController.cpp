@@ -33,11 +33,12 @@ void RequestController::loadDataToArray() {
         CustomDate endDate = CustomDate(line[5]);
         if (CustomDate::getToday() > endDate) {
             status = finished;
+            dataChange = true;
         }
         Request temp_request = Request(this->UC, this->HC, line[0], line[1], line[2], status, startDate, endDate);
         this->requestArr.push_back(temp_request);
     }
-    this->writeFile();
+    if (dataChange) this->writeFile();
 }
 
 void RequestController::create(const Request &newReq) {
