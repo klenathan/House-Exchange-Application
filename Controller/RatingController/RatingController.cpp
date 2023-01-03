@@ -33,8 +33,10 @@ void RatingController::loadDataToUserRatingArray() {
     vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath + "./user_rating_data.csv");
     for (vector<string> line: rawData) {
         UserRating temp_user_rating = UserRating(line[0],
-                                                 line[1], std::stol(line[2]),
-                                                 line[3]);
+                                                 line[1],
+                                                 line[2],
+                                                 std::stol(line[3]),
+                                                 line[4]);
 
         this->userRatingArray.push_back(temp_user_rating);
 
@@ -50,8 +52,10 @@ void RatingController::loadDataToHouseRatingArray() {
 
     for (vector<string> line: rawData) {
         HouseRating temp_house_rating = HouseRating(line[0],
-                                                    line[1], std::stol(line[2]),
-                                                    line[3]);
+                                                    line[1],
+                                                    line[2],
+                                                    std::stol(line[3]),
+                                                    line[4]);
 
         this->houseRatingArray.push_back(temp_house_rating);
     }
@@ -62,7 +66,7 @@ void RatingController::loadDataToHouseRatingArray() {
  */
 void RatingController::houseRatingWriteFile() {
     string content;
-    content += "houseID,username,ratingScore,comment\n";
+    content += "houseID,username,requestID,ratingScore,comment\n";
     for (HouseRating houseRating: this->houseRatingArray) {
         content += houseRating.getHouseRatingWriteFormat() + "\n";
     }
@@ -75,7 +79,7 @@ void RatingController::houseRatingWriteFile() {
  */
 void RatingController::userRatingWriteFile() {
     string content;
-    content += "username,houseID,ratingScore,comment\n";
+    content += "username,houseID,requestID,ratingScore,comment\n";
     for (UserRating userRating: this->userRatingArray) {
         content += userRating.getUserRatingWriteFormat() + "\n";
     }
@@ -85,7 +89,7 @@ void RatingController::userRatingWriteFile() {
 }
 
 
-void RatingController::rating(const House &house) {
+void RatingController::rating(const House &house, const string& requestID) {
     string tempRatingScore;
     float ratingScore;
     string comment;
@@ -125,7 +129,7 @@ void RatingController::rating(const House &house) {
         getline(cin, comment);
 
         // Save to house_rating_data.csv
-        HouseRating *newHouseRatting = new HouseRating(houseId, username, ratingScore, comment);
+        HouseRating *newHouseRatting = new HouseRating(houseId, username,requestID, ratingScore, comment);
         this->houseRatingArray.push_back(*newHouseRatting);
         houseRatingWriteFile();
 
@@ -141,9 +145,8 @@ void RatingController::rating(const House &house) {
  * Rating method for house owner rate user who rented their house
  * @param user which is rated by house owner
  */
-void RatingController::rating(User user) {
+void RatingController::rating(const User& user, const string& requestID, const string& homeID) {
     string username = user.getUsername();
-    string homeID;
     string tempRatingScore;
     float ratingScore;
     string comment;
@@ -181,7 +184,7 @@ void RatingController::rating(User user) {
         getline(cin, comment);
 
         // Save to house_rating_data.csv
-        UserRating *newUserRating = new UserRating(username, homeID, ratingScore, comment);
+        UserRating *newUserRating = new UserRating(username, homeID,requestID, ratingScore, comment);
         this->userRatingArray.push_back(*newUserRating);
         userRatingWriteFile();
 

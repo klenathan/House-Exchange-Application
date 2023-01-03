@@ -55,9 +55,9 @@ public:
     /**
      * Rating method
      */
-    void rating(const House &house); // Rating for house
+    void rating(const House &house, const string& requestID); // Rating for house
 
-    void rating(User user); // Rating for user
+    void rating(const User& user, const string& requestID, const string& homeID); // Rating for user
 
     /**
      * Calculate average rating

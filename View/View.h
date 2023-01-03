@@ -48,6 +48,9 @@ public:
 
     string takeCurrentHomeID();
 
+    string takeRequestId(House house, vector<Request> pendingArray);
+    string takeRequestId(User user, vector<Request> pendingArray);
+
     string *dateInput(std::string *arr);
 
     void renterUpdateRequestStatus ();
