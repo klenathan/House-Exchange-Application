@@ -56,7 +56,7 @@ House HouseController::getUserHouse(string username) {
             return house;
         }
     }
-    throw NotfoundErr(username + " have no house");
+    throw NotfoundErr(username + " has no house!");
 }
 
 void HouseController::showUserHouse(string username) {
@@ -66,7 +66,7 @@ void HouseController::showUserHouse(string username) {
 
 bool HouseController::houseExist(string username) {
     for (House house: this->HouseArray) {
-        if (house.getOwnerUsername() == username) {
+        if (house.getOwnerUsername() == username && house.isStatus()) {
             return true;
         }
     }
@@ -114,6 +114,7 @@ void HouseController::create(const House &newHouse) {
 }
 
 void HouseController::unlistHouse(const string &username) {
+    bool success = 1;
     for (House &house: this->HouseArray) {
         if ((house.getOwnerUsername() == username) && house.isStatus()) {
 
@@ -122,9 +123,7 @@ void HouseController::unlistHouse(const string &username) {
             } else if (house.isStatus()) {
                 house.setStatus(0);
                 this->writeHouseData();
-                cout << house.isStatus() << ": " << house.getId() << endl;
                 cout << "Successfully unlisted the house " << house.getId() << "!\n";
-                return;
             }
         } else if ((house.getOwnerUsername() == username) && (!house.isStatus())) {
             cout << "House " << house.getId() << " of owner " << house.getOwnerUsername() << " is already unlisted\n"
@@ -330,9 +329,4 @@ vector<House> HouseController::allAvailableHouse() {
     }
     cout << endl;
     return result;
-}
-
-
-void recalculateDateRange() {
-
 }

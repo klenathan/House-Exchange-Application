@@ -233,13 +233,14 @@ void View::memberFunction(User user) {
                         memberFunction(user);
                     case 4:
                         //// View sent request
-                        View::renterUpdateRequestStatus();
+                        RC.viewSentRequest(user);
                         memberFunction(user);
                     case 5:
                         //// View All Requests To My House
-                        RC.viewRequest(user);
 
-                        RC.acceptRequest(this->requestIdInput(RC));
+                        if (RC.viewRequest(user)) {
+                            RC.acceptRequest(this->requestIdInput(RC), user);
+                        }
 
                         memberFunction(user);
                     case 6:
@@ -413,22 +414,6 @@ string *View::dateInput(string arr[]) {
 
 }
 
-/**
- * The function handle changing the request status to finished from renter's view
- *
- * */
-
-void View::renterUpdateRequestStatus() {
-    string id;
-    cout << ">> Sent requests: <<" << endl;
-    if (RC.viewSentRequest(UC.getCurrentUser())) {
-        cout << "Select a request to update its status: ";
-        cin >> id;
-        if (RC.updateRequestStatusToFinish(id)) {
-            cout << "Updated " << id << "'s status to finished" << endl;
-        }
-    };
-}
 
 /**
  * Get and validate city input from user

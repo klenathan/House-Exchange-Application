@@ -28,12 +28,5 @@ int main(int argc, const char *argv[]) {
     VC.welcomeScreen();
     VC.validateUser();
 
-    //// Test playground <3
-
-//    string currentPath = DataHandler::getPath(argv[0]);
-//    UserController UC = UserController(currentPath);
-//    HouseController HC = HouseController(currentPath);
-//    HC.searchForSuitableHouses("Saigon", *new CustomDate("13/10/2023"),*new CustomDate( "14/10/2023"), UC.getUserArray().at(0));
-
     return 0;
 }

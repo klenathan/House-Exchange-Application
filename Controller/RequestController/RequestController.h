@@ -43,16 +43,14 @@ public:
      */
     void create(const Request &newReq);
 
-//    void create(const std::string &house, const std::string &name, const CustomDate &startDate,
-//                const CustomDate &endDate, const Status &status);
 
     void writeFile();
 
-    void viewRequest(const User &user);
+    bool viewRequest(const User &user);
 
-    bool viewSentRequest(const User &user);
+    void viewSentRequest(const User &user);
 
-    void acceptRequest(const string &id);
+    void acceptRequest(const string &id, const User &user);
 
     void request(const User &user, const House & house);
 

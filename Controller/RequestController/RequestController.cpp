@@ -56,7 +56,7 @@ void RequestController::writeFile() {
     DataHandler::writeFile("requests.csv", content);
 }
 
-void RequestController::viewRequest(const User &user) {
+bool RequestController::viewRequest(const User &user) {
     bool exist = 0;
     for (Request request: this->requestArr) {
         if (user.getUsername() == request.getHouse().getOwnerUsername()) {
@@ -68,9 +68,10 @@ void RequestController::viewRequest(const User &user) {
     if (exist == 0) {
         cout << "-> You don't have any request! <-\n";
     }
+    return exist;
 };
 
-bool RequestController::viewSentRequest(const User &user) {
+void RequestController::viewSentRequest(const User &user) {
     bool exist = 0;
     for (Request req: this->requestArr) {
         if (req.getUser().getUsername() == user.getUsername()) {
@@ -81,9 +82,7 @@ bool RequestController::viewSentRequest(const User &user) {
     }
     if (exist == 0) {
         cout << "-> You haven't sent any request! <-\n";
-        return 0;
     }
-    return 1;
 }
 
 
@@ -92,7 +91,7 @@ bool RequestController::viewSentRequest(const User &user) {
  * It will print out upon err occurs
  * */
 
-void RequestController::acceptRequest(const string &id) {
+void RequestController::acceptRequest(const string &id, const User &user) {
     bool idFound = false;
     Request resultRequest;
     for (Request &request: this->requestArr) {
@@ -102,6 +101,9 @@ void RequestController::acceptRequest(const string &id) {
             } else {
                 idFound = true;
                 request.setStatus(Status::accepted);
+                this->UC.updateCreditPoint(user, request.getUser(),
+                                           request.getHouse().getConsumingPoint(),
+                                           request.getStartDate(), request.getEndDate());
                 resultRequest = request;
                 cout << "Request " << id << " has been accepted successfully" << endl;
             }
@@ -123,11 +125,10 @@ void RequestController::acceptRequest(const string &id) {
             }
         }
         this->writeFile();
-        cout << "wrote to file" << endl;
-    } else {
-        cout << "Cannot find request ID " << id << endl;
     }
 }
+// 10 - 20
+
 
 bool RequestController::dateOverlap(const CustomDate &startDate1, const CustomDate &endDate1,
                                     const CustomDate &startDate2, const CustomDate &endDate2) {
@@ -193,7 +194,7 @@ void RequestController::request(const User &user, const House &house) {
                         (this->dateOverlap(req.getStartDate(), req.getEndDate(), start, end))
                         ) {
                     if ((req.getOccupyName() == user.getUsername())) {
-                        cout << "You have already requested/occupied a house from " << req.getStartDate()
+                        cout << "You have already occupied a house from " << req.getStartDate()
                              << " to " << req.getEndDate() << endl;
                         success = false;
 
@@ -253,26 +254,4 @@ vector<Request> RequestController::getOccupierUsername(string homeID) {
     }
     return pendingUseRating;
 };
-
-bool RequestController::updateRequestStatusToFinish(const std::string &requestid) {
-
-    for (Request &request: this->requestArr) {
-        if (request.getId() == requestid) {
-            if (request.getStatus() == rejected) {
-                cout << requestid << " has already been rejected" << endl;
-                return false;
-            } else if (request.getStatus() == requested) {
-                cout << requestid << " has not been approved" << endl;
-                return false;
-            } else if (request.getStatus() == finished) {
-                cout << requestid << " has already finished" << endl;
-                return false;
-            }
-            request.setStatus(finished);
-            this->writeFile();
-            return true;
-        }
-    }
-    return false;
-}
 
