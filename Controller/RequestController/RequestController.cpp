@@ -24,8 +24,13 @@ const vector<Request> &RequestController::getRequestArr() const {
     return requestArr;
 }
 
+/**
+ * Data Loader
+ */
 void RequestController::loadDataToArray() {
     vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath);
+
+    bool dataChange = false;
 
     for (vector<string> line: rawData) {
         Status status = (*new Request).stoE(line[3]);
@@ -33,6 +38,7 @@ void RequestController::loadDataToArray() {
         CustomDate endDate = CustomDate(line[5]);
         if (CustomDate::getToday() > endDate) {
             status = finished;
+            dataChange = true;
         }
         Request temp_request = Request(this->UC, this->HC, line[0], line[1], line[2], status, startDate, endDate);
         this->requestArr.push_back(temp_request);
@@ -40,11 +46,18 @@ void RequestController::loadDataToArray() {
     if (dataChange) this->writeFile();
 }
 
+/**
+ * Create new request
+ * @param newReq
+ */
 void RequestController::create(const Request &newReq) {
     this->requestArr.push_back(newReq);
     this->writeFile();
 }
 
+/**
+ *  Write Data
+ */
 void RequestController::writeFile() {
     string content;
     content += "request_id,username,house_id,status,start_date,end_date\n";
@@ -54,6 +67,10 @@ void RequestController::writeFile() {
     DataHandler::writeFile("requests.csv", content);
 }
 
+/**
+ * View all request
+ * @param user
+ */
 void RequestController::viewRequest(const User &user) {
     bool exist = 0;
     for (Request request: this->requestArr) {
@@ -68,6 +85,11 @@ void RequestController::viewRequest(const User &user) {
     }
 };
 
+/**
+ * View my send requeset
+ * @param user
+ * @return bool
+ */
 bool RequestController::viewSentRequest(const User &user) {
     bool exist = 0;
     for (Request req: this->requestArr) {
@@ -84,6 +106,11 @@ bool RequestController::viewSentRequest(const User &user) {
     return 1;
 }
 
+/**
+ * Check existent of request
+ * @param user
+ * @return bool
+ */
 bool RequestController::requestExist(const User user) {
     for (Request request: this->requestArr) {
         if (user.getUsername() == request.getHouse().getOwnerUsername()) {
@@ -93,6 +120,12 @@ bool RequestController::requestExist(const User user) {
     return false;
 }
 
+/**
+ * Accept Request using ID input
+ * @param user
+ * @param id
+ * @param houseController
+ */
 void RequestController::acceptRequest(const User user, const string &id, HouseController houseController) {
     for (int i = 0; i < requestArr.size(); i++) {
         Status status;
@@ -124,6 +157,11 @@ void RequestController::acceptRequest(const User user, const string &id, HouseCo
     this->writeFile();
 }
 
+/**
+ * Get request input from user
+ * @param user
+ * @param house
+ */
 void RequestController::request(const User user, const House house) {
     string startDate, endDate;
 
@@ -156,7 +194,6 @@ void RequestController::request(const User user, const House house) {
 
         bool validDateInput = (end > start);
         long totalPrice = house.getConsumingPoint() * ((*new CustomDate).getDateRange(end, start));
-
 
         bool success = true;
         if (user.getUsername() == house.getOwnerUsername()) {
@@ -234,8 +271,12 @@ vector<Request> RequestController::getOccupierUsername(string homeID) {
     return pendingUseRating;
 };
 
+/**
+ * Change request status
+ * @param requestid
+ * @return
+ */
 bool RequestController::updateRequestStatusToFinish(const std::string &requestid) {
-
     for (Request &request: this->requestArr) {
         if (request.getId() == requestid) {
             if (request.getStatus() == rejected) {
@@ -255,4 +296,3 @@ bool RequestController::updateRequestStatusToFinish(const std::string &requestid
     }
     return false;
 }
-

@@ -12,9 +12,7 @@
 #ifdef _WIN32
 #include <Windows.h>
 #else
-
 #include <unistd.h>
-
 #endif
 
 using std::string;
@@ -28,8 +26,8 @@ int main(int argc, const char *argv[]) {
     VC.welcomeScreen();
     VC.validateUser();
 
-    //// Test playground <3
-
+    //// Test playground ❤
+//    (￣y▽,￣)╭ ❤❤❤
 //    string currentPath = DataHandler::getPath(argv[0]);
 //    UserController UC = UserController(currentPath);
 //    HouseController HC = HouseController(currentPath);

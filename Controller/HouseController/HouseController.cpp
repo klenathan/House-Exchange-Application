@@ -49,7 +49,6 @@ void HouseController::loadDataToArray() {
  * @return: House house object of result
  * @Err: Throw not found error in the case the user does not list any house (Non existed)
  * */
-
 House HouseController::getUserHouse(string username) {
     for (House house: this->HouseArray) {
         if (house.getOwnerUsername() == username) {
@@ -59,11 +58,20 @@ House HouseController::getUserHouse(string username) {
     throw NotfoundErr(username + " have no house");
 }
 
+/**
+ * Show info of user house using username input
+ * @param username
+ */
 void HouseController::showUserHouse(string username) {
     House h = getUserHouse(username);
     h.showInfo();
 }
 
+/**
+ * Check house existent
+ * @param username
+ * @return
+ */
 bool HouseController::houseExist(string username) {
     for (House house: this->HouseArray) {
         if (house.getOwnerUsername() == username) {
@@ -91,11 +99,14 @@ vector<House> HouseController::getUserHouseVector(string username) {
 /**
  * Prompt house data from current dataState to the console
  * */
-
 void HouseController::showData() {
     houseData(this->HouseArray);
 }
 
+/**
+ * Show house data
+ * @param houses
+ */
 void HouseController::houseData(vector<House> houses) {
     for (House house: houses) {
         cout << "-------- ID: " << house.getId() << " --------" << endl;
@@ -113,6 +124,10 @@ void HouseController::create(const House &newHouse) {
     this->writeHouseData();
 }
 
+/**
+ * Unlist a house
+ * @param username
+ */
 void HouseController::unlistHouse(const string &username) {
     bool success = 0;
     for (int i = 0; i < this->HouseArray.size(); i++) {
@@ -130,6 +145,28 @@ void HouseController::unlistHouse(const string &username) {
 }
 
 /**
+ * Create new house by input all House attributes
+ * @param name
+ * @param address
+ * @param desc
+ * @param ownerUsername
+ * @param startDate
+ * @param endDate
+ * @param requiredRating
+ * @param rating
+ * @param status
+ * @param consumingPoint
+ */
+void HouseController::create(const std::string &name, const std::string &address, const std::string &desc,
+                             const std::string &ownerUsername, const CustomDate &startDate,
+                             const CustomDate &endDate, float requiredRating, float rating, bool status,
+                             long consumingPoint) {
+    House newHouse = House(name, address, desc, ownerUsername, startDate, endDate, requiredRating, rating,
+                           consumingPoint);
+    this->HouseArray.push_back(newHouse);
+}
+
+/**
  * Save the current state of data to file
  * */
 void HouseController::writeHouseData() {
@@ -139,19 +176,6 @@ void HouseController::writeHouseData() {
         content += house.to_string() + "\n";
     }
     DataHandler::writeFile(this->dataPath, content);
-}
-
-/**
- * Create new house by input all House attributes
- * @params:
- * */
-void HouseController::create(const std::string &name, const std::string &address, const std::string &desc,
-                             const std::string &ownerUsername, const CustomDate &startDate,
-                             const CustomDate &endDate, float requiredRating, float rating, bool status,
-                             long consumingPoint) {
-    House newHouse = House(name, address, desc, ownerUsername, startDate, endDate, requiredRating, rating,
-                           consumingPoint);
-    this->HouseArray.push_back(newHouse);
 }
 
 /**
@@ -171,10 +195,10 @@ House HouseController::findByKey(const std::string &id) {
 /**
  * The function gathers new House information from User and update the current data state within the program
  * and also trigger write to file function to update the data state on the .csv file
- *
+ * @param username
  * @Err: The functions might throw some invalid format errors upon user inputs the data
- * */
-
+ *
+ */
 void HouseController::listNewHouse(const string &username) {
     string houseName, address, desc, ownerUsername, startDate, endDate;
     string tempMinRate, tempConsumingPoint;
@@ -259,7 +283,14 @@ void HouseController::listNewHouse(const string &username) {
     }
 }
 
-
+/**
+ * Search for suitable house for occupying
+ * @param city
+ * @param startDate
+ * @param endDate
+ * @param user
+ * @return
+ */
 vector<House>
 HouseController::searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate, User user) {
     long userCreditPoint = user.getCreditPoints();
@@ -278,6 +309,10 @@ HouseController::searchForSuitableHouses(string city, CustomDate startDate, Cust
     return result;
 }
 
+/**
+ * Load all available house info into an array
+ * @return result
+ */
 vector<House> HouseController::allAvailableHouse() {
     vector<House> result;
     for (House house : this->HouseArray) {
