@@ -27,17 +27,18 @@ View::View(string path) {
                  "s3891890, Tran Nam Thai\n"
                  "s3878246, Pham Anh Thu\n"
                  "s3891968, Pham Vo Dong\n"
-                 "s3927201, Tran Ngoc Khang\n";
+                 "s3927201, Tran Ngoc Khang\n" << endl;
 }
 
 
 void View::welcomeScreen() {
-    cout << "-------- Main Menu --------\n"
-            "Use the app as \n"
-            "1. Guest \n"
-            "2. Member \n"
-            "3. Admin\n"
-            "4. Exit"
+    cout << "|-------- Main Menu -------- |\n"
+            "|Use the app as              |\n"
+            "|1. Guest                    |\n"
+            "|2. Member                   |\n"
+            "|3. Admin                    |\n"
+            "|4. Exit                     |\n"
+            "|----------------------------|"
          << std::endl;
 }
 
@@ -105,7 +106,8 @@ void View::validateUser() {
                 }
                 check = false;
             } else {
-                throw input;
+                cout << "Invalid choice\n" <<endl;
+                validateUser();
             }
             cout << endl;
         }
@@ -118,12 +120,13 @@ void View::validateUser() {
 }
 
 void View::guessFunction() {
-    cout << "--------------------------------------------" << endl;
-    std::cout << "1. Register \n"
-                 "2. View All Houses Details\n"
-                 "3. Return to main menu\n"
-                 "4. Exit"
-              << std::endl;
+    cout << "|---------------- Guest Menu ----------------|\n"
+            "|1. Register                                 |\n"
+            "|2. View All Houses Details                  |\n"
+            "|3. Return to main menu                      |\n"
+            "|4. Exit                                     |\n"
+            "|--------------------------------------------|"
+            << std::endl;
     bool check = true;
     std::string input;
     while (check) {
@@ -168,19 +171,19 @@ void View::guessFunction() {
 }
 
 void View::memberFunction(User user) {
-    cout << "--------------Member Menu--------------" << endl;
-    std::cout <<
-              "1. View My Information\n"
-              "2. Search For Suitable House\n"
-              "3. View all available house\n"
-              "4. View sent request\n"
-              "5. View All Requests To My House\n"
-              "------\n"
-              "6. List House\n"
-              "7. Unlist House\n"
-              "8. Rate Houses\n"
-              "9. Rate Occupiers\n"
-              "0. Exit"
+    cout << "|--------------Member Menu--------------|\n"
+            "|1. View My Information                 |\n"
+            "|2. Search For Suitable House           |\n"
+            "|3. View all available house            |\n"
+            "|4. View sent request                   |\n"
+            "|5. View All Requests To My House       |\n"
+            "|---------------------------------------|\n"
+            "|6. List House                          |\n"
+            "|7. Unlist House                        |\n"
+            "|8. Rate Houses                         |\n"
+            "|9. Rate Occupiers                      |\n"
+            "|0. Exit                                |\n"
+            "|---------------------------------------|"
               << std::endl;
     bool check = true;
     std::string input;
@@ -236,9 +239,7 @@ void View::memberFunction(User user) {
                         //// View All Requests To My House
                         RC.viewRequest(user);
 
-                        if (RC.requestExist(user)) {
-                            RC.acceptRequest(user, this->requestIdInput(RC), HC);
-                        }
+                        RC.acceptRequest(this->requestIdInput(RC));
 
                         memberFunction(user);
                     case 6:
@@ -313,11 +314,12 @@ void View::memberFunction(User user) {
 }
 
 void View::adminFunction(User admin) {
-    cout << "--------------------------------------------" << endl;
-    std::cout << "1. Show all user data \n"
-                 "2. View All Houses Details\n"
-                 "3. Exit"
-              << std::endl;
+    cout << "|-------------- Admin menu --------------|"
+            "|1. Show all user data                   |\n"
+            "|2. View All Houses Details              |\n"
+            "|3. Exit                                 |\n"
+            "|----------------------------------------|"
+            << std::endl;
     bool check = true;
     std::string input;
     while (check) {
@@ -490,10 +492,12 @@ string View::requestIdInput(RequestController rc) {
 
             for (Request r: rc.getRequestArr()) {
                 if (id == r.getId()) {
+
                     flag = false;
                     return id;
                 }
             }
+            cout << "Cannot find request ID " << id << "\n" << endl;
         }
         catch (std::exception &e) {
             cout << "Function stopped due to err: " << e.what() << endl;
