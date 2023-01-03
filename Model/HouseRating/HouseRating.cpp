@@ -37,17 +37,23 @@ const string &HouseRating::getComment() const {
 void HouseRating::setComment(const string &comment) {
     HouseRating::comment = comment;
 }
+const string &HouseRating::getRequestId() const {
+    return requestID;
+}
+
+void HouseRating::setRequestId(const string &requestId) {
+    requestID = requestId;
+}
 
 
-HouseRating::HouseRating(string homeId, const string &username, float ratingScore, const string &comment) : homeID(
-        homeId),
-                                                                                                           username(
-                                                                                                                   username),
-                                                                                                           ratingScore(
-                                                                                                                   ratingScore),
-                                                                                                           comment(comment) {}
+
+HouseRating::HouseRating(const string &homeId, const string &username, const string &requestId, float ratingScore,
+                         const string &comment) : homeID(homeId), username(username), requestID(requestId),
+                                                  ratingScore(ratingScore), comment(comment) {}
+
 
 string HouseRating::getHouseRatingWriteFormat() {
-    return this->homeID + "," + this->username + "," + to_string(this->ratingScore) + "," + this->comment;
-
+    return homeID + "," + this->username + "," + this->requestID + "," + to_string(this->ratingScore) + "," + this->comment;
 }
+
+

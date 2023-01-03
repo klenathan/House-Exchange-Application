@@ -185,6 +185,7 @@ void View::memberFunction(User user) {
     bool check = true;
     std::string input;
     UC.setCurrentUser(user);
+    RaC.setCurrentUser(user);
 
     while (check) {
         try {
@@ -264,7 +265,10 @@ void View::memberFunction(User user) {
                             }
                             cout << "\n-------------------------\n";
 
-                            RaC.rating(HC.findByKey(inputHouseRating(RC.getHouseForRating(user))));
+                            House houseForRating;
+                            houseForRating = HC.findByKey(inputHouseRating(RC.getHouseForRating(user)));
+
+                            RaC.rating( houseForRating, takeRequestId(houseForRating, RC.getHouseForRating(user)));
                         } else {
                             cout << "You haven't occupied a house yet!/ Your request hasn't been finished yet!\n";
                         }
@@ -272,15 +276,20 @@ void View::memberFunction(User user) {
                         memberFunction(user);
                     case 9: {
                         //Rate Occupiers
-                        cout << "Pending user for rating\n";
+                        if(!RC.getOccupierUsername(takeCurrentHomeID()).empty()){
+                            cout << "Pending user for rating\n";
 
-                        for (Request request: RC.getOccupierUsername(takeCurrentHomeID())) {
-                            cout << "\n-------------------------\n";
-                            request.showInfo();
+                            for (Request request: RC.getOccupierUsername(takeCurrentHomeID())) {
+                                cout << "\n-------------------------\n";
+                                request.showInfo();
+                            }
+                            User userForRating;
+                            userForRating = UC.findByKey(inputUserRating(RC.getOccupierUsername(takeCurrentHomeID())));
+                            RaC.rating(userForRating, takeRequestId(userForRating, RC.getOccupierUsername(takeCurrentHomeID())), takeCurrentHomeID());
+                        } else {
+                            cout << "You haven't occupied a house yet!/ Your request hasn't been finished yet!\n";
                         }
 
-                        RaC.rating(
-                                UC.findByKey(inputUserRating(RC.getOccupierUsername(takeCurrentHomeID()))));
 
                         memberFunction(user);
                     }
@@ -522,11 +531,33 @@ string View::takeCurrentHomeID() {
     for (House house: HC.getHouseArray()) {
         if (UC.getCurrentUser().getUsername() == house.getOwnerUsername()) {
             homeID = house.getId();
-            return homeID;
+            break;
         }
     }
-
+    return homeID;
 }
+string View::takeRequestId(House house, vector<Request> pendingArray) {
+    string requestID;
+    for(Request request : pendingArray){
+        if(house.getId() == request.getHouse().getId()){
+            requestID = request.getId();
+        }
+    }
+    return requestID;
+}
+
+string View::takeRequestId(User user, vector<Request> pendingArray) {
+    string requestID;
+    for(Request request : pendingArray){
+        if(user.getUsername() == request.getOccupyName()){
+            requestID = request.getId();
+        }
+    }
+    return requestID;
+}
+
+
+
 
 string View::inputUserRating(vector<Request> pendingArray) {
     string username;
@@ -550,6 +581,8 @@ string View::inputUserRating(vector<Request> pendingArray) {
         }
     }
 }
+
+
 
 
 
