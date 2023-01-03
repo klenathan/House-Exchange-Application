@@ -8,6 +8,7 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <string>
 #include "../../Data/DataLoader/DataHandler.h"
 #include "../../Model/HouseRating/HouseRating.h"
 #include "../../Model/UserRating/UserRating.h"
@@ -22,13 +23,15 @@ class RatingController {
 private:
     vector<HouseRating> houseRatingArray;
     vector<UserRating> userRatingArray;
+//    vector<string> ratingArray;
     User currentUser;
 
     string dataPath;
 
-    void loadDataToUserRatingArray();
+    void loadDataToUserRatingArray(vector<Request> requestArray);
 
-    void loadDataToHouseRatingArray();
+    void loadDataToHouseRatingArray(vector<Request> requestArray);
+
 
 public:
     /**
@@ -36,7 +39,7 @@ public:
      */
     RatingController() = default;
 
-    RatingController(string path);
+    RatingController(string path, vector<Request> requestArray);
 
     /**
      * Getter Setter
@@ -45,6 +48,7 @@ public:
 
     void setCurrentUser(const User &currentUser);
 
+
     /**
      * Methods
      */
@@ -52,10 +56,12 @@ public:
 
     void userRatingWriteFile();
 
+    void writeFile();
+
     /**
      * Rating method
      */
-    void rating(const House &house, const string& requestID); // Rating for house
+    void rating(Request request); // Rating for house
 
     void rating(const User& user, const string& requestID, const string& homeID); // Rating for user
 
@@ -65,6 +71,8 @@ public:
     vector<User> ratingAverage(vector<User> &userArray);
 
     vector<House> ratingAverage(vector<House> &houseArray);
+
+    string getRatingWriteFormat();
 
 
 };

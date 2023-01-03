@@ -23,10 +23,17 @@ using std::endl;
 
 int main(int argc, const char *argv[]) {
     ///// Running code
-    string currentPath = DataHandler::getPath(argv[0]);
-    View VC = View(currentPath);
-    VC.welcomeScreen();
-    VC.validateUser();
+    string path = DataHandler::getPath(argv[0]);
+    HouseController HC = HouseController(path);
+    UserController UC = UserController(path);
+    RequestController RC = RequestController(path, HC, UC);
+    RatingController rtC = RatingController(path, RC.getRequestArr());
+
+//    RaC.writeFile();
+rtC.writeFile();
+//    View VC = View(currentPath);
+//    VC.welcomeScreen()
+//    VC.validateUser();
 
     //// Test playground <3
 
