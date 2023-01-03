@@ -6,14 +6,17 @@
 #define HOUSEEXCHANGEAPPLICATION_USERRATING_H
 
 #include <iostream>
+#include "../Request/Request.h"
 
 using std::string, std::to_string;
 
 class UserRating {
 private:
-    string username;
-    string homeID;
-    string requestID;
+//    string username;
+//    string homeID;
+//    string requestID;
+    Request request;
+
     float ratingScore;
     string comment;
 
@@ -23,19 +26,17 @@ public:
      */
     UserRating() = default;
 
-    UserRating(const string &username, const string &homeId, const string &requestId, float ratingScore,
-               const string &comment);
+//    UserRating(const string &username, const string &homeId, const string &requestId, float ratingScore,
+//               const string &comment);
+
+    UserRating(const Request &request, float ratingScore, const string &comment);
 
     /**
      * Getter Setter
      */
-    const string &getUsername() const;
+    const Request &getRequest() const;
 
-    void setUsername(const string &username);
-
-    const string &getHomeId() const;
-
-    void setHomeId(const string &homeId);
+    void setRequest(const Request &request);
 
     float getRatingScore() const;
 

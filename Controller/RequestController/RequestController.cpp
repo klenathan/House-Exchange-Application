@@ -21,7 +21,7 @@ void RequestController::setRequestArray(const vector<Request> &requestArray) {
 }
 
 const vector<Request> &RequestController::getRequestArr() const {
-    return requestArr;
+    return this->requestArr;
 }
 
 void RequestController::loadDataToArray() {

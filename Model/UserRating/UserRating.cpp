@@ -3,25 +3,23 @@
 //
 
 #include "UserRating.h"
+//
+//UserRating::UserRating(const string &username, const string &homeId, const string &requestId, float ratingScore,
+//                       const string &comment) : username(username), homeID(homeId), requestID(requestId),
+//                                                ratingScore(ratingScore), comment(comment) {}
 
-UserRating::UserRating(const string &username, const string &homeId, const string &requestId, float ratingScore,
-                       const string &comment) : username(username), homeID(homeId), requestID(requestId),
-                                                ratingScore(ratingScore), comment(comment) {}
 
-const string &UserRating::getUsername() const {
-    return username;
+UserRating::UserRating(const Request &request, float ratingScore, const string &comment) : request(request),
+                                                                                           ratingScore(ratingScore),
+                                                                                           comment(comment) {}
+
+
+const Request &UserRating::getRequest() const {
+    return request;
 }
 
-void UserRating::setUsername(const string &username) {
-    UserRating::username = username;
-}
-
-const string &UserRating::getHomeId() const {
-    return homeID;
-}
-
-void UserRating::setHomeId(const string &homeId) {
-    homeID = homeId;
+void UserRating::setRequest(const Request &request) {
+    UserRating::request = request;
 }
 
 float UserRating::getRatingScore() const {
@@ -41,7 +39,8 @@ void UserRating::setComment(const string &comment) {
 }
 
 string UserRating::getUserRatingWriteFormat() {
-    return this->username + "," + this->homeID + "," + this->requestID + "," + to_string(this->ratingScore) + "," + this->comment;
+    return this->request.getId() + "," + to_string(this->ratingScore) + "," + this->comment;
 }
+
 
 
