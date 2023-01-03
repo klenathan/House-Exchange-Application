@@ -15,11 +15,12 @@
 #include "../Controller/RatingController/RatingController.h"
 
 using std::string;
+using std::vector;
 
 class View {
 private:
     string dataPath;
-    std::vector<House> HouseArray;
+    vector<House> HouseArray;
 
     HouseController HC;
     UserController UC;
@@ -44,16 +45,18 @@ public:
     House requestToOccupy();
 
     string inputHouseRating(vector<Request> pendingArray);
+
     string inputUserRating(vector<Request> pendingArray);
 
     string takeCurrentHomeID();
 
     string takeRequestId(House house, vector<Request> pendingArray);
+
     string takeRequestId(User user, vector<Request> pendingArray);
 
     string *dateInput(std::string *arr);
 
-    void renterUpdateRequestStatus ();
+    void renterUpdateRequestStatus();
 
     string cityInput();
 
