@@ -9,6 +9,7 @@
 #include <vector>
 #include <cmath>
 #include <algorithm>
+#include <map>
 
 #include "../../Data/DataLoader/DataHandler.h"
 #include "../../Model/Rating/Rating.h"
@@ -20,7 +21,7 @@ using std::cout, std::endl, std::string, std::getline, std::cin, std::cerr, std:
 class RatingController {
 private:
     vector<Rating> ratingArray;
-    User currentUser;
+//    User currentUser;
     string dataPath;
 
     /**
@@ -31,9 +32,9 @@ public:
     RatingController() = default;
     RatingController(string path, vector<Request> requestArray);
 
-    const User &getCurrentUser() const;
+//    const User &getCurrentUser() const;
 
-    void setCurrentUser(const User &currentUser);
+//    void setCurrentUser(const User &currentUser);
 
     /***
      * Rating method
@@ -44,6 +45,9 @@ public:
         void rating(Request request, string decison);
 
     void writeFile();
+
+    vector<User> calculateAverageRating(vector<User> userArray);
+    vector<House> calculateAverageRating(vector<House> houseArray);
 
     void test();
 

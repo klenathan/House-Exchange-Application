@@ -185,7 +185,6 @@ void View::memberFunction(User user) {
     bool check = true;
     std::string input;
     UC.setCurrentUser(user);
-    RaC.setCurrentUser(user);
 
     while (check) {
         try {

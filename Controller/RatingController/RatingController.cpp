@@ -11,6 +11,7 @@
  */
 RatingController::RatingController(string path, vector<Request> requestArray) {
     this->dataPath = path;
+//    this->setCurrentUser(currentUser);
     this->loadDataToRatingArray(requestArray);
 }
 void RatingController::loadDataToRatingArray(vector<Request> requestArray) {
@@ -46,14 +47,23 @@ void RatingController::loadDataToRatingArray(vector<Request> requestArray) {
         }
     }
 }
-
-const User &RatingController::getCurrentUser() const {
-    return currentUser;
+void RatingController::writeFile() {
+    string content;
+    content += "requestID,houseRatingScore,houseComment,userRatingScore,userComment\n";
+    for(Rating rating : this->ratingArray){
+        content += rating.getRatingWriteFormat() + "\n";
+    }
+    cout << DataHandler::writeFile("./rating_data.csv", content);
 }
 
-void RatingController::setCurrentUser(const User &currentUser) {
-    RatingController::currentUser = currentUser;
-}
+
+//const User &RatingController::getCurrentUser() const {
+//    return currentUser;
+//}
+//
+//void RatingController::setCurrentUser(const User &currentUser) {
+//    RatingController::currentUser = currentUser;
+//}
 
 void RatingController::test() {
     cout << "Rating-------" << endl;
@@ -146,14 +156,107 @@ void RatingController::rating(Request request, string decison) {
 
 }
 
-void RatingController::writeFile() {
-    string content;
-    content += "requestID,houseRatingScore,houseComment,userRatingScore,userComment\n";
-    for(Rating rating : this->ratingArray){
-        content += rating.getRatingWriteFormat() + "\n";
-    }
-    cout << DataHandler::writeFile("./rating_data.csv", content);
+bool compareUser(Rating rating1, Rating rating2) {
+    return(rating1.getRequest().getOccupyName() < rating2.getRequest().getOccupyName());
 }
+
+bool compareHouse(Rating rating1, Rating rating2){
+    return (rating1.getRequest().getHouse().getId() < rating2.getRequest().getHouse().getId());
+}
+
+vector<User> RatingController::calculateAverageRating(vector<User> userArray) {
+    std::map<string, float> userRating;
+    std::map<string, float>::iterator iterator;
+    int count;
+    float tempRating = 0;
+    float tempAverage = 0;
+    string tempUSerName;
+
+    std::sort(this->ratingArray.begin(), this->ratingArray.end(), compareUser);
+    for (Rating rating : this->ratingArray) {
+        if(!isnan(rating.getUserRatingScore())){
+            if (tempUSerName != rating.getRequest().getOccupyName()) {
+                count = 1;
+                tempUSerName =  rating.getRequest().getOccupyName();
+                tempRating = rating.getUserRatingScore();
+            } else {
+                count++;
+                tempRating += rating.getUserRatingScore();
+            }
+
+
+            if (count != 0) {
+                tempAverage = tempRating / count;
+                userRating.insert(std::make_pair(tempUSerName, tempAverage));
+                iterator = userRating.find(tempUSerName);
+                if (iterator != userRating.end()) {
+                    iterator->second = tempAverage;
+                }
+            }
+        }
+    }
+
+    for (iterator = userRating.begin(); iterator != userRating.end(); iterator++) {
+
+        for (User &user: userArray) {
+            if (user.getUsername() == iterator->first) {
+                float finalRating = iterator->second;
+                user.setRating(finalRating);
+            }
+        }
+    }
+
+    return userArray;
+}
+
+vector<House> RatingController::calculateAverageRating(vector<House> houseArray) {
+    std::map<string, float> houseRating;
+    std::map<string, float>::iterator iterator;
+    int count;
+    float tempRating = 0;
+    float tempAverage = 0;
+    string tempHomeId;
+
+
+    std::sort(ratingArray.begin(), ratingArray.end(), compareHouse);
+    for (const Rating &rating: this->ratingArray) {
+        if(!isnan(rating.getHouseRatingScore())) {
+            if (tempHomeId != rating.getRequest().getHouse().getId()) {
+                count = 1;
+                tempHomeId = rating.getRequest().getHouse().getId();
+                tempRating = rating.getHouseRatingScore();
+            } else {
+                count++;
+                tempRating += rating.getHouseRatingScore();
+            }
+
+
+            if (count != 0) {
+                tempAverage = tempRating / count;
+                houseRating.insert(std::make_pair(tempHomeId, tempAverage));
+                iterator = houseRating.find(tempHomeId);
+                if (iterator != houseRating.end()) {
+                    iterator->second = tempAverage;
+                }
+            }
+        }
+    }
+
+
+    for (iterator = houseRating.begin(); iterator != houseRating.end(); iterator++) {
+        for (House &house : houseArray) {
+            if (house.getId() == iterator->first) {
+                float finalRating = iterator->second;
+
+                house.setRating(finalRating);
+            }
+        }
+    }
+
+    return houseArray;
+}
+
+
 
 
 
