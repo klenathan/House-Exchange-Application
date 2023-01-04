@@ -255,29 +255,29 @@ void View::memberFunction(User user) {
                         memberFunction(user);
 
                     case 8:
-                        //Rate House
-                        if (!RC.getHouseForRating(user).empty()) {
-                            cout << "Pending house for rating\n";
-
-                            for (Request request: RC.getHouseForRating(user)) {
-                                cout << "\n-------------------------\n";
-                                request.showInfo();
-                            }
-                            cout << "\n-------------------------\n";
+//                        //Rate House
+//                        if (!RC.getHouseForRating(user).empty()) {
+//                            cout << "Pending house for rating\n";
 //
-//                            House houseForRating;
-//                            houseForRating = HC.findByKey(inputHouseRating(RC.getHouseForRating(user)));
-                            string homeID;
-                            homeID = inputHouseRating(RC.getHouseForRating(user));
-                            for(Request request : RC.getHouseForRating(user)){
-                                if(request.getHouse().getId() == homeID){
-                                    RaC.rating(request);
-                                }
-                            }
-
-                        } else {
-                            cout << "You haven't occupied a house yet!/ Your request hasn't been finished yet!\n";
-                        }
+//                            for (Request request: RC.getHouseForRating(user)) {
+//                                cout << "\n-------------------------\n";
+//                                request.showInfo();
+//                            }
+//                            cout << "\n-------------------------\n";
+////
+////                            House houseForRating;
+////                            houseForRating = HC.findByKey(inputHouseRating(RC.getHouseForRating(user)));
+//                            string homeID;
+//                            homeID = inputHouseRating(RC.getHouseForRating(user));
+//                            for(Request request : RC.getHouseForRating(user)){
+//                                if(request.getHouse().getId() == homeID){
+//                                    RaC.rating(request);
+//                                }
+//                            }
+//
+//                        } else {
+//                            cout << "You haven't occupied a house yet!/ Your request hasn't been finished yet!\n";
+//                        }
 
                         memberFunction(user);
                     case 9: {
