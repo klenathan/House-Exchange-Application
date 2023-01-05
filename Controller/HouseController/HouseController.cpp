@@ -175,11 +175,11 @@ void HouseController::enableHouseListing(const string &username) {
                 string startDateStr, endDateStr;
                 CustomDate startDate, endDate;
                 house.showInfo();
-                cout << "Please input new start date (dd/mm/yyyy): ";
+                cout << "Please input new start date (dd/mm/yyyy):";
                 cin >> startDateStr;
                 startDate = *new CustomDate(startDateStr);
 
-                cout << "Please input new start date (dd/mm/yyyy): ";
+                cout << "Please input new start date (dd/mm/yyyy):";
                 cin >> endDateStr;
                 endDate = *new CustomDate(endDateStr);
 
@@ -296,17 +296,17 @@ void HouseController::listNewHouse(const string &username) {
     try {
 
         //// Get user's input of the house's details
-        cout << "House title: ";
+        cout << "House title:";
         std::getline(std::cin, houseName);
 
-        cout << "House address (Hanoi, Hue, Saigon): ";
+        cout << "House address (Hanoi, Hue, Saigon):";
         std::getline(std::cin, address);
 
 
         if (address == "Hanoi" || address == "Hue" || address == "Saigon") address = address;
         else throw NotfoundErr("The application is only available to users in those cities: Ha Noi, Hue, Sai Gon.\n");
 
-        cout << "Consuming point (number): ";
+        cout << "Consuming point (number):";
         std::getline(std::cin, tempConsumingPoint);
         try {
             consumingPoint = stol(tempConsumingPoint);
@@ -314,7 +314,7 @@ void HouseController::listNewHouse(const string &username) {
             throw ConversionErr("CONSUMING_POINT_CONVERSION_ERROR");
         }
 
-        cout << "Minimum rating (number): ";
+        cout << "Minimum rating (number):";
         std::getline(std::cin, tempMinRate);
         try {
             minRate = std::stof(tempMinRate);
@@ -325,10 +325,10 @@ void HouseController::listNewHouse(const string &username) {
         }
 
 
-        cout << "Description: ";
+        cout << "Description:";
         std::getline(std::cin, desc);
 
-        cout << "Start date (dd/mm/yyyy): ";
+        cout << "Start date (dd/mm/yyyy):";
         std::getline(std::cin, startDate);
         CustomDate start;
         if (CustomDate::validDate(startDate)) {
@@ -341,7 +341,7 @@ void HouseController::listNewHouse(const string &username) {
             throw NotfoundErr("INVALID_DATE");
         }
 
-        cout << "End date (dd/mm/yyyy): ";
+        cout << "End date (dd/mm/yyyy):";
         std::getline(std::cin, endDate);
         CustomDate end;
         if (CustomDate::validDate(endDate)) {

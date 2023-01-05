@@ -74,6 +74,8 @@ public:
     vector<House> allAvailableHouse();
 
     vector<House> getUserHouseVector(string username);
+
+    void enableHouseListing(const string &username);
 };
 
 #endif //HOUSEEXCHANGEAPPLICATION_HOUSECONTROLLER_H

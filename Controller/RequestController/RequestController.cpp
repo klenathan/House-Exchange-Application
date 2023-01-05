@@ -190,7 +190,7 @@ void RequestController::request(const User &user, const House &house) {
     string startDate, endDate;
 
     try {
-        cout << "Start date (dd/mm/yyyy): ";
+        cout << "Start date (dd/mm/yyyy):";
         std::getline(std::cin, startDate);
         CustomDate start;
         if (CustomDate::validDate(startDate)) {
@@ -203,7 +203,7 @@ void RequestController::request(const User &user, const House &house) {
             throw NotfoundErr("INVALID_DATE");
         }
 
-        cout << "End date (dd/mm/yyyy): ";
+        cout << "End date (dd/mm/yyyy):";
         std::getline(std::cin, endDate);
         CustomDate end;
         if (CustomDate::validDate(endDate)) {

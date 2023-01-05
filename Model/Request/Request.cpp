@@ -27,12 +27,12 @@ inline const char *Request::enumToString(Status s) {
 }
 
 void Request::showInfo() {
-    cout << "RequestID: " << this->id << endl;
+    cout << "RequestID:" << this->id << endl;
     cout <<  this->user << endl;
-    cout << "HouseID: " << this->house.getId() << endl;
-    cout << "Status: " << this->status << endl;
-    cout << "Start date: " << this->startDate << endl;
-    cout << "End date: " << this->endDate << endl;
+    cout << "HouseID:" << this->house.getId() << endl;
+    cout << "Status:" << this->status << endl;
+    cout << "Start date:" << this->startDate << endl;
+    cout << "End date:" << this->endDate << endl;
 }
 
 string Request::to_string() {
@@ -42,12 +42,12 @@ string Request::to_string() {
 }
 
 ostream &operator<<(ostream &os, Request &request) {
-    cout << "RequestID: " << request.id << endl;
+    cout << "RequestID:" << request.id << endl;
     cout << request.user << endl;
-    cout << "HouseID: " << request.house.getId() << endl;
-    cout << "Status: " << request.enumToString(request.status) << endl;
-    cout << "Start date: " << request.startDate;
-    cout << " - End date: " << request.endDate;
+    cout << "HouseID:" << request.house.getId() << endl;
+    cout << "Status:" << request.enumToString(request.status) << endl;
+    cout << "Start date:" << request.startDate;
+    cout << " - End date:" << request.endDate;
     return os;
 }
 

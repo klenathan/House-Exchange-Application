@@ -9,9 +9,9 @@ using std::string, std::endl, std::ostream;
 
 
 void User::showInfo() {
-    std::cout << "Username: " << this->username << endl;
-    std::cout << "Credit points: " << this->creditPoints << endl;
-    std::cout << "Rating: " << this->rating << endl;
+    std::cout << "Username:" << this->username << endl;
+    std::cout << "Credit points:" << this->creditPoints << endl;
+    std::cout << "Rating:" << this->rating << endl;
 
 
 }
@@ -33,11 +33,11 @@ void User::addCreditPoints(long additionNum) {
 }
 
 ostream & operator<<(ostream & os, User & user) {
-    os << "Username: " << user.username << endl;
-    os << "Fullname: " << user.fullname << endl;
-    os << "Contact: " << user.phoneNum << endl;
-    os << "Credit points: " << user.creditPoints << endl;
-    os << "Rating: " << user.rating << endl;
+    os << "Username:" << user.username << endl;
+    os << "Fullname:" << user.fullname << endl;
+    os << "Contact:" << user.phoneNum << endl;
+    os << "Credit points:" << user.creditPoints << endl;
+    os << "Rating:" << user.rating << endl;
     return os;
 }
 

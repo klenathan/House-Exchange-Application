@@ -143,7 +143,7 @@ bool UserController::signup() {
 
     try {
         while (check) {
-            cout << "PLease input username: ";
+            cout << "Please input username:";
             cin.ignore();
             getline(cin, username);
             try {
@@ -169,7 +169,7 @@ bool UserController::signup() {
 
         check = true;
         while (check) {
-            cout << "Please input password: ";
+            cout << "Please input password:";
             getline(cin, password);
             try {
                 for (char chr: password) {
@@ -185,13 +185,13 @@ bool UserController::signup() {
         }
 
 
-        cout << "Please input fullname: ";
+        cout << "Please input fullname:";
         getline(cin, fullname);
 
         check = true;
         while (check) {
             try {
-                cout << "Please input phone number: ";
+                cout << "Please input phone number:";
                 getline(cin, phoneNum);
                 for (char chr: phoneNum) {
                     if (std::isspace(chr) || std::isalpha(chr)) {
@@ -229,10 +229,10 @@ bool UserController::login() {
     string username;
     string password;
 
-    cout << "Input your username: ";
+    cout << "Input your username:";
     cin >> username;
 
-    cout << "Input your password: ";
+    cout << "Input your password:";
     cin >> password;
 
     for (User user: this->userArray) {
@@ -244,7 +244,7 @@ bool UserController::login() {
             return 0;
         }
     }
-    cout << "This account does not exist! PLease sign up! \n";
+    cout << "This account does not exist! PLease sign up!\n";
     return 0;
 }
 
@@ -256,10 +256,10 @@ bool UserController::adminLogin() {
     string username;
     string password;
 
-    cout << "Input your username: ";
+    cout << "Input your username:";
     cin >> username;
 
-    cout << "Input your password: ";
+    cout << "Input your password:";
     cin >> password;
 
     if (username == "admin" && password == "admin") {

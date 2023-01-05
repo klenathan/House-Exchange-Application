@@ -7,16 +7,16 @@
 using std::cout, std::endl;
 
 void House::showInfo() {
-    cout << "ID: " << this->id << endl;
-    cout << "Name: " << this->name << endl;
-    cout << "Address: " << this->address << endl;
-    cout << "Description: " << this->desc << endl;
-    cout << "Required rating: " << this->requiredRating << endl;
-    cout << "Owner: " << this->ownerUsername << endl;
-    cout << "Date range: " << this->startDate.getDate() << " - " << this->endDate.getDate() << endl;
-    cout << "Rating: " << this->rating << endl;
-    cout << "Status: " << this->status << endl;
-    cout << "Consuming point/day: " << this->consumingPoint << endl;
+    cout << "ID:" << this->id << endl;
+    cout << "Name:" << this->name << endl;
+    cout << "Address:" << this->address << endl;
+    cout << "Description:" << this->desc << endl;
+    cout << "Required rating:" << this->requiredRating << endl;
+    cout << "Owner:" << this->ownerUsername << endl;
+    cout << "Date range:" << this->startDate.getDate() << " - " << this->endDate.getDate() << endl;
+    cout << "Rating:" << this->rating << endl;
+    cout << "Status:" << this->status << endl;
+    cout << "Consuming point/day:" << this->consumingPoint << endl;
 }
 
 /**

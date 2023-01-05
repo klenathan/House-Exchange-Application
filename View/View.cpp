@@ -25,7 +25,7 @@ View::View(string path) {
     this->HC = HouseController(path);
     this->UC = UserController(path);
     this->RC = RequestController(path, HC, UC);
-    this->RaC = RatingController(path, RC.getRequestArr());
+    this->RaC = RatingController(path, RC.getRequestArr(), UC, HC);
 
     cout << "EEET2482/COSC2082 ASSIGNMENT\n"
             "VACATION HOUSE EXCHANGE APPLICATION\n"
@@ -77,7 +77,7 @@ void View::validateUser() {
     while (check) {
         try {
             typeAgain:
-            cout << "Enter your choice: ";
+            cout << "Enter your choice:";
             cin >> input;
             if (View::isNumber(input)) {
                 int num = stoi(input);
@@ -146,7 +146,7 @@ void View::guessFunction() {
     while (check) {
         try {
             typeAgain:
-            cout << "Enter your choice: ";
+            cout << "Enter your choice:";
             cin >> input;
             if (View::isNumber(input)) {
                 int num = stoi(input);
@@ -211,7 +211,7 @@ void View::memberFunction(User user) {
     while (check) {
         try {
             typeAgain:
-            cout << "-> Enter your choice: ";
+            cout << "-> Enter your choice:";
             cin >> input;
             cin.ignore();
             if (View::isNumber(input)) {
@@ -245,7 +245,7 @@ void View::memberFunction(User user) {
                     }
                     case 3:
                         ////List House
-                        cout << "Available houses: " << endl;
+                        cout << "Available houses:" << endl;
                         if (HC.allAvailableHouse().size() == 0) {
                             cout << "There is no listing house in the system" << endl;
                         }
@@ -366,7 +366,7 @@ void View::memberFunction(User user) {
  * @param admin
  */
 void View::adminFunction(User admin) {
-    cout << "|-------------- Admin menu --------------|"
+    cout << "|-------------- Admin menu --------------|\n"
             "|1. Show all user data                   |\n"
             "|2. View All Houses Details              |\n"
             "|3. Exit                                 |\n"
@@ -377,7 +377,7 @@ void View::adminFunction(User admin) {
     while (check) {
         try {
             typeAgain:
-            cout << "Enter your choice: ";
+            cout << "Enter your choice:";
             cin >> input;
             cin.ignore();
             if (View::isNumber(input)) {
@@ -422,7 +422,7 @@ string *View::dateInput(string arr[]) {
     string startDate, endDate;
     while (true) {
         try {
-            cout << "Start date (dd/mm/yyyy): ";
+            cout << "Start date (dd/mm/yyyy):";
             getline(cin, startDate);
             CustomDate start;
             if (CustomDate::validDate(startDate)) {
@@ -435,7 +435,7 @@ string *View::dateInput(string arr[]) {
                 throw NotfoundErr("INVALID_DATE");
             }
 
-            cout << "End date (dd/mm/yyyy): ";
+            cout << "End date (dd/mm/yyyy):";
             getline(cin, endDate);
             CustomDate end;
             if (CustomDate::validDate(endDate)) {
@@ -475,7 +475,7 @@ string View::cityInput() {
     string city;
     while (true) {
         try {
-            cout << "Enter your city choice (Hanoi/Saigon/Hue): ";
+            cout << "Enter your city choice (Hanoi/Saigon/Hue):";
             getline(cin, city);
             if (city == "Hanoi" || city == "Saigon" || city == "Hue") {
                 return city;
@@ -496,7 +496,7 @@ House View::requestToOccupy() {
     while (true) {
         try {
             bool found = false;
-            cout << "Enter the house ID you want to occupy: ";
+            cout << "Enter the house ID you want to occupy:";
             getline(cin, id);
             for (House h: this->HouseArray) {
                 if (id == h.getId()) {
@@ -524,7 +524,7 @@ string View::requestIdInput(RequestController rc) {
     bool flag = true;
     while (flag) {
         try {
-            cout << "Enter the request ID that you want to accept: ";
+            cout << "Enter the request ID that you want to accept:";
             getline(cin, id);
 
             for (Request r: rc.getRequestArr()) {
@@ -548,7 +548,7 @@ string View::inputHouseRating(vector<Request> pendingArray) {
     while (true) {
         try {
             bool found = false;
-            cout << "Enter the request ID you want to rating: ";
+            cout << "Enter the request ID you want to rating:";
             getline(cin, id);
             for (Request request: pendingArray) {
                 if (id == request.getId()) {

@@ -84,7 +84,7 @@ void RatingController::rating(Request request, string decision) {
 
         while (check) {
             try {
-                cout << "Please input your rating score in the scale -10 to 10: ";
+                cout << "Please input your rating score in the scale -10 to 10:";
                 getline(cin, tempRatingScore);
                 ratingScore = std::stof(tempRatingScore);
                 try {
@@ -203,7 +203,7 @@ void RatingController::calculateAverageRating(User user) {
     this->UC.updateUserRating(user, tempAverage);
 }
 
-vector<House> RatingController::calculateAverageRating(vector<House> houseArray) {
+void RatingController::calculateAverageRating(House house) {
     std::map<string, float> houseRating;
     std::map<string, float>::iterator iterator;
     int count;
