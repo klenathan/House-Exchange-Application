@@ -1,25 +1,14 @@
 #include <iostream>
-#include <random>
-
-
-#include "Controller/UserController/UserController.h"
-#include "Controller/HouseController/HouseController.h"
-#include "Controller/RatingController/RatingController.h"
-#include "Controller/RequestController/RequestController.h"
 #include "View/View.h"
-
 
 #ifdef _WIN32
 #include <Windows.h>
 #else
-
 #include <unistd.h>
 
 #endif
 
-using std::string;
-using std::cout;
-using std::endl;
+using std::string, std::cout, std::endl;
 
 int main(int argc, const char *argv[]) {
     ///// Running code
@@ -29,8 +18,11 @@ int main(int argc, const char *argv[]) {
     RequestController RC = RequestController(path, HC, UC);
     RatingController rtC = RatingController(path, RC.getRequestArr());
 
-//    RaC.writeFile();
-rtC.writeFile();
+
+    HC.enableHouseListing("user3");
+
+
+
 //    View VC = View(currentPath);
 //    VC.welcomeScreen()
 //    VC.validateUser();

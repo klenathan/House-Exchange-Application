@@ -18,6 +18,7 @@ private:
     std::vector<House> HouseArray;
     House currentUserHouse;
     string dataPath;
+
     void loadDataToArray();
 
     /********************************************************************
@@ -31,35 +32,31 @@ public:
      * Constructors
      ******************************************************************/
     HouseController() = default;
-    HouseController(string path) ;
+
+    HouseController(string path);
 
     /********************************************************************
      * Methods
      ******************************************************************/
     House getUserHouse(string username);
+
     void showData();
 
     void houseData(vector<House> houses);
 
-    /**
-     * Create new house with House object and add it to the current data array
-     * @param: House newHouse
-     *
-     * */
-
     void create(const House &newHouse);
 
     void create(const std::string &name, const std::string &address, const std::string &desc,
-                                 const std::string &ownerUsername, const CustomDate &startDate,
-                                 const CustomDate &endDate, float requiredRating, float rating, bool status, long consumingPoint);
+                const std::string &ownerUsername, const CustomDate &startDate,
+                const CustomDate &endDate, float requiredRating, float rating, bool status, long consumingPoint);
 
     void listNewHouse(const string &username);
 
     void unlistHouse(const string &username);
 
-    House findByKey(const string &id);
+    void enableHouseListing(const string &username);
 
-    void updateByID();
+    House findByKey(const string &id);
 
     void writeHouseData();
 
@@ -71,7 +68,7 @@ public:
 
     void showUserHouse(string username);
 
-        /** User interactions */
+    /** User interactions */
     vector<House> searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate, User user);
 
     vector<House> getRequestOver();
