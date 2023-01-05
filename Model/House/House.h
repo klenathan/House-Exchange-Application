@@ -47,8 +47,6 @@ public:
      * Getter-Setter
      * */
 
-
-
     void setConsumingPoint(long consumingPoint);
 
     const string &getId() const;
@@ -103,12 +101,6 @@ public:
     static int randomID();
 
     void showInfo();
-    /**
-     * Destructor
-     * */
-//    ~House() {
-//        delete this;
-//    }
 };
 
 #endif //HOUSEEXCHANGEAPPLICATION_HOUSE_H

@@ -26,8 +26,10 @@ private:
     UserController UC;
 
     void loadDataToArray();
+
     bool dateOverlap(const CustomDate &startDate1, const CustomDate &endDate1, const CustomDate &startDate2,
-                const CustomDate &endDate2);
+                     const CustomDate &endDate2);
+
 public:
     /**
      * Constructor
@@ -37,6 +39,16 @@ public:
     RequestController(string path, HouseController HC, UserController UC);
 
     void setRequestArray(const vector<Request> &requestArray);
+
+    /**
+     * Getter Setter
+     * */
+
+    vector<Request> getHouseForRating(const User user);
+
+    vector<Request> getOccupierUsername(string homeID);
+
+    const vector<Request> &getRequestArr() const;
 
     /**
      * Method
@@ -52,17 +64,8 @@ public:
 
     void acceptRequest(const string &id, const User &user);
 
-    void request(const User &user, const House & house);
+    void request(const User &user, const House &house);
 
-    vector<Request> getHouseForRating(const User user);
-
-    vector<Request> getOccupierUsername(string homeID);
-
-    const vector<Request> &getRequestArr() const;
-
-    bool requestExist(const User user);
-
-    bool updateRequestStatusToFinish(const string &requestid);
 
 };
 
