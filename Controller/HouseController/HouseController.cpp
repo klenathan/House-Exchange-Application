@@ -177,6 +177,7 @@ void HouseController::writeHouseData() {
     string content = header;
     for (House house: this->HouseArray) {
         content += house.to_string() + "\n";
+        cout << content <<"\n";
     }
     DataHandler::writeFile(this->dataPath, content);
 }
@@ -197,9 +198,10 @@ House HouseController::findByKey(const std::string &id) {
 
 void HouseController::updateHouseRating (House house, float averageRating) {
     cout << averageRating << endl;
-    for (House house: HouseArray) {
-        if (house.getId() == house.getId()) {
-            house.setRating(averageRating);
+    for (House &house1: this->HouseArray) {
+        if (house.getId() == house1.getId()) {
+           house1.setRating(averageRating);
+//            house.showInfo();
             this->writeHouseData();
         }
     }

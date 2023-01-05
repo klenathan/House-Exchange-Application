@@ -106,15 +106,16 @@ void RatingController::rating(Request request, string decision) {
             if(decision == "House"){
                 rating.setHouseRatingScore(ratingScore);
                 rating.setHouseComment(comment);
+                ratingArray[index] = rating;
                 calculateAverageRating(rating.getRequest().getHouse());
             }else if(decision == "User"){
                 rating.setUserRatingScore(ratingScore);
                 rating.setUserComment(comment);
                 cout << "tempRating: " << rating.getRequest().getUser().getUsername();
+                ratingArray[index] = rating;
                 calculateAverageRating(rating.getRequest().getUser());
             }
 
-            ratingArray[index] = rating;
         } else{
             Rating tempRating;
             tempRating.setRequest(request);
@@ -122,15 +123,15 @@ void RatingController::rating(Request request, string decision) {
                 tempRating.setHouseRatingScore(ratingScore);
                 tempRating.setHouseComment(comment);
                 tempRating.setUserRatingScore(NAN);
+                this->ratingArray.push_back(tempRating);
+                calculateAverageRating(tempRating.getRequest().getHouse());
             } else if(decision == "User"){
                 tempRating.setHouseRatingScore(NAN);
                 tempRating.setUserRatingScore(ratingScore);
                 tempRating.setUserComment(comment);
+                this->ratingArray.push_back(tempRating);
+                calculateAverageRating(tempRating.getRequest().getUser());
             }
-
-            this->ratingArray.push_back(tempRating);
-            calculateAverageRating(tempRating.getRequest().getUser());
-            calculateAverageRating(tempRating.getRequest().getHouse());
         }
 
         writeFile();
@@ -199,6 +200,10 @@ void RatingController::calculateAverageRating(House house) {
             }
         }
     }
+
+    cout << "a" << tempRating << endl;
+    cout << "b" << count << endl;
+    cout << "c" << tempAverage << endl;
 
     tempAverage = tempRating / count;
 
