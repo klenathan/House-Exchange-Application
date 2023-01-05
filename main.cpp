@@ -45,6 +45,7 @@ std::string inputHouseRating(vector<Request> pendingArray) {
         }
     }
 }
+
 int main(int argc, const char *argv[]) {
     ///// Running code
     string path = DataHandler::getPath(argv[0]);

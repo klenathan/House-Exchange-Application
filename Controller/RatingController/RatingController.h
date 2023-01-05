@@ -42,7 +42,7 @@ public:
         /**
          * Rating
          */
-        void rating(Request request, string decison);
+        void rating(Request request, string decision);
 
     void writeFile();
 

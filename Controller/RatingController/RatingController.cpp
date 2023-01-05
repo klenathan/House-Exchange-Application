@@ -14,13 +14,17 @@ RatingController::RatingController(string path, vector<Request> requestArray) {
 //    this->setCurrentUser(currentUser);
     this->loadDataToRatingArray(requestArray);
 }
+
+/**
+ * Load request data into an array
+ * @param requestArray
+ */
 void RatingController::loadDataToRatingArray(vector<Request> requestArray) {
     vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath + "./rating_data.csv");
     float houseRatingScore;
     float userRatingScore;
     string houseComment;
     string userComment;
-
 
     for(vector<string> line :rawData){
         for(Request req: requestArray){
@@ -47,6 +51,10 @@ void RatingController::loadDataToRatingArray(vector<Request> requestArray) {
         }
     }
 }
+
+/**
+ * Write rating data
+ */
 void RatingController::writeFile() {
     string content;
     content += "requestID,houseRatingScore,houseComment,userRatingScore,userComment\n";
@@ -65,6 +73,9 @@ void RatingController::writeFile() {
 //    RatingController::currentUser = currentUser;
 //}
 
+/**
+ * Test?
+ */
 void RatingController::test() {
     cout << "Rating-------" << endl;
     for(Rating rating : ratingArray){
@@ -73,7 +84,12 @@ void RatingController::test() {
     }
 }
 
-void RatingController::rating(Request request, string decison) {
+/**
+ * Get rating and comment input from user
+ * @param request
+ * @param decision
+ */
+void RatingController::rating(Request request, string decision) {
     string tempRatingScore;
     float ratingScore;
     string comment;
@@ -116,10 +132,10 @@ void RatingController::rating(Request request, string decison) {
         if(existRequest != ratingArray.end()){
             auto index = std::distance(ratingArray.begin(), existRequest); // Take index
             Rating rating = ratingArray[index];
-            if(decison == "House"){
+            if(decision == "House"){
                 rating.setHouseRatingScore(ratingScore);
                 rating.setHouseComment(comment);
-            }else if(decison == "User"){
+            }else if(decision == "User"){
                 rating.setUserRatingScore(ratingScore);
                 rating.setUserComment(comment);
             }
@@ -127,11 +143,11 @@ void RatingController::rating(Request request, string decison) {
         }else{
             Rating tempRating;
             tempRating.setRequest(request);
-            if(decison == "House"){
+            if(decision == "House"){
                 tempRating.setHouseRatingScore(ratingScore);
                 tempRating.setHouseComment(comment);
                 tempRating.setUserRatingScore(NAN);
-            }else if(decison == "User"){
+            }else if(decision == "User"){
                 tempRating.setHouseRatingScore(NAN);
                 tempRating.setUserRatingScore(ratingScore);
                 tempRating.setUserComment(comment);
@@ -156,14 +172,31 @@ void RatingController::rating(Request request, string decison) {
 
 }
 
+/**
+ * Compare user rating
+ * @param rating1
+ * @param rating2
+ * @return
+ */
 bool compareUser(Rating rating1, Rating rating2) {
     return(rating1.getRequest().getOccupyName() < rating2.getRequest().getOccupyName());
 }
 
+/**
+ * Compare house rating
+ * @param rating1
+ * @param rating2
+ * @return
+ */
 bool compareHouse(Rating rating1, Rating rating2){
     return (rating1.getRequest().getHouse().getId() < rating2.getRequest().getHouse().getId());
 }
 
+/**
+ * Calculate user average rating
+ * @param userArray
+ * @return
+ */
 vector<User> RatingController::calculateAverageRating(vector<User> userArray) {
     std::map<string, float> userRating;
     std::map<string, float>::iterator iterator;
@@ -209,6 +242,11 @@ vector<User> RatingController::calculateAverageRating(vector<User> userArray) {
     return userArray;
 }
 
+/**
+ * Calculate house average rating
+ * @param houseArray
+ * @return
+ */
 vector<House> RatingController::calculateAverageRating(vector<House> houseArray) {
     std::map<string, float> houseRating;
     std::map<string, float>::iterator iterator;
@@ -255,10 +293,3 @@ vector<House> RatingController::calculateAverageRating(vector<House> houseArray)
 
     return houseArray;
 }
-
-
-
-
-
-
-

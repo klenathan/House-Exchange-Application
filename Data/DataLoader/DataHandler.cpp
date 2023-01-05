@@ -10,6 +10,11 @@
 
 using std::ofstream, std::string, std::cout, std::endl;
 
+/**
+ *
+ * @param src
+ * @return
+ */
 vector<vector<string>> DataHandler::loadFile(std::string src) {
     int counter = 0;
     std::string myText;
@@ -35,6 +40,11 @@ vector<vector<string>> DataHandler::loadFile(std::string src) {
     return result;
 }
 
+/**
+ *
+ * @param src
+ * @return
+ */
 string DataHandler::getPath(std::string src) {
     stringstream ss(src);
     string text;
@@ -50,6 +60,10 @@ string DataHandler::getPath(std::string src) {
     return result;
 }
 
+/**
+ *
+ * @return
+ */
 std::string DataHandler::getOsName() {
 #ifdef _WIN32 || _WIN64
     return "window";
@@ -60,6 +74,9 @@ std::string DataHandler::getOsName() {
 #endif
 }
 
+/**
+ *
+ */
 void DataHandler::clear() {
     string os = DataHandler::getOsName();
 
@@ -72,6 +89,12 @@ void DataHandler::clear() {
     }
 };
 
+/**
+ *
+ * @param src
+ * @param content
+ * @return
+ */
 bool DataHandler::writeFile(string src, string content) {
 
     ofstream MyFile(src);

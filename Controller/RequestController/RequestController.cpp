@@ -8,6 +8,12 @@
 
 using std::string, std::cout, std::endl, std::exception;
 
+/**
+ * Request constructor
+ * @param path
+ * @param HC
+ * @param UC
+ */
 RequestController::RequestController(string path, HouseController HC, UserController UC) {
 
     this->dataPath = path + "./requests.csv";
@@ -16,6 +22,9 @@ RequestController::RequestController(string path, HouseController HC, UserContro
     this->loadDataToArray();
 }
 
+/******************************************************************
+ * Getter-Setter
+ ******************************************************************/
 void RequestController::setRequestArray(const vector<Request> &requestArray) {
     this->requestArr = requestArr;
 }
@@ -24,6 +33,13 @@ const vector<Request> &RequestController::getRequestArr() const {
     return this->requestArr;
 }
 
+/******************************************************************
+ * Method implementations
+ ******************************************************************/
+
+/**
+ * Load data
+ */
 void RequestController::loadDataToArray() {
     vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath);
     bool dataChange = 0;
@@ -42,11 +58,18 @@ void RequestController::loadDataToArray() {
     if (dataChange) this->writeFile();
 }
 
+/**
+ * Create new request
+ * @param newReq
+ */
 void RequestController::create(const Request &newReq) {
     this->requestArr.push_back(newReq);
     this->writeFile();
 }
 
+/**
+ * Write file
+ */
 void RequestController::writeFile() {
     string content;
     content += "request_id,username,house_id,status,start_date,end_date\n";
@@ -56,6 +79,11 @@ void RequestController::writeFile() {
     DataHandler::writeFile("requests.csv", content);
 }
 
+/**
+ * View request
+ * @param user
+ * @return
+ */
 bool RequestController::viewRequest(const User &user) {
     bool exist = 0;
     for (Request request: this->requestArr) {
@@ -71,6 +99,10 @@ bool RequestController::viewRequest(const User &user) {
     return exist;
 };
 
+/**
+ * View sent request
+ * @param user
+ */
 void RequestController::viewSentRequest(const User &user) {
     bool exist = 0;
     for (Request req: this->requestArr) {
@@ -129,7 +161,14 @@ void RequestController::acceptRequest(const string &id, const User &user) {
 }
 // 10 - 20
 
-
+/**
+ * Date overlap compare
+ * @param startDate1
+ * @param endDate1
+ * @param startDate2
+ * @param endDate2
+ * @return
+ */
 bool RequestController::dateOverlap(const CustomDate &startDate1, const CustomDate &endDate1,
                                     const CustomDate &startDate2, const CustomDate &endDate2) {
     if ((startDate1 == endDate2) || (startDate2 == endDate1)) {
@@ -142,7 +181,11 @@ bool RequestController::dateOverlap(const CustomDate &startDate1, const CustomDa
     return false;
 }
 
-
+/**
+ * Create new request using input from user
+ * @param user
+ * @param house
+ */
 void RequestController::request(const User &user, const House &house) {
     string startDate, endDate;
 

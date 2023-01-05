@@ -22,6 +22,12 @@ using std::stringstream, std::string, std::cout, std::endl, std::vector, std::os
  *   - These errors are thrown in the CustomDate constructor function
  * */
 
+/**
+ *
+ * @param day
+ * @param month
+ * @param year
+ */
 CustomDate::CustomDate(int day, int month, int year) {
     try {
         ///// Day check
@@ -112,6 +118,11 @@ CustomDate::CustomDate(string inputString) {
     }
 };
 
+/**
+ * Validate Date
+ * @param dateInp
+ * @return
+ */
 bool CustomDate::validDate(string dateInp) {
     stringstream ss(dateInp);
     string text;
@@ -148,6 +159,11 @@ bool CustomDate::validDate(string dateInp) {
     return 1;
 }
 
+/**
+ *
+ * @param d
+ * @return
+ */
 time_t CustomDate::convertToTimeT(CustomDate d) {
     int day = d.getDay();
     int month = d.getMonth();
@@ -166,6 +182,12 @@ time_t CustomDate::convertToTimeT(CustomDate d) {
     return time;
 }
 
+/**
+ *
+ * @param d1
+ * @param d2
+ * @return
+ */
 double CustomDate::getDateRange(const CustomDate &d1, const CustomDate &d2) {
     double sec = difftime(CustomDate::convertToTimeT(d1), CustomDate::convertToTimeT(d2));
     return sec / 86400;
@@ -184,7 +206,10 @@ string CustomDate::getDate() const {
  * */
 void CustomDate::showInfo() { cout << day << "/" << month << "/" << year << endl; }
 
-
+/**
+ * Get current date
+ * @return
+ */
 CustomDate CustomDate::getToday() {
     time_t time = std::time(0);
     return CustomDate(localtime(&time)->tm_mday, localtime(&time)->tm_mon + 1, localtime(&time)->tm_year + 1900);
@@ -271,6 +296,10 @@ bool operator>=(const CustomDate &d1, const CustomDate &d2) {
     }
 };
 
+
+/******************************************************************
+ * Getter-Setter
+ ******************************************************************/
 
 int CustomDate::getDay() const {
     return day;

@@ -16,9 +16,9 @@ UserController::UserController(string path) {
     this->loadDataToArray();
 }
 
-/**
- * Getter Setter
- */
+/******************************************************************
+ * Getter-Setter
+ ******************************************************************/
 const User &UserController::getCurrentUser() const {
     return currentUser;
 }
@@ -26,7 +26,6 @@ const User &UserController::getCurrentUser() const {
 void UserController::setCurrentUser(const User &currentUser) {
     UserController::currentUser = currentUser;
 }
-
 
 const vector<User> &UserController::getUserArray() const {
     return userArray;
@@ -36,6 +35,9 @@ void UserController::setUserArray(const vector<User> &userArray) {
     UserController::userArray = userArray;
 }
 
+/******************************************************************
+ * Method implementations
+ ******************************************************************/
 
 /**
  * Store data to the user array
@@ -64,7 +66,7 @@ void UserController::writeFile() {
 }
 
 /**
- * Show all data
+ * Show all data of user
  */
 void UserController::showData() {
     for (User user: this->userArray) {
@@ -72,6 +74,10 @@ void UserController::showData() {
     }
 };
 
+/**
+ * Show data of the current user
+ * @param username
+ */
 void UserController::showMyData(const string &username) {
     for (User user: this->userArray) {
         if (user.getUsername() == username) {
@@ -81,7 +87,7 @@ void UserController::showMyData(const string &username) {
 };
 
 /**
- *
+ * Find user using username
  * */
 User UserController::findByKey(string username) {
     for (User user: this->userArray) {
@@ -92,6 +98,14 @@ User UserController::findByKey(string username) {
     throw NotfoundErr("USER_NOT_FOUND");
 }
 
+/**
+ * Occupier credit update
+ * @param houseOwner
+ * @param occupier
+ * @param consumingPoint
+ * @param startDate
+ * @param endDate
+ */
 void UserController::updateCreditPoint (User houseOwner, User occupier, long consumingPoint, CustomDate startDate, CustomDate endDate) {
     for (int i = 0; i < this->userArray.size(); i++) {
         if (userArray[i].getUsername() == houseOwner.getUsername()) {
@@ -197,7 +211,7 @@ bool UserController::signup() {
 }
 
 /**
- * Login method
+ * Login method for user
  * @return bool
  */
 bool UserController::login() {
@@ -223,6 +237,10 @@ bool UserController::login() {
     return 0;
 }
 
+/**
+ * Login method for admin
+ * @return
+ */
 bool UserController::adminLogin() {
     string username;
     string password;

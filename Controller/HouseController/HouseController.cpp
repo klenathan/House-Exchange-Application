@@ -7,7 +7,10 @@
 
 using std::string, std::cout, std::endl, std::exception, std::remove;
 
-
+/**
+ * House constructor
+ * @param path
+ */
 HouseController::HouseController(string path) {
     this->dataPath = path + "./house_data.csv";
     this->loadDataToArray();
@@ -28,6 +31,9 @@ const vector<House> &HouseController::getHouseArray() const {
  * Method implementations
  ******************************************************************/
 
+/**
+ * Load Data
+ */
 void HouseController::loadDataToArray() {
     vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath);
 
