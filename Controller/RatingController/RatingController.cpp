@@ -61,28 +61,9 @@ void RatingController::writeFile() {
     for(Rating rating : this->ratingArray){
         content += rating.getRatingWriteFormat() + "\n";
     }
-    cout << DataHandler::writeFile("./rating_data.csv", content);
+    DataHandler::writeFile("./rating_data.csv", content);
 }
 
-
-//const User &RatingController::getCurrentUser() const {
-//    return currentUser;
-//}
-//
-//void RatingController::setCurrentUser(const User &currentUser) {
-//    RatingController::currentUser = currentUser;
-//}
-
-/**
- * Test?
- */
-void RatingController::test() {
-    cout << "Rating-------" << endl;
-    for(Rating rating : ratingArray){
-        cout << rating.getRequest().getId() << "  " << rating.getHouseRatingScore() << " " << rating.getHouseComment()
-        << " " << rating.getUserRatingScore() << " " << rating.getUserComment() << endl;
-    }
-}
 
 /**
  * Get rating and comment input from user
@@ -127,7 +108,9 @@ void RatingController::rating(Request request, string decision) {
         getline(cin, comment);
 
         string requestID = request.getId();
-        auto existRequest = std::find_if(ratingArray.begin(), ratingArray.end(),[&requestID](const Rating& obj) {return obj.getRequest().getId() == requestID;});
+        auto existRequest = std::find_if(ratingArray.begin(), ratingArray.end(),[&requestID](const Rating& obj) {
+            return obj.getRequest().getId() == requestID;
+        });
 
         if(existRequest != ratingArray.end()){
             auto index = std::distance(ratingArray.begin(), existRequest); // Take index
@@ -139,36 +122,53 @@ void RatingController::rating(Request request, string decision) {
                 rating.setUserRatingScore(ratingScore);
                 rating.setUserComment(comment);
             }
+
             ratingArray[index] = rating;
-        }else{
+        } else{
             Rating tempRating;
             tempRating.setRequest(request);
             if(decision == "House"){
                 tempRating.setHouseRatingScore(ratingScore);
                 tempRating.setHouseComment(comment);
                 tempRating.setUserRatingScore(NAN);
-            }else if(decision == "User"){
+            } else if(decision == "User"){
                 tempRating.setHouseRatingScore(NAN);
                 tempRating.setUserRatingScore(ratingScore);
                 tempRating.setUserComment(comment);
             }
+
             this->ratingArray.push_back(tempRating);
         }
-
         writeFile();
-        // Save to house_rating_data.csv
-//
-//        HouseRating *newHouseRatting = new HouseRating(request, ratingScore, comment);
-//        this->houseRatingArray.push_back(*newHouseRatting);
-//        houseRatingWriteFile();
-//
-//        delete newHouseRatting;
+
     } catch (std::exception &e) {
         cout << "Function stopped due to err: " << "\033[31m" << e.what() << "\033[0m" << endl;
         std::cin.ignore();
     }
 
 
+
+}
+
+bool RatingController::ratingValid(string decision, string requestID) {
+
+    auto existRequest = std::find_if(ratingArray.begin(), ratingArray.end(),[&requestID](const Rating& obj) {
+        return obj.getRequest().getId() == requestID;
+    });
+    if(existRequest != ratingArray.end()) {
+        for (Rating rating: this->ratingArray) {
+            if (rating.getRequest().getId() == requestID) {
+                if (decision == "House" && isnan(rating.getHouseRatingScore())) {
+                    return true;
+                } else if (decision == "User" && isnan(rating.getUserRatingScore())) {
+                    return true;
+                }
+            }
+        }
+    } else {
+        return true;
+    }
+    return false;
 
 }
 

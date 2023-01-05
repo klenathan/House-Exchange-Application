@@ -20,8 +20,6 @@ enum Status {
 class Request {
 private:
     string id;
-//    string user;
-//    string house;
     User user;
     House house;
     Status status; //// Enum: "requested", "accepted", "finished", "rejected"
