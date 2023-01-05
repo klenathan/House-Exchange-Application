@@ -9,10 +9,11 @@
  * @param path
  * @param requestArray
  */
-RatingController::RatingController(string path, vector<Request> requestArray) {
+RatingController::RatingController(string path, vector<Request> requestArray, UserController UC, HouseController HC) {
     this->dataPath = path;
-//    this->setCurrentUser(currentUser);
     this->loadDataToRatingArray(requestArray);
+    this->UC = UC;
+    this->HC = HC;
 }
 
 /**
@@ -118,12 +119,16 @@ void RatingController::rating(Request request, string decision) {
             if(decision == "House"){
                 rating.setHouseRatingScore(ratingScore);
                 rating.setHouseComment(comment);
+                ratingArray[index] = rating;
+                calculateAverageRating(rating.getRequest().getHouse());
             }else if(decision == "User"){
                 rating.setUserRatingScore(ratingScore);
                 rating.setUserComment(comment);
+                cout << "tempRating: " << rating.getRequest().getUser().getUsername();
+                ratingArray[index] = rating;
+                calculateAverageRating(rating.getRequest().getUser());
             }
 
-            ratingArray[index] = rating;
         } else{
             Rating tempRating;
             tempRating.setRequest(request);
@@ -131,14 +136,17 @@ void RatingController::rating(Request request, string decision) {
                 tempRating.setHouseRatingScore(ratingScore);
                 tempRating.setHouseComment(comment);
                 tempRating.setUserRatingScore(NAN);
+                this->ratingArray.push_back(tempRating);
+                calculateAverageRating(tempRating.getRequest().getHouse());
             } else if(decision == "User"){
                 tempRating.setHouseRatingScore(NAN);
                 tempRating.setUserRatingScore(ratingScore);
                 tempRating.setUserComment(comment);
+                this->ratingArray.push_back(tempRating);
+                calculateAverageRating(tempRating.getRequest().getUser());
             }
-
-            this->ratingArray.push_back(tempRating);
         }
+
         writeFile();
 
     } catch (std::exception &e) {
@@ -172,124 +180,50 @@ bool RatingController::ratingValid(string decision, string requestID) {
 
 }
 
-/**
- * Compare user rating
- * @param rating1
- * @param rating2
- * @return
- */
 bool compareUser(Rating rating1, Rating rating2) {
     return(rating1.getRequest().getOccupyName() < rating2.getRequest().getOccupyName());
 }
 
-/**
- * Compare house rating
- * @param rating1
- * @param rating2
- * @return
- */
-bool compareHouse(Rating rating1, Rating rating2){
-    return (rating1.getRequest().getHouse().getId() < rating2.getRequest().getHouse().getId());
-}
-
-/**
- * Calculate user average rating
- * @param userArray
- * @return
- */
-vector<User> RatingController::calculateAverageRating(vector<User> userArray) {
-    std::map<string, float> userRating;
-    std::map<string, float>::iterator iterator;
-    int count;
-    float tempRating = 0;
+void RatingController::calculateAverageRating(User user) {
+    int count = 1;
+    float tempRating = 5; // default rating when create an account
     float tempAverage = 0;
-    string tempUSerName;
 
-    std::sort(this->ratingArray.begin(), this->ratingArray.end(), compareUser);
-    for (Rating rating : this->ratingArray) {
-        if(!isnan(rating.getUserRatingScore())){
-            if (tempUSerName != rating.getRequest().getOccupyName()) {
-                count = 1;
-                tempUSerName =  rating.getRequest().getOccupyName();
-                tempRating = rating.getUserRatingScore();
-            } else {
-                count++;
+    for (Rating rating: ratingArray ) {
+        if (!isnan(rating.getUserRatingScore())) {
+            if (user.getUsername() == rating.getRequest().getUser().getUsername()) {
+                count += 1;
                 tempRating += rating.getUserRatingScore();
             }
-
-
-            if (count != 0) {
-                tempAverage = tempRating / count;
-                userRating.insert(std::make_pair(tempUSerName, tempAverage));
-                iterator = userRating.find(tempUSerName);
-                if (iterator != userRating.end()) {
-                    iterator->second = tempAverage;
-                }
-            }
         }
     }
-
-    for (iterator = userRating.begin(); iterator != userRating.end(); iterator++) {
-
-        for (User &user: userArray) {
-            if (user.getUsername() == iterator->first) {
-                float finalRating = iterator->second;
-                user.setRating(finalRating);
-            }
-        }
-    }
-
-    return userArray;
+    cout << tempRating << endl;
+    tempAverage = tempRating / count;
+    cout << tempAverage << endl;
+    this->UC.updateUserRating(user, tempAverage);
 }
 
-/**
- * Calculate house average rating
- * @param houseArray
- * @return
- */
 vector<House> RatingController::calculateAverageRating(vector<House> houseArray) {
     std::map<string, float> houseRating;
     std::map<string, float>::iterator iterator;
     int count;
     float tempRating = 0;
     float tempAverage = 0;
-    string tempHomeId;
 
-
-    std::sort(ratingArray.begin(), ratingArray.end(), compareHouse);
-    for (const Rating &rating: this->ratingArray) {
-        if(!isnan(rating.getHouseRatingScore())) {
-            if (tempHomeId != rating.getRequest().getHouse().getId()) {
-                count = 1;
-                tempHomeId = rating.getRequest().getHouse().getId();
-                tempRating = rating.getHouseRatingScore();
-            } else {
-                count++;
+    for (Rating rating: ratingArray ) {
+        if (!isnan(rating.getHouseRatingScore())) {
+            if (house.getId() == rating.getRequest().getHouse().getId()) {
+                count += 1;
                 tempRating += rating.getHouseRatingScore();
             }
-
-
-            if (count != 0) {
-                tempAverage = tempRating / count;
-                houseRating.insert(std::make_pair(tempHomeId, tempAverage));
-                iterator = houseRating.find(tempHomeId);
-                if (iterator != houseRating.end()) {
-                    iterator->second = tempAverage;
-                }
-            }
         }
     }
 
+    cout << "a" << tempRating << endl;
+    cout << "b" << count << endl;
+    cout << "c" << tempAverage << endl;
 
-    for (iterator = houseRating.begin(); iterator != houseRating.end(); iterator++) {
-        for (House &house : houseArray) {
-            if (house.getId() == iterator->first) {
-                float finalRating = iterator->second;
+    tempAverage = tempRating / count;
 
-                house.setRating(finalRating);
-            }
-        }
-    }
-
-    return houseArray;
+    this->HC.updateHouseRating(house, tempAverage);
 }

@@ -109,12 +109,23 @@ User UserController::findByKey(string username) {
 void UserController::updateCreditPoint (User houseOwner, User occupier, long consumingPoint, CustomDate startDate, CustomDate endDate) {
     for (int i = 0; i < this->userArray.size(); i++) {
         if (userArray[i].getUsername() == houseOwner.getUsername()) {
-            userArray[i].setCreditPoints(userArray[i].getCreditPoints() + consumingPoint * ((*new CustomDate).getDateRange(endDate, startDate)));
+            userArray[i].setCreditPoints(userArray[i].getCreditPoints() +
+                                         consumingPoint * ((*new CustomDate).getDateRange(endDate, startDate)));
         } else if (userArray[i].getUsername() == occupier.getUsername()) {
-            userArray[i].setCreditPoints(userArray[i].getCreditPoints() - consumingPoint * ((*new CustomDate).getDateRange(endDate, startDate)));
+            userArray[i].setCreditPoints(userArray[i].getCreditPoints() -
+                                         consumingPoint * ((*new CustomDate).getDateRange(endDate, startDate)));
         }
+        this->writeFile();
     }
-    this->writeFile();
+}
+
+void UserController::updateUserRating (User occupier, float averageRating) {
+    for (int i = 0; i < this->userArray.size(); i++) {
+        if (userArray[i].getUsername() == occupier.getUsername()) {
+            userArray[i].setRating(averageRating);
+        }
+        this->writeFile();
+    }
 }
 
 /**
