@@ -195,6 +195,15 @@ House HouseController::findByKey(const std::string &id) {
     throw NotfoundErr("HOUSE_" + id + "_NOT_FOUND\n");
 }
 
+void HouseController::updateHouseRating (House house, float averageRating) {
+    cout << averageRating << endl;
+    for (House house: HouseArray) {
+        if (house.getId() == house.getId()) {
+            house.setRating(averageRating);
+            this->writeHouseData();
+        }
+    }
+}
 
 /**
  * Check if the user has already listed a house
@@ -339,9 +348,7 @@ HouseController::searchForSuitableHouses(string city, CustomDate startDate, Cust
     return result;
 }
 
-//vector<House> HouseController::eliminateRequestOverlap() {
-//
-//}
+
 
 /**
  * Return all houses in the system with start date later than CustomDate::getToday()

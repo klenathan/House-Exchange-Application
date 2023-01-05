@@ -20,7 +20,7 @@ View::View(string path) {
     this->HC = HouseController(path);
     this->UC = UserController(path);
     this->RC = RequestController(path, HC, UC);
-    this->RaC = RatingController(path, RC.getRequestArr());
+    this->RaC = RatingController(path, RC.getRequestArr(), UC, HC);
     std::cout << "EEET2482/COSC2082 ASSIGNMENT\n"
                  "VACATION HOUSE EXCHANGE APPLICATION\n"
                  "Instructors: Mr. Linh Tran & Phong Ngo\n"

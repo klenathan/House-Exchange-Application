@@ -58,6 +58,7 @@ public:
     void unlistHouse(const string &username);
 
     House findByKey(const string &id);
+    void updateHouseRating (House house, float averageRating);
 
     void updateByID();
 
