@@ -32,24 +32,14 @@ public:
     RatingController() = default;
     RatingController(string path, vector<Request> requestArray);
 
-//    const User &getCurrentUser() const;
 
-//    void setCurrentUser(const User &currentUser);
-
-    /***
-     * Rating method
-     */
-        /**
-         * Rating
-         */
-        void rating(Request request, string decison);
+    void rating(Request request, string decision);
+    bool ratingValid(string decision, string id);
 
     void writeFile();
 
     vector<User> calculateAverageRating(vector<User> userArray);
     vector<House> calculateAverageRating(vector<House> houseArray);
-
-    void test();
 
 };
 
