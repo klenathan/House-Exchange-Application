@@ -13,26 +13,28 @@ using std::cin;
 using std::endl;
 using std::vector;
 using std::cerr;
+using std::exception;
 
 /**
  * Constructor
  * @param path
  */
 View::View(string path) {
-    this->dataPath = path;
 
+    this->dataPath = path;
     this->HC = HouseController(path);
     this->UC = UserController(path);
     this->RC = RequestController(path, HC, UC);
     this->RaC = RatingController(path, RC.getRequestArr());
-    std::cout << "EEET2482/COSC2082 ASSIGNMENT\n"
-                 "VACATION HOUSE EXCHANGE APPLICATION\n"
-                 "Instructors: Mr. Linh Tran & Phong Ngo\n"
-                 "Group: Group Name\n"
-                 "s3891890, Tran Nam Thai\n"
-                 "s3878246, Pham Anh Thu\n"
-                 "s3891968, Pham Vo Dong\n"
-                 "s3927201, Tran Ngoc Khang\n" << endl;
+
+    cout << "EEET2482/COSC2082 ASSIGNMENT\n"
+            "VACATION HOUSE EXCHANGE APPLICATION\n"
+            "Instructors: Mr. Linh Tran & Phong Ngo\n"
+            "Group: Group Name\n"
+            "s3891890, Tran Nam Thai\n"
+            "s3878246, Pham Anh Thu\n"
+            "s3891968, Pham Vo Dong\n"
+            "s3927201, Tran Ngoc Khang\n" << endl;
 }
 
 /**
@@ -46,7 +48,7 @@ void View::welcomeScreen() {
             "|3. Admin                    |\n"
             "|4. Exit                     |\n"
             "|----------------------------|"
-         << std::endl;
+         << endl;
 }
 
 /**
@@ -70,13 +72,13 @@ bool View::isNumber(const string &s) {
  */
 void View::validateUser() {
     bool check = true;
-    std::string input;
+    string input;
 
     while (check) {
         try {
             typeAgain:
-            std::cout << "Enter your choice: ";
-            std::cin >> input;
+            cout << "Enter your choice: ";
+            cin >> input;
             if (View::isNumber(input)) {
                 int num = stoi(input);
                 switch (num) {
@@ -115,14 +117,14 @@ void View::validateUser() {
                 }
                 check = false;
             } else {
-                cout << "Invalid choice\n" <<endl;
+                cout << "Invalid choice\n" << endl;
                 validateUser();
             }
             cout << endl;
         }
-        catch (std::exception &e) {
+        catch (exception &e) {
             cout << "Function stopped due to err: " << e.what() << endl;
-            std::cin.ignore();
+            cin.ignore();
             check = true;
         }
     }
@@ -138,14 +140,14 @@ void View::guessFunction() {
             "|3. Return to main menu                      |\n"
             "|4. Exit                                     |\n"
             "|--------------------------------------------|"
-            << std::endl;
+         << endl;
     bool check = true;
-    std::string input;
+    string input;
     while (check) {
         try {
             typeAgain:
-            std::cout << "Enter your choice: ";
-            std::cin >> input;
+            cout << "Enter your choice: ";
+            cin >> input;
             if (View::isNumber(input)) {
                 int num = stoi(input);
                 switch (num) {
@@ -156,6 +158,7 @@ void View::guessFunction() {
                     case 2:
                         //View All Houses Details
                         HC.showData();
+                        system("pause");
                         guessFunction();
                     case 3:
                         // Return to main menu
@@ -174,9 +177,9 @@ void View::guessFunction() {
             }
             cout << endl;
         }
-        catch (std::exception &e) {
+        catch (exception &e) {
             cout << "Function stopped due to err: " << e.what() << endl;
-            std::cin.ignore();
+            cin.ignore();
             check = true;
         }
     }
@@ -200,17 +203,17 @@ void View::memberFunction(User user) {
             "|9. Rate Occupiers                      |\n"
             "|0. Exit                                |\n"
             "|---------------------------------------|"
-              << std::endl;
+         << endl;
     bool check = true;
-    std::string input;
+    string input;
     UC.setCurrentUser(user);
 
     while (check) {
         try {
             typeAgain:
-            std::cout << "-> Enter your choice: ";
-            std::cin >> input;
-            std::cin.ignore();
+            cout << "-> Enter your choice: ";
+            cin >> input;
+            cin.ignore();
             if (View::isNumber(input)) {
                 int num = stoi(input);
                 switch (num) {
@@ -220,6 +223,7 @@ void View::memberFunction(User user) {
                         UC.showMyData(user.getUsername());
                         cout << "\nYour house:\n";
                         HC.showUserHouse(user.getUsername());
+                        system("pause");
                         memberFunction(user);
                     case 2: {
                         //// Search For Suitable House
@@ -236,7 +240,7 @@ void View::memberFunction(User user) {
                         } else {
                             cout << "There are no suitable house for your need " << endl;
                         }
-
+                        system("pause");
                         memberFunction(user);
                     }
                     case 3:
@@ -245,10 +249,12 @@ void View::memberFunction(User user) {
                         if (HC.allAvailableHouse().size() == 0) {
                             cout << "There is no listing house in the system" << endl;
                         }
+                        system("pause");
                         memberFunction(user);
                     case 4:
                         //// View sent request
                         RC.viewSentRequest(user);
+                        system("pause");
                         memberFunction(user);
                     case 5:
                         //// View All Requests To My House
@@ -257,6 +263,7 @@ void View::memberFunction(User user) {
                             RC.acceptRequest(this->requestIdInput(RC), user);
                         }
 
+                        system("pause");
                         memberFunction(user);
                     case 6:
                         ////List House
@@ -265,10 +272,12 @@ void View::memberFunction(User user) {
                         } else {
                             cout << "A user can only list 1 house!\n";
                         }
+                        system("pause");
                         memberFunction(user);
                     case 7:
                         //// Unlist House
                         HC.unlistHouse(user.getUsername());
+                        system("pause");
                         memberFunction(user);
                     case 8:
                         //Rate House
@@ -298,16 +307,18 @@ void View::memberFunction(User user) {
                             cout << "You haven't occupied a house yet!/ Your request hasn't been finished yet!\n";
                         }
 
+                        system("pause");
                         memberFunction(user);
                     case 9: {
                         //Rate Occupiers
-                        if(!RC.getOccupierUsername(takeCurrentHomeID()).empty()){
+                        if (!RC.getOccupierUsername(takeCurrentHomeID()).empty()) {
                             cout << "Pending user for rating\n";
 
                             for (Request request: RC.getOccupierUsername(takeCurrentHomeID())) {
                                 cout << "\n-------------------------\n";
                                 request.showInfo();
                             }
+                            cout << "\n-------------------------\n";
                             string requestID;
                             requestID = inputHouseRating(RC.getOccupierUsername(takeCurrentHomeID()));
                             bool success = 0;
@@ -328,6 +339,7 @@ void View::memberFunction(User user) {
                         }
 
 
+                        system("pause");
                         memberFunction(user);
                     }
                     case 0:
@@ -341,9 +353,9 @@ void View::memberFunction(User user) {
                 throw input;
             }
         }
-        catch (std::exception &e) {
+        catch (exception &e) {
             cout << "Function stopped due to err: " << e.what() << endl;
-            std::cin.ignore();
+            cin.ignore();
             check = true;
         }
     }
@@ -359,25 +371,27 @@ void View::adminFunction(User admin) {
             "|2. View All Houses Details              |\n"
             "|3. Exit                                 |\n"
             "|----------------------------------------|"
-            << std::endl;
+         << endl;
     bool check = true;
-    std::string input;
+    string input;
     while (check) {
         try {
             typeAgain:
-            std::cout << "Enter your choice: ";
-            std::cin >> input;
-            std::cin.ignore();
+            cout << "Enter your choice: ";
+            cin >> input;
+            cin.ignore();
             if (View::isNumber(input)) {
                 int num = stoi(input);
                 switch (num) {
                     case 1:
                         //Show all user data
                         UC.showData();
+                        system("pause");
                         adminFunction(admin);
                     case 2:
                         //View All Houses Details
                         HC.showData();
+                        system("pause");
                         adminFunction(admin);
                     case 3:
                         //Exit
@@ -391,9 +405,9 @@ void View::adminFunction(User admin) {
                 throw input;
             }
         }
-        catch (std::exception &e) {
+        catch (exception &e) {
             cout << "Function stopped due to err: " << e.what() << endl;
-            std::cin.ignore();
+            cin.ignore();
             check = true;
         }
     }
@@ -409,7 +423,7 @@ string *View::dateInput(string arr[]) {
     while (true) {
         try {
             cout << "Start date (dd/mm/yyyy): ";
-            std::getline(std::cin, startDate);
+            getline(cin, startDate);
             CustomDate start;
             if (CustomDate::validDate(startDate)) {
                 try {
@@ -422,7 +436,7 @@ string *View::dateInput(string arr[]) {
             }
 
             cout << "End date (dd/mm/yyyy): ";
-            std::getline(std::cin, endDate);
+            getline(cin, endDate);
             CustomDate end;
             if (CustomDate::validDate(endDate)) {
                 try {
@@ -445,9 +459,9 @@ string *View::dateInput(string arr[]) {
                 cout << "Invalid input! Please try again.\n";
             }
         }
-        catch (std::exception &e) {
+        catch (exception &e) {
             cout << "Function stopped due to err: " << e.what() << endl;
-            std::cin.ignore();
+            cin.ignore();
         }
     }
 
@@ -469,9 +483,9 @@ string View::cityInput() {
                 cout << "Invalid input! Please try again.\n";
             }
         }
-        catch (std::exception &e) {
+        catch (exception &e) {
             cout << "Function stopped due to err: " << e.what() << endl;
-            std::cin.ignore();
+            cin.ignore();
         }
     }
 }
@@ -494,9 +508,9 @@ House View::requestToOccupy() {
                 cout << "The id is not exist!\n";
             }
         }
-        catch (std::exception &e) {
+        catch (exception &e) {
             cout << "Function stopped due to err: " << e.what() << endl;
-            std::cin.ignore();
+            cin.ignore();
         }
     }
 }
@@ -522,14 +536,14 @@ string View::requestIdInput(RequestController rc) {
             }
             cout << "Cannot find request ID " << id << "\n" << endl;
         }
-        catch (std::exception &e) {
+        catch (exception &e) {
             cout << "Function stopped due to err: " << e.what() << endl;
-            std::cin.ignore();
+            cin.ignore();
         }
     }
 }
 
-std::string View::inputHouseRating(vector<Request> pendingArray) {
+string View::inputHouseRating(vector<Request> pendingArray) {
     string id;
     while (true) {
         try {
@@ -546,9 +560,9 @@ std::string View::inputHouseRating(vector<Request> pendingArray) {
                 cout << "The id does not exist!\n";
             }
         }
-        catch (std::exception &e) {
+        catch (exception &e) {
             cout << "Function stopped due to err: " << e.what() << endl;
-            std::cin.ignore();
+            cin.ignore();
         }
     }
 }
