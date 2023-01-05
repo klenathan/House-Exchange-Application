@@ -80,14 +80,6 @@ public:
 
     void removeCreditPoints(long additionNum);
 
-    /**
-     * Destructor
-     * */
-
-//    ~User() {
-//        delete this;
-//    }
-
     friend ostream &operator<<(ostream &os, User &user);
 };
 

@@ -18,11 +18,11 @@ private:
     User currentUser;
     string dataPath;
 public:
+    /**
+     * Constructors
+     * */
     UserController() {}
 
-    /**
-     * Controller
-     */
     explicit UserController(string path);
 
     /**

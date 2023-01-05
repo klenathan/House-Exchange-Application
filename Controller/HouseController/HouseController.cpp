@@ -5,7 +5,7 @@
 #include "HouseController.h"
 
 
-using std::string, std::cout, std::endl, std::exception, std::remove;
+using std::string, std::cout, std::endl, std::exception, std::remove, std::cin;
 
 /**
  * House constructor
@@ -135,7 +135,6 @@ void HouseController::create(const House &newHouse) {
  * @param username
  */
 void HouseController::unlistHouse(const string &username) {
-    bool success = 1;
     for (House &house: this->HouseArray) {
         if ((house.getOwnerUsername() == username) && house.isStatus()) {
 
@@ -147,11 +146,67 @@ void HouseController::unlistHouse(const string &username) {
                 cout << "Successfully unlisted the house " << house.getId() << "!\n";
             }
         } else if ((house.getOwnerUsername() == username) && (!house.isStatus())) {
-            cout << "House " << house.getId() << " of owner " << house.getOwnerUsername() << " is already unlisted\n"
-                 << "You can now create another listing\n" << endl;
+            cout << "House " << house.getId() << " of owner " << house.getOwnerUsername() << " is already unlisted"
+                 << endl;
         }
     }
 }
+
+/**
+ * @brief: re-enable house from unlisted status, and re-new listing period
+ * The function loop through the data array twice to check if is there any current listed house then process
+ * to update the data
+ * @param username - house owner's username
+ */
+void HouseController::enableHouseListing(const string &username) {
+    if (this->listedHouseCheck(username)) {
+        cout << username << " is currently has a listing" << endl;
+    } else {
+        for (House &house: this->HouseArray) {
+            if ((house.getOwnerUsername() == username) && house.isStatus()) {
+                cout << "House " << house.getId() << " of owner " << house.getOwnerUsername()
+                     << " is already being listed"
+                     << endl;
+                break;
+            } else if ((house.getOwnerUsername() == username) && (!house.isStatus())) {
+                /**
+                 * Data input
+                 * */
+                string startDateStr, endDateStr;
+                CustomDate startDate, endDate;
+                house.showInfo();
+                cout << "Please input new start date (dd/mm/yyyy): ";
+                cin >> startDateStr;
+                startDate = *new CustomDate(startDateStr);
+
+                cout << "Please input new start date (dd/mm/yyyy): ";
+                cin >> endDateStr;
+                endDate = *new CustomDate(endDateStr);
+
+                /**
+                 * Validate input date
+                 * */
+                if (endDate <= startDate) {
+                    cout << "End date has to be later than start date" << endl;
+                    break;
+                } else if (startDate < CustomDate::getToday()) {
+                    cout << "Start date has to be today or in the future" << endl;
+                    break;
+                }
+
+                /**
+                 * Update house data & write to file
+                 * */
+                house.setStartDate(startDate);
+                house.setEndDate(endDate);
+                house.setStatus(true);
+                this->writeHouseData();
+                break;
+            }
+        }
+    }
+}
+
 
 /**
  * Create new house by input all House attributes
@@ -231,7 +286,6 @@ bool HouseController::listedHouseCheck(const string &username) {
  * and also trigger write to file function to update the data state on the .csv file
  * @param username
  * @Err: The functions might throw some invalid format errors upon user inputs the data
- *
  */
 void HouseController::listNewHouse(const string &username) {
     string houseName, address, desc, ownerUsername, startDate, endDate;
