@@ -53,10 +53,8 @@ public:
     void listNewHouse(const string &username);
 
     void unlistHouse(const string &username);
-
-    void enableHouseListing(const string &username);
-
     House findByKey(const string &id);
+    void updateHouseRating (House house, float averageRating);
 
     void writeHouseData();
 

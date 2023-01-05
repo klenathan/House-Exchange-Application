@@ -1,78 +1,46 @@
 //
-// Created by phamv on 12/13/2022.
+// Created by phamv on 1/4/2023.
 //
 
 #ifndef HOUSEEXCHANGEAPPLICATION_RATINGCONTROLLER_H
 #define HOUSEEXCHANGEAPPLICATION_RATINGCONTROLLER_H
 
+#include <iostream>
 #include <vector>
-#include <map>
+#include <cmath>
 #include <algorithm>
-#include <string>
+#include <map>
+
 #include "../../Data/DataLoader/DataHandler.h"
-#include "../../Model/HouseRating/HouseRating.h"
-#include "../../Model/UserRating/UserRating.h"
-#include "../../Model/House/House.h"
-#include "../../Model/User/User.h"
+#include "../../Model/Rating/Rating.h"
 #include "../../Model/CustomError/Errors.h"
+#include "../../Model/User/User.h"
+#include "../UserController/UserController.h"
+#include "../HouseController/HouseController.h"
 
 
-using std::cout, std::endl, std::string, std::getline, std::cin, std::cerr;
+using std::cout, std::endl, std::string, std::getline, std::cin, std::cerr, std::stof;
 
 class RatingController {
 private:
-    vector<HouseRating> houseRatingArray;
-    vector<UserRating> userRatingArray;
-//    vector<string> ratingArray;
-    User currentUser;
-
+    vector<Rating> ratingArray;
     string dataPath;
-
-    void loadDataToUserRatingArray(vector<Request> requestArray);
-
-    void loadDataToHouseRatingArray(vector<Request> requestArray);
-
-
+    UserController UC;
+    HouseController HC;
+    /**
+     * Data loader
+     */
+    void loadDataToRatingArray(vector<Request> requestArray);
 public:
-    /**
-     * Constructors
-     */
     RatingController() = default;
+    RatingController(string path, vector<Request> requestArray, UserController UC, HouseController HC);
 
-    RatingController(string path, vector<Request> requestArray);
-
-    /**
-     * Getter Setter
-     */
-    const User &getCurrentUser() const;
-
-    void setCurrentUser(const User &currentUser);
-
-
-    /**
-     * Methods
-     */
-    void houseRatingWriteFile();
-
-    void userRatingWriteFile();
+    void rating(Request request, string decision);
+    bool ratingValid(string decision, string id);
+    void calculateAverageRating(User user);
+    void calculateAverageRating(House house);
 
     void writeFile();
-
-    /**
-     * Rating method
-     */
-    void rating(Request request); // Rating for house
-
-    void rating(const User& user, const string& requestID, const string& homeID); // Rating for user
-
-    /**
-     * Calculate average rating
-     */
-    vector<User> ratingAverage(vector<User> &userArray);
-
-    vector<House> ratingAverage(vector<House> &houseArray);
-
-    string getRatingWriteFormat();
 
 
 };

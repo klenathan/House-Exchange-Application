@@ -49,6 +49,7 @@ public:
     User findByKey(string username);
 
     void updateCreditPoint (User houseOwner, User occupier, long consumingPoint, CustomDate startDate, CustomDate endDate);
+    void updateUserRating (User occupier, float averageRating);
     void showMyData(const string &username);
 
     // Authenticate method
