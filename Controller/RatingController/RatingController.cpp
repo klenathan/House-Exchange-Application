@@ -135,7 +135,6 @@ void RatingController::rating(const Request &request,const string &decision) {
             } else if(decision == "User"){
                 rating.setUserRatingScore(ratingScore);
                 rating.setUserComment(comment);
-                cout << "tempRating: " << rating.getRequest().getUser().getUsername();
                 ratingArray[index] = rating;
                 calculateAverageRating(rating.getRequest().getUser());
             }
@@ -211,9 +210,7 @@ void RatingController::calculateAverageRating(User user) {
             }
         }
     }
-    cout << tempRating << endl;
     tempAverage = tempRating / count;
-    cout << tempAverage << endl;
     this->UC.updateUserRating(user, tempAverage);
 }
 
@@ -222,7 +219,7 @@ void RatingController::calculateAverageRating(User user) {
  * @param house
  */
 void RatingController::calculateAverageRating(House house) {
-    int count;
+    int count = 1;
     float tempRating = 0;
     float tempAverage = 0;
 

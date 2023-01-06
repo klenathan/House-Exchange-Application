@@ -6,5 +6,5 @@ id,name,address,desc,ownerUsername,startDate,endDate,requiredRating,rating,statu
 5179,Hue2,Hue,The Happy house,user6,12/10/2023,19/10/2023,7.000000,0.000000,1,150
 4974,SG3,Saigon,The Happy house,user7,12/10/2023,19/10/2023,3.000000,0.000000,1,250
 6283,SG4,Saigon,The Happy house,user8,12/10/2023,19/10/2023,7.000000,0.000000,1,80
-5161,SG3,Saigon,The SG house,user3,12/10/2023,19/10/2023,3.000000,9.000000,1,50
-8504,House Hue 1,Hue,A nice Hue beach side house,user3,12/10/2023,14/10/2023,3.000000,0.000000,0,50
+5161,SG5,Saigon,The SG house,user3,12/10/2023,19/10/2023,3.000000,0.000000,1,50
+8504,Hue3,Hue,A nice Hue beach side house,user3,12/10/2023,14/10/2023,0.000000,0.000000,0,50

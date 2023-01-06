@@ -303,6 +303,7 @@ void View::memberFunction(User user) {
                                 if (request.getId() == requestID && RaC.ratingValid("House", requestID)) {
                                     RaC.rating(request, "House");
                                     valid = 1;
+                                    cout << "Successfully rated the house!" << endl;
                                 }
                             }
 
@@ -332,6 +333,7 @@ void View::memberFunction(User user) {
                             for (Request request: RC.getOccupierUsername(takeCurrentHomeID())) {
                                 if (request.getId() == requestID && RaC.ratingValid("User", requestID)) {
                                     RaC.rating(request, "User");
+                                    cout << "Successfully rated the occupier!" << endl;
                                     success = 1;
                                 }
                             }
