@@ -17,7 +17,7 @@
 #include "./RequestController.h"
 
 
-using std::string, std::cout, std::cin, std::endl, std::exception;
+using std::string, std::cout, std::cin, std::endl, std::exception, std::getline;
 
 /**
  * Request constructor
