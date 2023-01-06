@@ -1,6 +1,17 @@
-//
-// Created by Nathan Tran on 08/12/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: EEET2482/COSC2082
+  Semester: 2022-3
+  Assessment: 3
+  Author:
+      s3891890, Tran Nam Thai
+      s3878246, Pham Anh Thu
+      s3891968, Pham Vo Dong
+      s3927201, Tran Ngoc Khang
+  Compiler used: Compiler version (e.g. g++ 8.1.0, type "g++ --version" to check)
+  Created  date: 11/12/2022
+  Acknowledgement: None
+*/
 
 #ifndef HOUSEEXCHANGEAPPLICATION_HOUSE_H
 #define HOUSEEXCHANGEAPPLICATION_HOUSE_H
@@ -10,12 +21,11 @@
 
 #include "../CustomDate/CustomDate.h"
 
-using std::to_string;
+using std::to_string, std::string;
 
 class House {
 private:
-
-    std::string id, name, address, desc, ownerUsername;
+    string id, name, address, desc, ownerUsername;
     long consumingPoint;
     CustomDate startDate, endDate;
     float requiredRating, rating;

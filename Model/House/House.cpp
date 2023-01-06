@@ -1,10 +1,21 @@
-//
-// Created by Nathan Tran on 08/12/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: EEET2482/COSC2082
+  Semester: 2022-3
+  Assessment: 3
+  Author:
+      s3891890, Tran Nam Thai
+      s3878246, Pham Anh Thu
+      s3891968, Pham Vo Dong
+      s3927201, Tran Ngoc Khang
+  Compiler used: Compiler version (e.g. g++ 8.1.0, type "g++ --version" to check)
+  Created  date: 11/12/2022
+  Acknowledgement: None
+*/
 
 #include "House.h"
 
-using std::cout, std::endl;
+using std::cout, std::endl, std::rand;
 
 void House::showInfo() {
     cout << "ID:" << this->id << endl;
@@ -44,7 +55,7 @@ House::House(const string &name, const string &address, const string &desc,
 
 int House::randomID() {
     srand((unsigned) time(NULL));
-    return std::rand() % 10000 + 100;;
+    return rand() % 10000 + 100;;
 }
 
 string House::to_string() {

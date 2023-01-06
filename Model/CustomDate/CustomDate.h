@@ -1,6 +1,18 @@
-//
-// Created by Nathan Tran on 08/12/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: EEET2482/COSC2082
+  Semester: 2022-3
+  Assessment: 3
+  Author:
+      s3891890, Tran Nam Thai
+      s3878246, Pham Anh Thu
+      s3891968, Pham Vo Dong
+      s3927201, Tran Ngoc Khang
+  Compiler used: Compiler version (e.g. g++ 8.1.0, type "g++ --version" to check)
+  Created  date: 11/12/2022
+  Acknowledgement: None
+*/
+
 
 #ifndef HOUSEEXCHANGEAPPLICATION_CUSTOMDATE_H
 #define HOUSEEXCHANGEAPPLICATION_CUSTOMDATE_H
@@ -35,15 +47,11 @@ public:
 
     int getDay() const;
 
-    void setDay(int day);
 
     int getMonth() const;
 
-    void setMonth(int month);
 
     int getYear() const;
-
-    void setYear(int year);
 
     /**
      * Methods declarations
@@ -63,18 +71,17 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const CustomDate &dt);
 
     /** @OVERLOAD DATA COMPARATOR **/
-    friend bool operator==(const CustomDate &d1, const CustomDate &d2);
+    friend bool operator == (const CustomDate &d1, const CustomDate &d2);
 
-    friend bool operator!=(const CustomDate &d1, const CustomDate &d2);
+    friend bool operator != (const CustomDate &d1, const CustomDate &d2);
 
-    friend bool operator<(const CustomDate &d1, const CustomDate &d2);
+    friend bool operator < (const CustomDate &d1, const CustomDate &d2);
 
-    friend bool operator>(const CustomDate &d1, const CustomDate &d2);
+    friend bool operator > (const CustomDate &d1, const CustomDate &d2);
 
-    friend bool operator<=(const CustomDate &d1, const CustomDate &d2);
+    friend bool operator <= (const CustomDate &d1, const CustomDate &d2);
 
-    friend bool operator>=(const CustomDate &d1, const CustomDate &d2);
-
+    friend bool operator >= (const CustomDate &d1, const CustomDate &d2);
 
 };
 

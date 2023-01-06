@@ -1,22 +1,32 @@
-//
-// Created by Nathan Tran on 08/12/2022.
-//
-
+/*
+  RMIT University Vietnam
+  Course: EEET2482/COSC2082
+  Semester: 2022-3
+  Assessment: 3
+  Author:
+      s3891890, Tran Nam Thai
+      s3878246, Pham Anh Thu
+      s3891968, Pham Vo Dong
+      s3927201, Tran Ngoc Khang
+  Compiler used: Compiler version (e.g. g++ 8.1.0, type "g++ --version" to check)
+  Created  date: 11/12/2022
+  Acknowledgement: None
+*/
 
 #include "User.h"
 
-using std::string, std::endl, std::ostream;
+using std::string, std::endl, std::ostream, std::cout;
 
 
 void User::showInfo() {
-    std::cout << "Username:" << this->username << endl;
-    std::cout << "Credit points:" << this->creditPoints << endl;
-    std::cout << "Rating:" << this->rating << endl;
+    cout << "Username:" << this->username << endl;
+    cout << "Credit points:" << this->creditPoints << endl;
+    cout << "Rating:" << this->rating << endl;
 
 
 }
 
-bool User::authenticate(std::string inputPassword) {
+bool User::authenticate(string inputPassword) {
     if (inputPassword == this->password) {
         return true;
     }
