@@ -51,8 +51,6 @@ public:
      * Getter-Setter
      * */
 
-
-
     Status getStatus() const;
 
     const User &getUser() const;

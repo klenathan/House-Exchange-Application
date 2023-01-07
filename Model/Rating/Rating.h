@@ -63,10 +63,6 @@ public:
      */
      string getRatingWriteFormat();
 
-
-
-
-
 };
 
 

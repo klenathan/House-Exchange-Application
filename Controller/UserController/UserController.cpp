@@ -161,7 +161,6 @@ bool UserController::signup() {
     try {
         while (check) {
             cout << "Please input username:";
-            cin.ignore();
             getline(cin, username);
             try {
                 for (char chr: username) {

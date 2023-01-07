@@ -33,11 +33,7 @@ public:
      * */
     User() {}
 
-    User(string username, string password, long creditPoints) {
-        this->username = username;
-        this->password = password;
-        this->creditPoints = creditPoints;
-    }
+    User(const string &username, const string &password, const long &creditPoints);
 
     User(const string &username, const string &password, const string &fullname, const string &phoneNum,
          long creditPoints, float rating);
@@ -45,13 +41,6 @@ public:
     /**
      * Getter-Setter
      * */
-
-
-    string getWriteFormat() {
-        return this->username + "," + this->password + "," + to_string(this->creditPoints) + "," +
-               this->fullname + "," + this->phoneNum + "," + to_string(this->rating) + "," +
-               to_string(10);
-    }
 
     const string &getUsername() const;
 
@@ -81,13 +70,11 @@ public:
      * Methods
      * */
 
+    string getWriteFormat();
+
     void showInfo();
 
     bool authenticate(string inputPassword);
-
-    void addCreditPoints(long additionNum);
-
-    void removeCreditPoints(long additionNum);
 
     friend ostream &operator<<(ostream &os, User &user);
 };

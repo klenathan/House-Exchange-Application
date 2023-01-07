@@ -57,17 +57,9 @@ public:
 
     string inputHouseRating(vector<Request> pendingArray);
 
-    string inputUserRating(vector<Request> pendingArray);
-
     string takeCurrentHomeID();
 
-    string takeRequestId(House house, vector<Request> pendingArray);
-
-    string takeRequestId(User user, vector<Request> pendingArray);
-
     string *dateInput(std::string *arr);
-
-    void renterUpdateRequestStatus();
 
     string cityInput();
 

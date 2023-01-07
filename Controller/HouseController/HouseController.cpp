@@ -250,7 +250,6 @@ House HouseController::findByKey(const string &id) {
  * @param averageRating
  */
 void HouseController::updateHouseRating (House house, float averageRating) {
-    cout << averageRating << endl;
     for (House &house1: this->HouseArray) {
         if (house.getId() == house1.getId()) {
            house1.setRating(averageRating);
@@ -280,7 +279,6 @@ void HouseController::listNewHouse(const string &username) {
         cout << "House address (Hanoi, Hue, Saigon):";
         getline(cin, address);
 
-
         if (address == "Hanoi" || address == "Hue" || address == "Saigon") address = address;
         else throw NotfoundErr("The application is only available to users in those cities: Ha Noi, Hue, Sai Gon.\n");
 
@@ -301,7 +299,6 @@ void HouseController::listNewHouse(const string &username) {
         } catch (...) {
             throw ConversionErr("MIN_RATE_CONVERSION_ERROR");
         }
-
 
         cout << "Description:";
         getline(cin, desc);

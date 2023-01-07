@@ -32,7 +32,7 @@ public:
 
 class ContainSpace: public std::exception{
 private:
-    string  message;
+    string message;
 
 public:
     ContainSpace(string  msg) : message(msg) {}
@@ -40,9 +40,6 @@ public:
         return message;
     }
 };
-
-
-
 
 class DateErr: public std::runtime_error {
 public:

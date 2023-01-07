@@ -33,13 +33,10 @@ bool User::authenticate(string inputPassword) {
     return false;
 }
 
-void User::removeCreditPoints(long additionNum) {
-    this->creditPoints -= additionNum;
-}
-
-
-void User::addCreditPoints(long additionNum) {
-    this->creditPoints += additionNum;
+string User::getWriteFormat() {
+    return this->username + "," + this->password + "," + to_string(this->creditPoints) + "," +
+           this->fullname + "," + this->phoneNum + "," + to_string(this->rating) + "," +
+           to_string(10);
 }
 
 ostream & operator<<(ostream & os, User & user) {
@@ -54,6 +51,12 @@ ostream & operator<<(ostream & os, User & user) {
 User::User(const string &username, const string &password, const string &fullname, const string &phoneNum,
            long creditPoints, float rating) : username(username), password(password), fullname(fullname),
                                               phoneNum(phoneNum), creditPoints(creditPoints), rating(rating) {}
+
+User::User(const string &username, const string &password, const long &creditPoints) {
+    this->username = username;
+    this->password = password;
+    this->creditPoints = creditPoints;
+}
 
 const string &User::getUsername() const {
     return username;

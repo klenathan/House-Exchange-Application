@@ -347,7 +347,6 @@ void View::memberFunction(User user) {
                             cout << "There is no occupier for you to rate!\n";
                         }
 
-
                         pauseFunction();
                         memberFunction(user);
                     }
