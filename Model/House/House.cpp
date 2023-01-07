@@ -51,6 +51,7 @@ House::House(const string &name, const string &address, const string &desc,
                                                                                                 startDate(startDate), endDate(endDate), requiredRating(requiredRating), rating(rating),
                                                                                                 consumingPoint(consumingPoint) {
     this->id = std::to_string(this->randomID());
+    this->status = true;
 }
 
 int House::randomID() {
