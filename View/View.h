@@ -75,6 +75,8 @@ public:
 
     void adminFunction(User admin);
 
+    void pauseFunction();
+
 };
 
 #endif //HOUSEEXCHANGEAPPLICATION_VIEW_H

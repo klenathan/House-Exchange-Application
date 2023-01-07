@@ -154,6 +154,7 @@ void View::guessFunction() {
             typeAgain:
             cout << "Enter your choice:";
             cin >> input;
+            cin.ignore();
             if (View::isNumber(input)) {
                 int num = stoi(input);
                 switch (num) {
@@ -164,7 +165,7 @@ void View::guessFunction() {
                     case 2:
                         //View All Houses Details
                         HC.showData();
-                        system("pause");
+                        pauseFunction();
                         guessFunction();
                     case 3:
                         // Return to main menu
@@ -229,7 +230,7 @@ void View::memberFunction(User user) {
                         UC.showMyData(user.getUsername());
                         cout << "\nYour house:\n";
                         HC.showUserHouse(user.getUsername());
-                        system("pause");
+                        pauseFunction();
                         memberFunction(user);
                     case 2: {
                         //// Search For Suitable House
@@ -246,7 +247,7 @@ void View::memberFunction(User user) {
                         } else {
                             cout << "There are no suitable house for your need " << endl;
                         }
-                        system("pause");
+                        pauseFunction();
                         memberFunction(user);
                     }
                     case 3:
@@ -255,12 +256,12 @@ void View::memberFunction(User user) {
                         if (HC.allAvailableHouse().size() == 0) {
                             cout << "There is no listing house in the system" << endl;
                         }
-                        system("pause");
+                        pauseFunction();
                         memberFunction(user);
                     case 4:
                         //// View sent request
                         RC.viewSentRequest(user);
-                        system("pause");
+                        pauseFunction();
                         memberFunction(user);
                     case 5:
                         //// View All Requests To My House
@@ -269,7 +270,7 @@ void View::memberFunction(User user) {
                             RC.acceptRequest(this->requestIdInput(RC), user);
                         }
 
-                        system("pause");
+                        pauseFunction();
                         memberFunction(user);
                     case 6:
                         ////List House
@@ -278,12 +279,12 @@ void View::memberFunction(User user) {
                         } else {
                             cout << "A user can only list 1 house!\n";
                         }
-                        system("pause");
+                        pauseFunction();
                         memberFunction(user);
                     case 7:
                         //// Unlist House
                         HC.unlistHouse(user.getUsername());
-                        system("pause");
+                        pauseFunction();
                         memberFunction(user);
                     case 8:
                         //Rate House
@@ -314,7 +315,7 @@ void View::memberFunction(User user) {
                             cout << "You haven't occupied a house yet!/ Your request hasn't been finished yet!\n";
                         }
 
-                        system("pause");
+                        pauseFunction();
                         memberFunction(user);
                     case 9: {
                         //Rate Occupiers
@@ -347,7 +348,7 @@ void View::memberFunction(User user) {
                         }
 
 
-                        system("pause");
+                        pauseFunction();
                         memberFunction(user);
                     }
                     case 0:
@@ -394,12 +395,12 @@ void View::adminFunction(User admin) {
                     case 1:
                         //Show all user data
                         UC.showData();
-                        system("pause");
+                        pauseFunction();
                         adminFunction(admin);
                     case 2:
                         //View All Houses Details
                         HC.showData();
-                        system("pause");
+                        pauseFunction();
                         adminFunction(admin);
                     case 3:
                         //Exit
@@ -586,8 +587,11 @@ string View::takeCurrentHomeID() {
     return homeID;
 }
 
+/**
+ * Pause the program until users press "Enter"
+ */
 
-
-
-
-
+void View::pauseFunction() {
+    cout << "Press \"Enter\" to continue ... " << endl;
+    cin.get();
+}
