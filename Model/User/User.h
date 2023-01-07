@@ -1,7 +1,17 @@
-//
-// Created by Nathan Tran on 08/12/2022.
-//
-
+/*
+  RMIT University Vietnam
+  Course: EEET2482/COSC2082
+  Semester: 2022-3
+  Assessment: 3
+  Author:
+      s3891890, Tran Nam Thai
+      s3878246, Pham Anh Thu
+      s3891968, Pham Vo Dong
+      s3927201, Tran Ngoc Khang
+  Compiler used: Compiler version (e.g. g++ 8.1.0, type "g++ --version" to check)
+  Created  date: 11/12/2022
+  Acknowledgement: None
+*/
 #ifndef HOUSEEXCHANGEAPPLICATION_USER_H
 #define HOUSEEXCHANGEAPPLICATION_USER_H
 
@@ -10,8 +20,7 @@
 #include <vector>
 #include "../House/House.h"
 
-using std::string;
-using std::ostream, std::stringstream, std::to_string;
+using std::string, std::ostream, std::stringstream, std::to_string;
 
 class User {
 private:
@@ -24,11 +33,7 @@ public:
      * */
     User() {}
 
-    User(string username, string password, long creditPoints) {
-        this->username = username;
-        this->password = password;
-        this->creditPoints = creditPoints;
-    }
+    User(const string &username, const string &password, const long &creditPoints);
 
     User(const string &username, const string &password, const string &fullname, const string &phoneNum,
          long creditPoints, float rating);
@@ -36,13 +41,6 @@ public:
     /**
      * Getter-Setter
      * */
-
-
-    string getWriteFormat() {
-        return this->username + "," + this->password + "," + to_string(this->creditPoints) + "," +
-               this->fullname + "," + this->phoneNum + "," + to_string(this->rating) + "," +
-               to_string(10);
-    }
 
     const string &getUsername() const;
 
@@ -72,13 +70,11 @@ public:
      * Methods
      * */
 
+    string getWriteFormat();
+
     void showInfo();
 
     bool authenticate(string inputPassword);
-
-    void addCreditPoints(long additionNum);
-
-    void removeCreditPoints(long additionNum);
 
     friend ostream &operator<<(ostream &os, User &user);
 };

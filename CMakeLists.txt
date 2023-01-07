@@ -16,4 +16,4 @@ add_executable(HouseExchangeApplication
         Controller/RequestController/RequestController.h Model/CustomError/Errors.h
         Controller/RatingController/RatingController.h Controller/RatingController/RatingController.cpp
 
-        Model/UserRating/UserRating.h Model/UserRating/UserRating.cpp View/View.cpp Model/Rating/Rating.h Model/Rating/Rating.cpp Controller/RatingController/RatingController.cpp)
+        View/View.cpp Model/Rating/Rating.h Model/Rating/Rating.cpp Controller/RatingController/RatingController.cpp)

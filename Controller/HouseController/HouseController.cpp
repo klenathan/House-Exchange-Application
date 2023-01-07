@@ -1,13 +1,26 @@
-//
-// Created by Nathan Tran on 08/12/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: EEET2482/COSC2082
+  Semester: 2022-3
+  Assessment: 3
+  Author:
+      s3891890, Tran Nam Thai
+      s3878246, Pham Anh Thu
+      s3891968, Pham Vo Dong
+      s3927201, Tran Ngoc Khang
+  Compiler used: Compiler version (e.g. g++ 8.1.0, type "g++ --version" to check)
+  Created  date: 11/12/2022
+  Acknowledgement: None
+*/
 
 #include "HouseController.h"
 
-
 using std::string, std::cout, std::endl, std::exception, std::remove, std::cin;
 
-
+/**
+ * House constructor
+ * @param path
+ */
 HouseController::HouseController(string path) {
     this->dataPath = path + "./house_data.csv";
     this->loadDataToArray();
@@ -16,18 +29,36 @@ HouseController::HouseController(string path) {
 /******************************************************************
  * Getter-Setter
  ******************************************************************/
-void HouseController::setHouseArray(const vector<House> &houseArray) {
-    this->HouseArray = houseArray;
-}
-
+ /**
+  * Get house array
+  * @return HouseArray
+  */
 const vector<House> &HouseController::getHouseArray() const {
     return HouseArray;
+}
+
+/**
+ * Get the House object of the input user's username
+ * @params: string username of the desired user
+ * @return: House house object of result
+ * @Err: Throw not found error in the case the user does not list any house (Non existed)
+ * */
+House HouseController::getUserHouse(const string &username) {
+    for (House house: this->HouseArray) {
+        if (house.getOwnerUsername() == username) {
+            return house;
+        }
+    }
+    throw NotfoundErr(username + " has no house!");
 }
 
 /******************************************************************
  * Method implementations
  ******************************************************************/
 
+/**
+ * Load Data
+ */
 void HouseController::loadDataToArray() {
     vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath);
 
@@ -44,56 +75,18 @@ void HouseController::loadDataToArray() {
 }
 
 /**
- * Get the House object of the input user's username
- * @params: string username of the desired user
- * @return: House house object of result
- * @Err: Throw not found error in the case the user does not list any house (Non existed)
- * */
-House HouseController::getUserHouse(string username) {
-    for (House house: this->HouseArray) {
-        if (house.getOwnerUsername() == username) {
-            return house;
-        }
-    }
-    throw NotfoundErr(username + " has no house!");
-}
-
-/**
- * Show info of user house using username input
+ * Check if the user has already listed a house
  * @param username
+ * @return true if user has already listed a house, otherwise false
  */
-void HouseController::showUserHouse(string username) {
-    House h = getUserHouse(username);
-    h.showInfo();
-}
-
-/**
- * Check house existent
- * @param username
- * @return
- */
-bool HouseController::houseExist(string username) {
+bool HouseController::listedHouseCheck(const string &username) {
     for (House house: this->HouseArray) {
-        if (house.getOwnerUsername() == username && house.isStatus()) {
+        if ((house.getOwnerUsername() == username) && (house.getEndDate() >= CustomDate::getToday()) &&
+            (house.isStatus())) {
             return true;
         }
     }
     return false;
-}
-
-/**
- * Get the House vector of the input user's username
- * @param string username
- * @return House house object of result
- * @Err: Throw not found error in the case the user does not list any house (Non existed)
- */
-vector<House> HouseController::getUserHouseVector(string username) {
-    for (House house: this->HouseArray) {
-        if (house.getOwnerUsername() == username) {
-            return this->HouseArray;
-        }
-    }
-    throw NotfoundErr(username + " have no house");
 }
 
 /**
@@ -113,6 +106,29 @@ void HouseController::houseData(vector<House> houses) {
         house.showInfo();
         cout << endl;
     }
+}
+
+/**
+ * Show info of user house using username input
+ * @param username
+ */
+void HouseController::showUserHouse(const string &username) {
+    House h = getUserHouse(username);
+    h.showInfo();
+}
+
+/**
+ * Check house existent
+ * @param username
+ * @return true if user house exists, otherwise false
+ */
+bool HouseController::houseExist(const string &username) {
+    for (House house: this->HouseArray) {
+        if (house.getOwnerUsername() == username && house.isStatus()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 /**
@@ -148,7 +164,7 @@ void HouseController::unlistHouse(const string &username) {
 
 /**
  * @brief: re-enable house from unlisted status, and re-new listing period
- * The function loop through the data array twice to check if is there any current listed house then process
+ * The function loops through the data array twice to check if is there any current listed house then process
  * to update the data
  * @param username - house owner's username
  */
@@ -183,8 +199,39 @@ void HouseController::enableHouseListing(const string &username) {
             if (endDate <= startDate) {
                 cout << "End date has to be later than start date" << endl;
                 break;
-            } else if (startDate < CustomDate::getToday()) {
-                cout << "Start date has to be today or in the future" << endl;
+            } else if ((house.getOwnerUsername() == username) && (!house.isStatus())) {
+                /**
+                 * Data input
+                 * */
+                string startDateStr, endDateStr;
+                CustomDate startDate, endDate;
+                house.showInfo();
+                cout << "Please input new start date (dd/mm/yyyy):";
+                cin >> startDateStr;
+                startDate = *new CustomDate(startDateStr);
+
+                cout << "Please input new start date (dd/mm/yyyy):";
+                cin >> endDateStr;
+                endDate = *new CustomDate(endDateStr);
+
+                /**
+                 * Validate input date
+                 * */
+                if (endDate <= startDate) {
+                    cout << "End date has to be later than start date" << endl;
+                    break;
+                } else if (startDate < CustomDate::getToday()) {
+                    cout << "Start date has to be today or in the future" << endl;
+                    break;
+                }
+
+                /**
+                 * Update house data & write to file
+                 * */
+                house.setStartDate(startDate);
+                house.setEndDate(endDate);
+                house.setStatus(true);
+                this->writeHouseData();
                 break;
             }
 
@@ -204,29 +251,6 @@ void HouseController::enableHouseListing(const string &username) {
     }
 }
 
-
-/**
- * Create new house by input all House attributes
- * @param name
- * @param address
- * @param desc
- * @param ownerUsername
- * @param startDate
- * @param endDate
- * @param requiredRating
- * @param rating
- * @param status
- * @param consumingPoint
- */
-void HouseController::create(const std::string &name, const std::string &address, const std::string &desc,
-                             const std::string &ownerUsername, const CustomDate &startDate,
-                             const CustomDate &endDate, float requiredRating, float rating, bool status,
-                             long consumingPoint) {
-    House newHouse = House(name, address, desc, ownerUsername, startDate, endDate, requiredRating, rating,
-                           consumingPoint);
-    this->HouseArray.push_back(newHouse);
-}
-
 /**
  * Save the current state of data to file
  * */
@@ -244,8 +268,9 @@ void HouseController::writeHouseData() {
  * Find house on current dataState
  * @params: string id: the house's id on data file
  * @return: object House with input id
+ * @Err: Throw not found error in the case the house id is not found
  * */
-House HouseController::findByKey(const std::string &id) {
+House HouseController::findByKey(const string &id) {
     for (House house: this->HouseArray) {
         if (house.getId() == id) {
             return house;
@@ -254,28 +279,18 @@ House HouseController::findByKey(const std::string &id) {
     throw NotfoundErr("HOUSE_" + id + "_NOT_FOUND\n");
 }
 
-void HouseController::updateHouseRating(House house, float averageRating) {
-    cout << averageRating << endl;
+/**
+ * Update house rating
+ * @param house
+ * @param averageRating
+ */
+void HouseController::updateHouseRating (House house, float averageRating) {
     for (House &house1: this->HouseArray) {
         if (house.getId() == house1.getId()) {
-            house1.setRating(averageRating);
-//            house.showInfo();
+           house1.setRating(averageRating);
             this->writeHouseData();
         }
     }
-}
-
-/**
- * Check if the user has already listed a house
- * */
-bool HouseController::listedHouseCheck(const string &username) {
-    for (House house: this->HouseArray) {
-        if ((house.getOwnerUsername() == username) && (house.getEndDate() >= CustomDate::getToday()) &&
-            (house.isStatus())) {
-            return true;
-        }
-    }
-    return false;
 }
 
 /**
@@ -293,40 +308,38 @@ void HouseController::listNewHouse(const string &username) {
     try {
 
         //// Get user's input of the house's details
-        cout << "House title: ";
-        std::getline(std::cin, houseName);
+        cout << "House title:";
+        getline(cin, houseName);
 
-        cout << "House address (Hanoi, Hue, Saigon): ";
-        std::getline(std::cin, address);
-
+        cout << "House address (Hanoi, Hue, Saigon):";
+        getline(cin, address);
 
         if (address == "Hanoi" || address == "Hue" || address == "Saigon") address = address;
         else throw NotfoundErr("The application is only available to users in those cities: Ha Noi, Hue, Sai Gon.\n");
 
-        cout << "Consuming point (number): ";
-        std::getline(std::cin, tempConsumingPoint);
+        cout << "Consuming point (number):";
+        getline(cin, tempConsumingPoint);
         try {
             consumingPoint = stol(tempConsumingPoint);
         } catch (...) {
             throw ConversionErr("CONSUMING_POINT_CONVERSION_ERROR");
         }
 
-        cout << "Minimum rating (number): ";
-        std::getline(std::cin, tempMinRate);
+        cout << "Minimum rating (number):";
+        getline(cin, tempMinRate);
         try {
-            minRate = std::stof(tempMinRate);
+            minRate = stof(tempMinRate);
             if (-10 <= minRate && minRate <= 10) minRate = minRate;
             else throw NotfoundErr("Ratings can vary from -10 to +10\n");
         } catch (...) {
             throw ConversionErr("MIN_RATE_CONVERSION_ERROR");
         }
 
+        cout << "Description:";
+        getline(cin, desc);
 
-        cout << "Description: ";
-        std::getline(std::cin, desc);
-
-        cout << "Start date (dd/mm/yyyy): ";
-        std::getline(std::cin, startDate);
+        cout << "Start date (dd/mm/yyyy):";
+        getline(cin, startDate);
         CustomDate start;
         if (CustomDate::validDate(startDate)) {
             try {
@@ -338,8 +351,8 @@ void HouseController::listNewHouse(const string &username) {
             throw NotfoundErr("INVALID_DATE");
         }
 
-        cout << "End date (dd/mm/yyyy): ";
-        std::getline(std::cin, endDate);
+        cout << "End date (dd/mm/yyyy):";
+        getline(cin, endDate);
         CustomDate end;
         if (CustomDate::validDate(endDate)) {
             try {
@@ -366,7 +379,7 @@ void HouseController::listNewHouse(const string &username) {
 
     } catch (exception const &e) {
         cout << "Function stopped due to err: " << "\033[31m" << e.what() << "\033[0m" << endl;
-        std::cin.ignore();
+        cin.ignore();
     }
 }
 
@@ -406,7 +419,6 @@ HouseController::searchForSuitableHouses(string city, CustomDate startDate, Cust
     }
     return result;
 }
-
 
 /**
  * Return all houses in the system with start date later than CustomDate::getToday()

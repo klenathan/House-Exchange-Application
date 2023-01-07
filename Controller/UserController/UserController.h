@@ -1,6 +1,17 @@
-//
-// Created by Nathan Tran on 08/12/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: EEET2482/COSC2082
+  Semester: 2022-3
+  Assessment: 3
+  Author:
+      s3891890, Tran Nam Thai
+      s3878246, Pham Anh Thu
+      s3891968, Pham Vo Dong
+      s3927201, Tran Ngoc Khang
+  Compiler used: Compiler version (e.g. g++ 8.1.0, type "g++ --version" to check)
+  Created  date: 11/12/2022
+  Acknowledgement: None
+*/
 
 #ifndef HOUSEEXCHANGEAPPLICATION_USERCONTROLLER_H
 #define HOUSEEXCHANGEAPPLICATION_USERCONTROLLER_H
@@ -17,40 +28,42 @@ private:
     vector<User> userArray;
     User currentUser;
     string dataPath;
+
+    /********************************************************************
+     * Methods
+     ******************************************************************/
+    void loadDataToArray();
 public:
-    /**
+    /********************************************************************
      * Constructors
-     * */
+     ******************************************************************/
     UserController() {}
 
     explicit UserController(string path);
 
-    /**
+    /********************************************************************
      * Getter Setter
-     * */
+     ******************************************************************/
 
     const User &getCurrentUser() const;
 
     void setCurrentUser(const User &currentUser);
 
-    const vector<User> &getUserArray() const;
-
-    void setUserArray(const vector<User> &userArray);
-
-    /**
+    /********************************************************************
      * Methods
-     * */
-    void loadDataToArray();
+     ******************************************************************/
+
+    void writeFile();
 
     void showData();
 
-    void writeFile();
+    void showMyData(const string &username);
 
     User findByKey(string username);
 
     void updateCreditPoint (User houseOwner, User occupier, long consumingPoint, CustomDate startDate, CustomDate endDate);
+
     void updateUserRating (User occupier, float averageRating);
-    void showMyData(const string &username);
 
     // Authenticate method
     bool signup();

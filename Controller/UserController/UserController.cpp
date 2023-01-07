@@ -1,11 +1,23 @@
-//
-// Created by Nathan Tran on 08/12/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: EEET2482/COSC2082
+  Semester: 2022-3
+  Assessment: 3
+  Author:
+      s3891890, Tran Nam Thai
+      s3878246, Pham Anh Thu
+      s3891968, Pham Vo Dong
+      s3927201, Tran Ngoc Khang
+  Compiler used: Compiler version (e.g. g++ 8.1.0, type "g++ --version" to check)
+  Created  date: 11/12/2022
+  Acknowledgement: None
+*/
 
 #include "vector"
 #include <iostream>
 #include "UserController.h"
 
+using std::string, std::exception, std::isspace, std::isalpha;
 
 /**
  * User constructor
@@ -16,26 +28,28 @@ UserController::UserController(string path) {
     this->loadDataToArray();
 }
 
+/******************************************************************
+ * Getter-Setter
+ ******************************************************************/
 /**
- * Getter Setter
+ * Get current user
+ * @return currentUser
  */
 const User &UserController::getCurrentUser() const {
     return currentUser;
 }
 
+/**
+ * Set current user
+ * @param currentUser
+ */
 void UserController::setCurrentUser(const User &currentUser) {
     UserController::currentUser = currentUser;
 }
 
-
-const vector<User> &UserController::getUserArray() const {
-    return userArray;
-}
-
-void UserController::setUserArray(const vector<User> &userArray) {
-    UserController::userArray = userArray;
-}
-
+/******************************************************************
+ * Method implementations
+ ******************************************************************/
 
 /**
  * Store data to the user array
@@ -64,7 +78,7 @@ void UserController::writeFile() {
 }
 
 /**
- * Show all data
+ * Show all data of user
  */
 void UserController::showData() {
     for (User user: this->userArray) {
@@ -72,6 +86,10 @@ void UserController::showData() {
     }
 };
 
+/**
+ * Show data of the current user
+ * @param username
+ */
 void UserController::showMyData(const string &username) {
     for (User user: this->userArray) {
         if (user.getUsername() == username) {
@@ -81,8 +99,8 @@ void UserController::showMyData(const string &username) {
 };
 
 /**
- *
- * */
+ * Find user by username
+ */
 User UserController::findByKey(string username) {
     for (User user: this->userArray) {
         if (user.getUsername() == username) {
@@ -92,6 +110,14 @@ User UserController::findByKey(string username) {
     throw NotfoundErr("USER_NOT_FOUND");
 }
 
+/**
+ * Update user credit point
+ * @param houseOwner
+ * @param occupier
+ * @param consumingPoint
+ * @param startDate
+ * @param endDate
+ */
 void UserController::updateCreditPoint (User houseOwner, User occupier, long consumingPoint, CustomDate startDate, CustomDate endDate) {
     for (int i = 0; i < this->userArray.size(); i++) {
         if (userArray[i].getUsername() == houseOwner.getUsername()) {
@@ -105,6 +131,11 @@ void UserController::updateCreditPoint (User houseOwner, User occupier, long con
     }
 }
 
+/**
+ * Update occupier rating
+ * @param occupier
+ * @param averageRating
+ */
 void UserController::updateUserRating (User occupier, float averageRating) {
     for (int i = 0; i < this->userArray.size(); i++) {
         if (userArray[i].getUsername() == occupier.getUsername()) {
@@ -116,7 +147,7 @@ void UserController::updateUserRating (User occupier, float averageRating) {
 
 /**
  * Sign up method
- * @return bool
+ * @return bool if signup successfully, otherwise false
  */
 bool UserController::signup() {
     string username;
@@ -129,12 +160,11 @@ bool UserController::signup() {
 
     try {
         while (check) {
-            cout << "PLease input username: ";
-            cin.ignore();
+            cout << "Please input username:";
             getline(cin, username);
             try {
                 for (char chr: username) {
-                    if (std::isspace(chr)) {
+                    if (isspace(chr)) {
                         throw ContainSpace("username can not contain space\n");
                     }
                 }
@@ -155,11 +185,11 @@ bool UserController::signup() {
 
         check = true;
         while (check) {
-            cout << "Please input password: ";
+            cout << "Please input password:";
             getline(cin, password);
             try {
                 for (char chr: password) {
-                    if (std::isspace(chr)) {
+                    if (isspace(chr)) {
                         throw ContainSpace("Password not allow contain space\n");
                     }
                 }
@@ -171,16 +201,16 @@ bool UserController::signup() {
         }
 
 
-        cout << "Please input fullname: ";
+        cout << "Please input fullname:";
         getline(cin, fullname);
 
         check = true;
         while (check) {
             try {
-                cout << "Please input phone number: ";
+                cout << "Please input phone number:";
                 getline(cin, phoneNum);
                 for (char chr: phoneNum) {
-                    if (std::isspace(chr) || std::isalpha(chr)) {
+                    if (isspace(chr) || isalpha(chr)) {
                         throw phoneNum;
                     } else {
                         check = false;
@@ -192,7 +222,6 @@ bool UserController::signup() {
             }
         }
 
-
         // Save newUser
         User *newUser = new User(username, password, fullname, phoneNum, 500, 5);
         this->userArray.push_back(*newUser);
@@ -200,25 +229,25 @@ bool UserController::signup() {
 
         delete newUser;
 
-        cout << "Successfully create an account!\n";
+        cout << "Successfully created an account!\n";
         return true;
-    } catch (std::exception &e) {
+    } catch (exception &e) {
         cout << "Function stopped due to err: " << "\033[31m" << e.what() << "\033[0m" << endl;
     }
 }
 
 /**
- * Login method
- * @return bool
+ * Login method for user
+ * @return 1 if successfully login to user account, otherwise 0
  */
 bool UserController::login() {
     string username;
     string password;
 
-    cout << "Input your username: ";
+    cout << "Input your username:";
     cin >> username;
 
-    cout << "Input your password: ";
+    cout << "Input your password:";
     cin >> password;
 
     for (User user: this->userArray) {
@@ -226,14 +255,18 @@ bool UserController::login() {
             this->currentUser = user;
             return 1;
         } else if (user.getUsername() == username && !user.authenticate(password)) {
-            cout << "Wrong password\n";
+            cout << "Wrong password!\n";
             return 0;
         }
     }
-    cout << "This account does not exist! PLease sign up! \n";
+    cout << "This account does not exist! PLease sign up!\n";
     return 0;
 }
 
+/**
+ * Login method for admin
+ * @return bool 1 if successfully login to admin account, otherwise 0
+ */
 bool UserController::adminLogin() {
     string username;
     string password;
@@ -245,22 +278,23 @@ bool UserController::adminLogin() {
     cin >> password;
 
     if (username == "admin" && password == "admin") {
-        User admin = *new User(username, password, "admin", "087654321", 500, 5);
-        this->currentUser = admin;
+        User *admin = new User(username, password, "admin", "087654321", 500, 5);
+        this->currentUser = *admin;
+        delete admin;
         return 1;
     }
-    cout << "Wrong username or password\n";
+    cout << "Wrong username or password!\n";
     return 0;
 
 }
 
 
 /**
- * The function check if the input user's username is exist on the current data state
+ * Checks if the username exists on the current data state
  * @param: string username
- * @return: bool true when the user existed, false when they aren't
+ * @return: bool true if the user exists, otherwise false
  * */
-bool UserController::include(const std::string &username) {
+bool UserController::include(const string &username) {
     for (User user: this->userArray) {
         if (user.getUsername() == username) {
             return true;
@@ -268,6 +302,3 @@ bool UserController::include(const std::string &username) {
     }
     return false;
 }
-
-
-

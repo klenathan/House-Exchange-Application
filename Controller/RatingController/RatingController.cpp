@@ -1,9 +1,21 @@
-//
-// Created by phamv on 1/4/2023.
-//
+/*
+  RMIT University Vietnam
+  Course: EEET2482/COSC2082
+  Semester: 2022-3
+  Assessment: 3
+  Author:
+      s3891890, Tran Nam Thai
+      s3878246, Pham Anh Thu
+      s3891968, Pham Vo Dong
+      s3927201, Tran Ngoc Khang
+  Compiler used: Compiler version (e.g. g++ 8.1.0, type "g++ --version" to check)
+  Created  date: 11/12/2022
+  Acknowledgement: None
+*/
 
 #include "RatingController.h"
 
+using std::exception;
 /**
  * Rating constructor
  * @param path
@@ -15,13 +27,17 @@ RatingController::RatingController(string path, vector<Request> requestArray, Us
     this->UC = UC;
     this->HC = HC;
 }
+
+/**
+ * Load request data into an array
+ * @param requestArray
+ */
 void RatingController::loadDataToRatingArray(vector<Request> requestArray) {
     vector<vector<string>> rawData = DataHandler::loadFile(this->dataPath + "./rating_data.csv");
     float houseRatingScore;
     float userRatingScore;
     string houseComment;
     string userComment;
-
 
     for(vector<string> line :rawData){
         for(Request req: requestArray){
@@ -48,6 +64,10 @@ void RatingController::loadDataToRatingArray(vector<Request> requestArray) {
         }
     }
 }
+
+/**
+ * Write rating data to file
+ */
 void RatingController::writeFile() {
     string content;
     content += "requestID,houseRatingScore,houseComment,userRatingScore,userComment\n";
@@ -58,7 +78,12 @@ void RatingController::writeFile() {
 }
 
 
-void RatingController::rating(Request request, string decision) {
+/**
+ * Get rating and comment input from user
+ * @param request
+ * @param decision
+ */
+void RatingController::rating(const Request &request,const string &decision) {
     string tempRatingScore;
     float ratingScore;
     string comment;
@@ -71,9 +96,9 @@ void RatingController::rating(Request request, string decision) {
 
         while (check) {
             try {
-                cout << "Please input your rating score in the scale -10 to 10: ";
+                cout << "Please input your rating score in the scale -10 to 10:";
                 getline(cin, tempRatingScore);
-                ratingScore = std::stof(tempRatingScore);
+                ratingScore = stof(tempRatingScore);
                 try {
                     if (ratingScore <= -11 || ratingScore >= 11) {
                         throw ratingScore;
@@ -89,34 +114,31 @@ void RatingController::rating(Request request, string decision) {
                 cout << tempRatingScore << " Invalid input!\n";
                 check = true;
             }
-
         }
 
         cout << "Please give your comment: \n";
         getline(cin, comment);
 
         string requestID = request.getId();
-        auto existRequest = std::find_if(ratingArray.begin(), ratingArray.end(),[&requestID](const Rating& obj) {
+        auto existRequest = find_if(ratingArray.begin(), ratingArray.end(),[&requestID](const Rating& obj) {
             return obj.getRequest().getId() == requestID;
         });
 
         if(existRequest != ratingArray.end()){
-            auto index = std::distance(ratingArray.begin(), existRequest); // Take index
+            auto index = distance(ratingArray.begin(), existRequest); // Take index
             Rating rating = ratingArray[index];
             if(decision == "House"){
                 rating.setHouseRatingScore(ratingScore);
                 rating.setHouseComment(comment);
                 ratingArray[index] = rating;
                 calculateAverageRating(rating.getRequest().getHouse());
-            }else if(decision == "User"){
+            } else if(decision == "User"){
                 rating.setUserRatingScore(ratingScore);
                 rating.setUserComment(comment);
-                cout << "tempRating: " << rating.getRequest().getUser().getUsername();
                 ratingArray[index] = rating;
                 calculateAverageRating(rating.getRequest().getUser());
             }
-
-        } else{
+        } else {
             Rating tempRating;
             tempRating.setRequest(request);
             if(decision == "House"){
@@ -136,18 +158,22 @@ void RatingController::rating(Request request, string decision) {
 
         writeFile();
 
-    } catch (std::exception &e) {
+    } catch (exception &e) {
         cout << "Function stopped due to err: " << "\033[31m" << e.what() << "\033[0m" << endl;
-        std::cin.ignore();
+        cin.ignore();
     }
-
-
-
 }
+
+/**
+ * Checks if the rating is valid, user can only rate request once
+ * @param decision
+ * @param requestID
+ * @return bool if rating is valid, otherwise false
+ */
 
 bool RatingController::ratingValid(string decision, string requestID) {
 
-    auto existRequest = std::find_if(ratingArray.begin(), ratingArray.end(),[&requestID](const Rating& obj) {
+    auto existRequest = find_if(ratingArray.begin(), ratingArray.end(),[&requestID](const Rating& obj) {
         return obj.getRequest().getId() == requestID;
     });
     if(existRequest != ratingArray.end()) {
@@ -167,7 +193,10 @@ bool RatingController::ratingValid(string decision, string requestID) {
 
 }
 
-
+/**
+ * Calculate average rating of occupier
+ * @param user
+ */
 void RatingController::calculateAverageRating(User user) {
     int count = 1;
     float tempRating = 5; // default rating when create an account
@@ -181,15 +210,17 @@ void RatingController::calculateAverageRating(User user) {
             }
         }
     }
-    cout << tempRating << endl;
     tempAverage = tempRating / count;
-    cout << tempAverage << endl;
     this->UC.updateUserRating(user, tempAverage);
 }
 
+/**
+ * Calculate average rating for house
+ * @param house
+ */
 void RatingController::calculateAverageRating(House house) {
-    int count = 0;
-    float tempRating = 0; // default rating when listing a new house
+    int count = 1;
+    float tempRating = 0;
     float tempAverage = 0;
 
     for (Rating rating: ratingArray ) {
@@ -201,18 +232,7 @@ void RatingController::calculateAverageRating(House house) {
         }
     }
 
-    cout << "a" << tempRating << endl;
-    cout << "b" << count << endl;
-    cout << "c" << tempAverage << endl;
-
     tempAverage = tempRating / count;
 
     this->HC.updateHouseRating(house, tempAverage);
 }
-
-
-
-
-
-
-

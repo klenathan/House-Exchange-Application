@@ -1,23 +1,37 @@
-//
-// Created by Nathan Tran on 08/12/2022.
-//
-
+/*
+  RMIT University Vietnam
+  Course: EEET2482/COSC2082
+  Semester: 2022-3
+  Assessment: 3
+  Author:
+      s3891890, Tran Nam Thai
+      s3878246, Pham Anh Thu
+      s3891968, Pham Vo Dong
+      s3927201, Tran Ngoc Khang
+  Compiler used: Compiler version (e.g. g++ 8.1.0, type "g++ --version" to check)
+  Created  date: 11/12/2022
+  Acknowledgement: None
+*/
 
 #include <vector>
 #include <iostream>
-#include <fstream>
 #include "DataHandler.h"
 
-using std::ofstream, std::string, std::cout, std::endl;
+using std::ofstream, std::string, std::cout, std::endl, std::ifstream, std::getline;
 
-vector<vector<string>> DataHandler::loadFile(std::string src) {
+/**
+ * Load data into a vector
+ * @param src
+ * @return vector<vector<string>> result
+ */
+vector<vector<string>> DataHandler::loadFile(string src) {
     int counter = 0;
-    std::string myText;
-    std::ifstream MyReadFile(src);
+    string myText;
+    ifstream MyReadFile(src);
     vector<vector<string>> result;
     while (getline(MyReadFile, myText)) {
-        std::string cell;
-        std::stringstream ss(myText);
+        string cell;
+        stringstream ss(myText);
         vector<string> tempArray;
 
         if (counter == 0) {
@@ -35,7 +49,12 @@ vector<vector<string>> DataHandler::loadFile(std::string src) {
     return result;
 }
 
-string DataHandler::getPath(std::string src) {
+/**
+ * Get current file path
+ * @param src
+ * @return string result
+ */
+string DataHandler::getPath(string src) {
     stringstream ss(src);
     string text;
     vector<string> resultArr;
@@ -50,7 +69,11 @@ string DataHandler::getPath(std::string src) {
     return result;
 }
 
-std::string DataHandler::getOsName() {
+/**
+ * get OS name
+ * @return os name
+ */
+string DataHandler::getOsName() {
 #ifdef _WIN32 || _WIN64
     return "window";
 #elif __APPLE__ || __MACH__ || __unix || __unix__ || __linux__
@@ -60,6 +83,9 @@ std::string DataHandler::getOsName() {
 #endif
 }
 
+/**
+ * Clear function
+ */
 void DataHandler::clear() {
     string os = DataHandler::getOsName();
 
@@ -68,12 +94,17 @@ void DataHandler::clear() {
     } else if (os == "unix_family") {
         system("clear");
     } else {
-        std::cout << "unknown OS" << std::endl;
+        cout << "unknown OS" << endl;
     }
 };
 
+/**
+ * Write file
+ * @param src
+ * @param content
+ * @return bool true
+ */
 bool DataHandler::writeFile(string src, string content) {
-
     ofstream MyFile(src);
     MyFile << content;
     MyFile.close();

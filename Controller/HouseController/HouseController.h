@@ -1,6 +1,17 @@
-//
-// Created by Nathan Tran on 08/12/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: EEET2482/COSC2082
+  Semester: 2022-3
+  Assessment: 3
+  Author:
+      s3891890, Tran Nam Thai
+      s3878246, Pham Anh Thu
+      s3891968, Pham Vo Dong
+      s3927201, Tran Ngoc Khang
+  Compiler used: Compiler version (e.g. g++ 8.1.0, type "g++ --version" to check)
+  Created  date: 11/12/2022
+  Acknowledgement: None
+*/
 
 #ifndef HOUSEEXCHANGEAPPLICATION_HOUSECONTROLLER_H
 #define HOUSEEXCHANGEAPPLICATION_HOUSECONTROLLER_H
@@ -8,10 +19,10 @@
 #include <iostream>
 #include <vector>
 
-#include "../../Model/House/House.h"
 #include "../../Data/DataLoader/DataHandler.h"
 #include "../../Model/CustomError/Errors.h"
 #include "../../Model/User/User.h"
+#include "../../Model/House/House.h"
 
 class HouseController {
 private:
@@ -19,11 +30,10 @@ private:
     House currentUserHouse;
     string dataPath;
 
-    void loadDataToArray();
-
     /********************************************************************
      * Methods
      ******************************************************************/
+    void loadDataToArray();
 
     bool listedHouseCheck(const string &username);
 
@@ -36,45 +46,43 @@ public:
     HouseController(string path);
 
     /********************************************************************
+     * Getter Setter
+     ******************************************************************/
+    const std::vector<House> &getHouseArray() const;
+
+    House getUserHouse(const string &username);
+
+    /********************************************************************
      * Methods
      ******************************************************************/
-    House getUserHouse(string username);
 
     void showData();
 
     void houseData(vector<House> houses);
 
+    void showUserHouse(const string &username);
+
+    bool houseExist(const string &username);
+
     void create(const House &newHouse);
-
-    void create(const std::string &name, const std::string &address, const std::string &desc,
-                const std::string &ownerUsername, const CustomDate &startDate,
-                const CustomDate &endDate, float requiredRating, float rating, bool status, long consumingPoint);
-
-    void listNewHouse(const string &username);
-
-    void unlistHouse(const string &username);
-    House findByKey(const string &id);
-    void updateHouseRating (House house, float averageRating);
-    void enableHouseListing(const string &username);
 
     void writeHouseData();
 
-    const std::vector<House> &getHouseArray() const;
+    House findByKey(const string &id);
 
-    void setHouseArray(const std::vector<House> &houseArray);
-
-    bool houseExist(string username);
-
-    void showUserHouse(string username);
+    void updateHouseRating (House house, float averageRating);
 
     /** User interactions */
-    vector<House> searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate, User user);
+    void listNewHouse(const string &username);
 
-    vector<House> getRequestOver();
+    void unlistHouse(const string &username);
+
+    void enableHouseListing(const string &username);
+
+    vector<House> searchForSuitableHouses(string city, CustomDate startDate, CustomDate endDate, User user);
 
     vector<House> allAvailableHouse();
 
-    vector<House> getUserHouseVector(string username);
-};
+    };
 
 #endif //HOUSEEXCHANGEAPPLICATION_HOUSECONTROLLER_H

@@ -1,49 +1,62 @@
-//
-// Created by Nathan Tran on 08/12/2022.
-//
-
+/*
+  RMIT University Vietnam
+  Course: EEET2482/COSC2082
+  Semester: 2022-3
+  Assessment: 3
+  Author:
+      s3891890, Tran Nam Thai
+      s3878246, Pham Anh Thu
+      s3891968, Pham Vo Dong
+      s3927201, Tran Ngoc Khang
+  Compiler used: Compiler version (e.g. g++ 8.1.0, type "g++ --version" to check)
+  Created  date: 11/12/2022
+  Acknowledgement: None
+*/
 
 #include "User.h"
 
-using std::string, std::endl, std::ostream;
+using std::string, std::endl, std::ostream, std::cout;
 
 
 void User::showInfo() {
-    std::cout << "Username: " << this->username << endl;
-    std::cout << "Credit points: " << this->creditPoints << endl;
-    std::cout << "Rating: " << this->rating << endl;
+    cout << "Username:" << this->username << endl;
+    cout << "Credit points:" << this->creditPoints << endl;
+    cout << "Rating:" << this->rating << endl;
 
 
 }
 
-bool User::authenticate(std::string inputPassword) {
+bool User::authenticate(string inputPassword) {
     if (inputPassword == this->password) {
         return true;
     }
     return false;
 }
 
-void User::removeCreditPoints(long additionNum) {
-    this->creditPoints -= additionNum;
-}
-
-
-void User::addCreditPoints(long additionNum) {
-    this->creditPoints += additionNum;
+string User::getWriteFormat() {
+    return this->username + "," + this->password + "," + to_string(this->creditPoints) + "," +
+           this->fullname + "," + this->phoneNum + "," + to_string(this->rating) + "," +
+           to_string(10);
 }
 
 ostream & operator<<(ostream & os, User & user) {
-    os << "Username: " << user.username << endl;
-    os << "Fullname: " << user.fullname << endl;
-    os << "Contact: " << user.phoneNum << endl;
-    os << "Credit points: " << user.creditPoints << endl;
-    os << "Rating: " << user.rating << endl;
+    os << "Username:" << user.username << endl;
+    os << "Fullname:" << user.fullname << endl;
+    os << "Contact:" << user.phoneNum << endl;
+    os << "Credit points:" << user.creditPoints << endl;
+    os << "Rating:" << user.rating << endl;
     return os;
 }
 
 User::User(const string &username, const string &password, const string &fullname, const string &phoneNum,
            long creditPoints, float rating) : username(username), password(password), fullname(fullname),
                                               phoneNum(phoneNum), creditPoints(creditPoints), rating(rating) {}
+
+User::User(const string &username, const string &password, const long &creditPoints) {
+    this->username = username;
+    this->password = password;
+    this->creditPoints = creditPoints;
+}
 
 const string &User::getUsername() const {
     return username;
