@@ -259,7 +259,6 @@ void HouseController::writeHouseData() {
     string content = header;
     for (House house: this->HouseArray) {
         content += house.to_string() + "\n";
-        cout << content << "\n";
     }
     DataHandler::writeFile(this->dataPath, content);
 }
