@@ -153,51 +153,54 @@ void HouseController::unlistHouse(const string &username) {
  * @param username - house owner's username
  */
 void HouseController::enableHouseListing(const string &username) {
-    if (this->listedHouseCheck(username)) {
-        cout << username << " is currently has a listing" << endl;
-    } else {
-        for (House &house: this->HouseArray) {
-            if ((house.getOwnerUsername() == username) && house.isStatus()) {
-                cout << "House " << house.getId() << " of owner " << house.getOwnerUsername()
-                     << " is already being listed"
-                     << endl;
+    bool houseExist = 0;
+    for (House &house: this->HouseArray) {
+        if ((house.getOwnerUsername() == username) && house.isStatus()) {
+            cout << "House " << house.getId() << " of owner " << house.getOwnerUsername()
+                 << " is already being listed"
+                 << endl;
+            houseExist = 1;
+            break;
+        } else if ((house.getOwnerUsername() == username) && (!house.isStatus())) {
+            /**
+             * Data input
+             * */
+            houseExist = 1;
+            string startDateStr, endDateStr;
+            CustomDate startDate, endDate;
+            house.showInfo();
+            cout << "Please input new start date (dd/mm/yyyy): ";
+            cin >> startDateStr;
+            startDate = *new CustomDate(startDateStr);
+
+            cout << "Please input new start date (dd/mm/yyyy): ";
+            cin >> endDateStr;
+            endDate = *new CustomDate(endDateStr);
+
+            /**
+             * Validate input date
+             * */
+            if (endDate <= startDate) {
+                cout << "End date has to be later than start date" << endl;
                 break;
-            } else if ((house.getOwnerUsername() == username) && (!house.isStatus())) {
-                /**
-                 * Data input
-                 * */
-                string startDateStr, endDateStr;
-                CustomDate startDate, endDate;
-                house.showInfo();
-                cout << "Please input new start date (dd/mm/yyyy): ";
-                cin >> startDateStr;
-                startDate = *new CustomDate(startDateStr);
-
-                cout << "Please input new start date (dd/mm/yyyy): ";
-                cin >> endDateStr;
-                endDate = *new CustomDate(endDateStr);
-
-                /**
-                 * Validate input date
-                 * */
-                if (endDate <= startDate) {
-                    cout << "End date has to be later than start date" << endl;
-                    break;
-                } else if (startDate < CustomDate::getToday()) {
-                    cout << "Start date has to be today or in the future" << endl;
-                    break;
-                }
-
-                /**
-                 * Update house data & write to file
-                 * */
-                house.setStartDate(startDate);
-                house.setEndDate(endDate);
-                house.setStatus(true);
-                this->writeHouseData();
+            } else if (startDate < CustomDate::getToday()) {
+                cout << "Start date has to be today or in the future" << endl;
                 break;
             }
+
+            /**
+             * Update house data & write to file
+             * */
+            house.setStartDate(startDate);
+            house.setEndDate(endDate);
+            house.setStatus(true);
+            this->writeHouseData();
+            break;
         }
+    }
+
+    if (!houseExist) {
+        this->listNewHouse(username);
     }
 }
 
@@ -232,7 +235,7 @@ void HouseController::writeHouseData() {
     string content = header;
     for (House house: this->HouseArray) {
         content += house.to_string() + "\n";
-        cout << content <<"\n";
+        cout << content << "\n";
     }
     DataHandler::writeFile(this->dataPath, content);
 }
@@ -251,11 +254,11 @@ House HouseController::findByKey(const std::string &id) {
     throw NotfoundErr("HOUSE_" + id + "_NOT_FOUND\n");
 }
 
-void HouseController::updateHouseRating (House house, float averageRating) {
+void HouseController::updateHouseRating(House house, float averageRating) {
     cout << averageRating << endl;
     for (House &house1: this->HouseArray) {
         if (house.getId() == house1.getId()) {
-           house1.setRating(averageRating);
+            house1.setRating(averageRating);
 //            house.showInfo();
             this->writeHouseData();
         }
@@ -403,7 +406,6 @@ HouseController::searchForSuitableHouses(string city, CustomDate startDate, Cust
     }
     return result;
 }
-
 
 
 /**

@@ -94,6 +94,9 @@ void RequestController::viewSentRequest(const User &user) {
 void RequestController::acceptRequest(const string &id, const User &user) {
     bool idFound = false;
     Request resultRequest;
+
+    if (id == "0") return;
+
     for (Request &request: this->requestArr) {
         if (request.getId() == id) {
             if (request.getStatus() != Status::requested) {
@@ -111,7 +114,6 @@ void RequestController::acceptRequest(const string &id, const User &user) {
     }
 
     if (idFound) {
-
         for (Request &request: this->requestArr) {
             if (
                     (request.getHouse().getId() == resultRequest.getHouse().getId())
