@@ -64,6 +64,8 @@ public:
 
     void calculateAverageRating(House house);
 
+    vector<Rating> getRecentRating(const House & house);
+
 };
 
 

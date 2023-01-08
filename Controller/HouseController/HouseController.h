@@ -24,6 +24,7 @@
 #include "../../Model/User/User.h"
 #include "../../Model/House/House.h"
 
+
 class HouseController {
 private:
     std::vector<House> HouseArray;

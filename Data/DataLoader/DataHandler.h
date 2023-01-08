@@ -27,7 +27,7 @@ private:
 public:
     DataHandler() {}
 
-    static vector<vector<string>> loadFile(string src);
+    static vector<vector<string> > loadFile(string src);
     static bool writeFile(string src, string content);
     static string getOsName();
     static string getPath(string src);
