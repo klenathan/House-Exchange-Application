@@ -118,6 +118,7 @@ void HouseController::showUserHouse(const string &username) {
 }
 
 /**
+ *
  * Check house existent
  * @param username
  * @return true if user house exists, otherwise false
@@ -125,6 +126,20 @@ void HouseController::showUserHouse(const string &username) {
 bool HouseController::houseExist(const string &username) {
     for (House house: this->HouseArray) {
         if (house.getOwnerUsername() == username && house.isStatus()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * Check house existent but in off state
+ * @param username
+ * @return true if user house exists, otherwise false
+ */
+bool HouseController::houseExistButDisable(const string &username) {
+    for (House house: this->HouseArray) {
+        if (house.getOwnerUsername() == username && !house.isStatus()) {
             return true;
         }
     }

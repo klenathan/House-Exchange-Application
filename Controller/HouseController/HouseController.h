@@ -64,6 +64,8 @@ public:
 
     bool houseExist(const string &username);
 
+    bool houseExistButDisable(const string &username);
+
     void create(const House &newHouse);
 
     void writeHouseData();

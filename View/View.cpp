@@ -274,10 +274,18 @@ void View::memberFunction(User user) {
                         memberFunction(user);
                     case 6:
                         ////List House
-                        if (!HC.houseExist(user.getUsername())) {
-                            HC.listNewHouse(user.getUsername());
+                        if (HC.houseExist(user.getUsername())) {
+                            cout << "You are already listing a house" << endl;
+                        } else if (HC.houseExistButDisable(user.getUsername())) {
+                            cout << "You have a recorded house, do you want to re-listing the house?!" << endl;
+                            cout << "Re-list existing house (Y/N): " ;
+                            string tempChoice;
+                            cin >> tempChoice;
+                            if (tempChoice == "Y") {
+                                HC.enableHouseListing(user.getUsername());
+                            }
                         } else {
-                            cout << "A user can only list 1 house!\n";
+                            HC.listNewHouse(user.getUsername());
                         }
                         pauseFunction();
                         memberFunction(user);
