@@ -236,3 +236,18 @@ void RatingController::calculateAverageRating(House house) {
 
     this->HC.updateHouseRating(house, tempAverage);
 }
+
+vector<Rating> RatingController::getRecentRating(const House &house) {
+    int c = 0;
+    vector<Rating> result;
+
+    for (Rating &rating: this->ratingArray) {
+        if (rating.getRequest().getHouse().getId() == house.getId() && rating.getHouseComment() != "") {
+            result.push_back(rating);
+            c++;
+        }
+
+        if (c == 2) break;
+    }
+    return result;
+}

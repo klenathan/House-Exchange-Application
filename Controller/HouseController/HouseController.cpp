@@ -108,6 +108,8 @@ void HouseController::houseData(vector<House> houses) {
     }
 }
 
+
+
 /**
  * Show info of user house using username input
  * @param username
@@ -270,7 +272,7 @@ void HouseController::enableHouseListing(const string &username) {
  * Save the current state of data to file
  * */
 void HouseController::writeHouseData() {
-    string header = "id,name,address,desc,ownerUsername,startDate,endDate,requiredRating,rating,status,consumingPoint\n";
+    string header = "id,name,address,desc,ownerUsername,startDate,endDate,requ=iredRating,rating,status,consumingPoint\n";
     string content = header;
     for (House house: this->HouseArray) {
         content += house.to_string() + "\n";
@@ -431,6 +433,7 @@ HouseController::searchForSuitableHouses(string city, CustomDate startDate, Cust
             result.push_back(house);
         }
     }
+    cout << "[debug] " << result.size() << endl;
     return result;
 }
 

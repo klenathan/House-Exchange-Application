@@ -240,7 +240,23 @@ void View::memberFunction(User user) {
 
                         if (this->HouseArray.size() != 0) {
                             cout << "Your suitable houses are: \n";
-                            HC.houseData(this->HouseArray);
+
+                            for (House &house: this->HouseArray) {
+
+                                vector<Rating> houseRating = RaC.getRecentRating(house);
+                                cout << "-------------- ID:" << house.getId() << " --------------" << endl;
+                                house.showInfo();
+                                cout << "----- Comments -----" << endl;
+                                if (houseRating.size() > 0) {
+                                    for (Rating &rating: houseRating) {
+                                        cout << "Rating: " << rating.getHouseRatingScore() << " | "
+                                             << rating.getHouseComment() << endl;
+                                    }
+                                } else {
+                                    cout << "House " << house.getId() << " has not been rated!" << endl;
+                                }
+
+                            }
                             if (!this->HouseArray.empty()) {
                                 RC.request(user, requestToOccupy());
                             }
@@ -278,7 +294,7 @@ void View::memberFunction(User user) {
                             cout << "You are already listing a house" << endl;
                         } else if (HC.houseExistButDisable(user.getUsername())) {
                             cout << "You have a recorded house, do you want to re-listing the house?!" << endl;
-                            cout << "Re-list existing house (Y/N): " ;
+                            cout << "Re-list existing house (Y/N): ";
                             string tempChoice;
                             cin >> tempChoice;
                             if (tempChoice == "Y") {
@@ -512,7 +528,7 @@ House View::requestToOccupy() {
     while (true) {
         try {
             bool found = false;
-            cout << "Enter the house ID you want to occupy:";
+            cout << "-> Enter the house ID you want to occupy:";
             getline(cin, id);
             for (House h: this->HouseArray) {
                 if (id == h.getId()) {

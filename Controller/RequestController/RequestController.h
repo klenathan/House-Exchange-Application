@@ -74,7 +74,6 @@ public:
 
     void request(const User &user, const House &house);
 
-
 };
 
 #endif //HOUSEEXCHANGEAPPLICATION_REQUESTCONTROLLER_H
