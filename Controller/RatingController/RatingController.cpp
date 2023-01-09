@@ -160,6 +160,7 @@ void RatingController::rating(const Request &request,const string &decision) {
 
     } catch (exception &e) {
         cout << "Function stopped due to err: " << "\033[31m" << e.what() << "\033[0m" << endl;
+        cout << "Press \"Enter\" to continue ... " << endl;
         cin.ignore();
     }
 }

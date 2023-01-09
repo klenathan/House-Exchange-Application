@@ -395,6 +395,7 @@ void HouseController::listNewHouse(const string &username) {
 
     } catch (exception const &e) {
         cout << "Function stopped due to err: " << "\033[31m" << e.what() << "\033[0m" << endl;
+        cout << "Press \"Enter\" to continue ... " << endl;
         cin.ignore();
     }
 }
