@@ -233,6 +233,7 @@ bool UserController::signup() {
         return true;
     } catch (exception &e) {
         cout << "Function stopped due to err: " << "\033[31m" << e.what() << "\033[0m" << endl;
+        cout << "Press \"Enter\" to continue ... " << endl;
     }
 }
 

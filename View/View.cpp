@@ -130,7 +130,9 @@ void View::validateUser() {
         }
         catch (exception &e) {
             cout << "Function stopped due to err: " << e.what() << endl;
+            cout << "Press \"Enter\" to continue ... " << endl;
             cin.ignore();
+
             check = true;
         }
     }
@@ -186,6 +188,7 @@ void View::guessFunction() {
         }
         catch (exception &e) {
             cout << "Function stopped due to err: " << e.what() << endl;
+            cout << "Press \"Enter\" to continue ... " << endl;
             cin.ignore();
             check = true;
         }
@@ -387,6 +390,7 @@ void View::memberFunction(User user) {
         }
         catch (exception &e) {
             cout << "Function stopped due to err: " << e.what() << endl;
+            cout << "Press \"Enter\" to continue ... " << endl;
             cin.ignore();
             check = true;
         }
@@ -439,6 +443,7 @@ void View::adminFunction(User admin) {
         }
         catch (exception &e) {
             cout << "Function stopped due to err: " << e.what() << endl;
+            cout << "Press \"Enter\" to continue ... " << endl;
             cin.ignore();
             check = true;
         }
@@ -493,6 +498,7 @@ string *View::dateInput(string arr[]) {
         }
         catch (exception &e) {
             cout << "Function stopped due to err: " << e.what() << endl;
+            cout << "Press \"Enter\" to continue ... " << endl;
             cin.ignore();
         }
     }
@@ -517,6 +523,7 @@ string View::cityInput() {
         }
         catch (exception &e) {
             cout << "Function stopped due to err: " << e.what() << endl;
+            cout << "Press \"Enter\" to continue ... " << endl;
             cin.ignore();
         }
     }
@@ -542,6 +549,7 @@ House View::requestToOccupy() {
         }
         catch (exception &e) {
             cout << "Function stopped due to err: " << e.what() << endl;
+            cout << "Press \"Enter\" to continue ... " << endl;
             cin.ignore();
         }
     }
@@ -573,6 +581,7 @@ string View::requestIdInput(RequestController rc, User user) {
         }
         catch (exception &e) {
             cout << "Function stopped due to err: " << e.what() << endl;
+            cout << "Press \"Enter\" to continue ... " << endl;
             cin.ignore();
         }
     }
@@ -601,6 +610,7 @@ string View::inputHouseRating(vector<Request> pendingArray, User user) {
         }
         catch (exception &e) {
             cout << "Function stopped due to err: " << e.what() << endl;
+            cout << "Press \"Enter\" to continue ... " << endl;
             cin.ignore();
         }
     }
