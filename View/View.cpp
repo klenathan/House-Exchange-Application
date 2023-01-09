@@ -283,7 +283,7 @@ void View::memberFunction(User user) {
                         //// View All Requests To My House
 
                         if (RC.viewRequest(user)) {
-                            RC.acceptRequest(this->requestIdInput(RC), user);
+                            RC.acceptRequest(this->requestIdInput(RC, user), user);
                         }
 
                         pauseFunction();
@@ -322,7 +322,7 @@ void View::memberFunction(User user) {
                             cout << "\n-------------------------\n";
 
                             string requestID;
-                            requestID = inputHouseRating(RC.getHouseForRating(user));
+                            requestID = inputHouseRating(RC.getHouseForRating(user), user);
                             bool valid = 0;
                             for (Request request: RC.getHouseForRating(user)) {
                                 if (request.getId() == requestID && RaC.ratingValid("House", requestID)) {
@@ -352,7 +352,7 @@ void View::memberFunction(User user) {
                             }
                             cout << "\n-------------------------\n";
                             string requestID;
-                            requestID = inputHouseRating(RC.getOccupierUsername(takeCurrentHomeID()));
+                            requestID = inputHouseRating(RC.getOccupierUsername(takeCurrentHomeID()), user);
                             bool success = 0;
 
                             for (Request request: RC.getOccupierUsername(takeCurrentHomeID())) {
@@ -551,14 +551,17 @@ House View::requestToOccupy() {
  * Get and validate request ID input from user
  * @return id
  */
-string View::requestIdInput(RequestController rc) {
+string View::requestIdInput(RequestController rc, User user) {
     string id;
     bool flag = true;
     while (flag) {
         try {
-            cout << "Enter the request ID that you want to accept:";
+            cout << "Enter the request ID that you want to accept (or type 0 to go back):";
             getline(cin, id);
-
+            if( id == "0"){
+                cout<<"Returning to menu...\n";
+                memberFunction(user);
+            }
             for (Request r: rc.getRequestArr()) {
                 if (id == r.getId()) {
 
@@ -575,13 +578,17 @@ string View::requestIdInput(RequestController rc) {
     }
 }
 
-string View::inputHouseRating(vector<Request> pendingArray) {
+string View::inputHouseRating(vector<Request> pendingArray, User user) {
     string id;
     while (true) {
         try {
             bool found = false;
-            cout << "Enter the request ID you want to rating:";
+            cout << "Enter the request ID you want to rating (or type 0 to go back):";
             getline(cin, id);
+            if( id == "0"){
+                cout<<"Returning to menu...\n";
+                memberFunction(user);
+            }
             for (Request request: pendingArray) {
                 if (id == request.getId()) {
                     found = true;

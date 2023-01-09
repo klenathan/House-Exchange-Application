@@ -56,20 +56,19 @@ public:
 
     House requestToOccupy();
 
-    string inputHouseRating(vector<Request> pendingArray);
-
     string takeCurrentHomeID();
 
     string *dateInput(std::string *arr);
 
     string cityInput();
 
-    string requestIdInput(RequestController rc);
-
     void adminFunction(User admin);
 
     void pauseFunction();
 
+    string inputHouseRating(vector<Request> pendingArray, User user);
+
+    string requestIdInput(RequestController rc, User user);
 };
 
 #endif //HOUSEEXCHANGEAPPLICATION_VIEW_H
