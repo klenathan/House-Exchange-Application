@@ -433,7 +433,6 @@ HouseController::searchForSuitableHouses(string city, CustomDate startDate, Cust
             result.push_back(house);
         }
     }
-    cout << "[debug] " << result.size() << endl;
     return result;
 }
 
