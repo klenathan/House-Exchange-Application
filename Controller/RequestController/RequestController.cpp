@@ -90,7 +90,7 @@ void RequestController::loadDataToArray() {
         Status status = (*new Request).stoE(line[3]);
         CustomDate startDate = CustomDate(line[4]);
         CustomDate endDate = CustomDate(line[5]);
-        if (CustomDate::getToday() > endDate) {
+        if (CustomDate::getToday() > endDate and status == accepted) {
             status = finished;
             dataChange = true;
         }
@@ -197,14 +197,18 @@ void RequestController::acceptRequest(const string &id, const User &user) {
             if (request.getStatus() != Status::requested) {
                 cout << "Request " << id << " is not in requested status, please check again" << endl;
             } else {
-                // accept the request
-                idFound = true;
-                request.setStatus(Status::accepted);
-                this->UC->updateCreditPoint(user, request.getUser(),
-                                           request.getHouse().getConsumingPoint(),
-                                           request.getStartDate(), request.getEndDate());
-                resultRequest = request;
-                cout << "Request " << id << " has been accepted successfully" << endl;
+                if (request.getStartDate() > CustomDate::getToday()) {
+                    // accept the request
+                    idFound = true;
+                    request.setStatus(Status::accepted);
+                    this->UC->updateCreditPoint(user, request.getUser(),
+                                                request.getHouse().getConsumingPoint(),
+                                                request.getStartDate(), request.getEndDate());
+                    resultRequest = request;
+                    cout << "Request " << id << " has been accepted successfully" << endl;
+                } else {
+                    cout << "You cannot accept the request since the start date is less than the current date!" << endl;
+                }
             }
         }
     }
@@ -283,7 +287,7 @@ void RequestController::request(const User &user, const House &house) {
                         (this->dateOverlap(req.getStartDate(), req.getEndDate(), start, end))
                         ) {
                     if ((req.getOccupyName() == user.getUsername())) {
-                        cout << "You have already occupied a house from " << req.getStartDate()
+                        cout << "You have already occupied this house from " << req.getStartDate()
                              << " to " << req.getEndDate() << endl;
                         success = false;
 
