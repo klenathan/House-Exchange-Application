@@ -295,9 +295,9 @@ void View::memberFunction(User user) {
                         } else if (HC.houseExistButDisable(user.getUsername())) {
                             cout << "You have a recorded house, do you want to re-listing the house?!" << endl;
                             cout << "Re-list existing house (Y/N): ";
-                            string tempChoice;
+                            char tempChoice;
                             cin >> tempChoice;
-                            if (tempChoice == "Y") {
+                            if (std::toupper(tempChoice) == 'Y') {
                                 HC.enableHouseListing(user.getUsername());
                             }
                         } else {

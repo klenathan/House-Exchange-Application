@@ -17,6 +17,7 @@
 #define HOUSEEXCHANGEAPPLICATION_VIEW_H
 
 #include <iostream>
+#include <string>
 #include "../Model/User/User.h"
 #include "../Model/CustomError/Errors.h"
 #include "../Model/House/House.h"
