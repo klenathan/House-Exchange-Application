@@ -33,8 +33,8 @@ private:
     Request currentRequest;
     string dataPath;
 
-    HouseController HC;
-    UserController UC;
+    HouseController *HC;
+    UserController *UC;
 
     void loadDataToArray();
 
@@ -47,7 +47,7 @@ public:
      ******************************************************************/
     RequestController() = default;
 
-    RequestController(string path, HouseController HC, UserController UC);
+    RequestController(string path, HouseController &HC, UserController &UC);
 
     /********************************************************************
      * Getter Setter

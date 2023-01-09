@@ -36,8 +36,8 @@ class RatingController {
 private:
     vector<Rating> ratingArray;
     string dataPath;
-    UserController UC;
-    HouseController HC;
+    UserController *UC;
+    HouseController *HC;
 
     /********************************************************************
      * Methods
@@ -49,7 +49,7 @@ public:
      ******************************************************************/
     RatingController() = default;
 
-    RatingController(string path, vector<Request> requestArray, UserController UC, HouseController HC);
+    RatingController(string path, vector<Request> requestArray, UserController &UC, HouseController &HC);
 
     /********************************************************************
      * Methods
