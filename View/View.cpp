@@ -180,13 +180,12 @@ void View::guessFunction() {
                         cout << "Invalid input! Please try again.\n";
                         goto typeAgain;
                 }
-                check = false;
             } else {
-                throw input;
+                cout << "Invalid choice\n" << endl;
+                goto typeAgain;
             }
-            cout << endl;
         }
-        catch (exception &e) {
+        catch (const exception &e) {
             cout << "Function stopped due to err: " << e.what() << endl;
             cout << "Press \"Enter\" to continue ... " << endl;
             cin.ignore();
