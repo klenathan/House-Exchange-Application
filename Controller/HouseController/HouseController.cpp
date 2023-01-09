@@ -320,7 +320,7 @@ void HouseController::listNewHouse(const string &username) {
     string tempMinRate, tempConsumingPoint;
     float minRate;
     long consumingPoint;
-
+    cout << "-------List house-------" << endl;
     try {
 
         //// Get user's input of the house's details
