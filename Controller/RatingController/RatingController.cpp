@@ -21,11 +21,11 @@ using std::exception;
  * @param path
  * @param requestArray
  */
-RatingController::RatingController(string path, vector<Request> requestArray, UserController UC, HouseController HC) {
+RatingController::RatingController(string path, vector<Request> requestArray, UserController &UC, HouseController &HC) {
     this->dataPath = path;
     this->loadDataToRatingArray(requestArray);
-    this->UC = UC;
-    this->HC = HC;
+    this->UC = &UC;
+    this->HC = &HC;
 }
 
 /**
@@ -211,7 +211,7 @@ void RatingController::calculateAverageRating(User user) {
         }
     }
     tempAverage = tempRating / count;
-    this->UC.updateUserRating(user, tempAverage);
+    this->UC->updateUserRating(user, tempAverage);
 }
 
 /**
@@ -234,7 +234,7 @@ void RatingController::calculateAverageRating(House house) {
 
     tempAverage = tempRating / count;
 
-    this->HC.updateHouseRating(house, tempAverage);
+    this->HC->updateHouseRating(house, tempAverage);
 }
 
 vector<Rating> RatingController::getRecentRating(const House &house) {

@@ -25,11 +25,11 @@ using std::string, std::cout, std::cin, std::endl, std::exception, std::getline;
  * @param HC
  * @param UC
  */
-RequestController::RequestController(string path, HouseController HC, UserController UC) {
+RequestController::RequestController(string path, HouseController &HC, UserController &UC) {
 
     this->dataPath = path + "./requests.csv";
-    this->HC = HC;
-    this->UC = UC;
+    this->HC = &HC;
+    this->UC = &UC;
     this->loadDataToArray();
 }
 
@@ -94,7 +94,7 @@ void RequestController::loadDataToArray() {
             status = finished;
             dataChange = true;
         }
-        Request temp_request = Request(this->UC, this->HC, line[0], line[1], line[2], status, startDate, endDate);
+        Request temp_request = Request(*this->UC, *this->HC, line[0], line[1], line[2], status, startDate, endDate);
         this->requestArr.push_back(temp_request);
     }
     if (dataChange) this->writeFile();
@@ -200,7 +200,7 @@ void RequestController::acceptRequest(const string &id, const User &user) {
                 // accept the request
                 idFound = true;
                 request.setStatus(Status::accepted);
-                this->UC.updateCreditPoint(user, request.getUser(),
+                this->UC->updateCreditPoint(user, request.getUser(),
                                            request.getHouse().getConsumingPoint(),
                                            request.getStartDate(), request.getEndDate());
                 resultRequest = request;
@@ -299,7 +299,7 @@ void RequestController::request(const User &user, const House &house) {
         // create the request if the request is valid
         if (success == true) {
             Status status = requested;
-            Request *tempRequest = new Request(this->UC, this->HC, user.getUsername(), house.getId(),
+            Request *tempRequest = new Request(*this->UC, *this->HC, user.getUsername(), house.getId(),
                                                status, start, end);
             this->create(*tempRequest);
             DataHandler::clear();
