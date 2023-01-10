@@ -384,7 +384,8 @@ void View::memberFunction(User user) {
                         goto typeAgain;
                 }
             } else {
-                throw input;
+                cout << "Invalid choice\n";
+                memberFunction(user);
             }
         }
         catch (exception &e) {
@@ -437,7 +438,8 @@ void View::adminFunction(User admin) {
 
                 }
             } else {
-                throw input;
+                cout << "Invalid choice\n";
+                adminFunction(admin);
             }
         }
         catch (exception &e) {
