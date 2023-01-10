@@ -54,7 +54,7 @@ public:
 
     bool isNumber(const string &s);
 
-    House requestToOccupy();
+    House requestToOccupy(User user);
 
     string takeCurrentHomeID();
 
