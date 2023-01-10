@@ -1,5 +1,5 @@
-id,name,address,desc,ownerUsername,startDate,endDate,requ=iredRating,rating,status,consumingPoint
-900,Hanoi1,Hanoi,The Happy house,user1,12/12/2023,15/12/2023,4.000000,0.000000,1,150
+id,name,address,desc,ownerUsername,startDate,endDate,requiredRating,rating,status,consumingPoint
+900,Hanoi1,Hanoi,The Happy house,user1,12/12/2023,15/12/2023,4,0.000000,1,150
 9830,Hanoi2,Hanoi,The Happy house,user2,12/10/2023,14/10/2023,7.000000,0.000000,0,150
 5615,SG2,Saigon,The Happy house,user4,12/10/2023,19/10/2023,7.000000,0.000000,1,80
 1395,Hue1,Hue,The Happy house,user5,12/12/2023,15/12/2023,6.000000,0.000000,1,350

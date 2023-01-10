@@ -305,6 +305,7 @@ void View::memberFunction(User user) {
                         } else {
                             HC.listNewHouse(user.getUsername());
                         }
+                        cin.ignore();
                         pauseFunction();
                         memberFunction(user);
                     case 7:
@@ -384,7 +385,8 @@ void View::memberFunction(User user) {
                         goto typeAgain;
                 }
             } else {
-                throw input;
+                cout << "Invalid choice\n";
+                memberFunction(user);
             }
         }
         catch (exception &e) {
@@ -437,7 +439,8 @@ void View::adminFunction(User admin) {
 
                 }
             } else {
-                throw input;
+                cout << "Invalid choice\n";
+                adminFunction(admin);
             }
         }
         catch (exception &e) {
