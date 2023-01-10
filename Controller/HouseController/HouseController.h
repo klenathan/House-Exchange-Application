@@ -36,8 +36,6 @@ private:
      ******************************************************************/
     void loadDataToArray();
 
-    bool listedHouseCheck(const string &username);
-
 public:
     /********************************************************************
      * Constructors

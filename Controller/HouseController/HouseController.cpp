@@ -75,21 +75,6 @@ void HouseController::loadDataToArray() {
 }
 
 /**
- * Check if the user has already listed a house
- * @param username
- * @return true if user has already listed a house, otherwise false
- */
-bool HouseController::listedHouseCheck(const string &username) {
-    for (House house: this->HouseArray) {
-        if ((house.getOwnerUsername() == username) && (house.getEndDate() >= CustomDate::getToday()) &&
-            (house.isStatus())) {
-            return true;
-        }
-    }
-    return false;
-}
-
-/**
  * Prompt house data from current dataState to the console
  * */
 void HouseController::showData() {
@@ -206,9 +191,11 @@ void HouseController::enableHouseListing(const string &username) {
             cin >> startDateStr;
             startDate = *new CustomDate(startDateStr);
 
-            cout << "Please input new start date (dd/mm/yyyy): ";
+            cout << "Please input new end date (dd/mm/yyyy): ";
             cin >> endDateStr;
             endDate = *new CustomDate(endDateStr);
+
+
 
             /**
              * Validate input date
@@ -216,39 +203,8 @@ void HouseController::enableHouseListing(const string &username) {
             if (endDate <= startDate) {
                 cout << "End date has to be later than start date" << endl;
                 break;
-            } else if ((house.getOwnerUsername() == username) && (!house.isStatus())) {
-                /**
-                 * Data input
-                 * */
-                string startDateStr, endDateStr;
-                CustomDate startDate, endDate;
-                house.showInfo();
-                cout << "Please input new start date (dd/mm/yyyy):";
-                cin >> startDateStr;
-                startDate = *new CustomDate(startDateStr);
-
-                cout << "Please input new start date (dd/mm/yyyy):";
-                cin >> endDateStr;
-                endDate = *new CustomDate(endDateStr);
-
-                /**
-                 * Validate input date
-                 * */
-                if (endDate <= startDate) {
-                    cout << "End date has to be later than start date" << endl;
-                    break;
-                } else if (startDate < CustomDate::getToday()) {
-                    cout << "Start date has to be today or in the future" << endl;
-                    break;
-                }
-
-                /**
-                 * Update house data & write to file
-                 * */
-                house.setStartDate(startDate);
-                house.setEndDate(endDate);
-                house.setStatus(true);
-                this->writeHouseData();
+            } else if (startDate < CustomDate::getToday()) {
+                cout << "Start date has to be today or in the future" << endl;
                 break;
             }
 
@@ -272,7 +228,7 @@ void HouseController::enableHouseListing(const string &username) {
  * Save the current state of data to file
  * */
 void HouseController::writeHouseData() {
-    string header = "id,name,address,desc,ownerUsername,startDate,endDate,requ=iredRating,rating,status,consumingPoint\n";
+    string header = "id,name,address,desc,ownerUsername,startDate,endDate,requiredRating,rating,status,consumingPoint\n";
     string content = header;
     for (House house: this->HouseArray) {
         content += house.to_string() + "\n";

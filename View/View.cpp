@@ -305,6 +305,7 @@ void View::memberFunction(User user) {
                         } else {
                             HC.listNewHouse(user.getUsername());
                         }
+                        cin.ignore();
                         pauseFunction();
                         memberFunction(user);
                     case 7:
