@@ -260,7 +260,7 @@ void View::memberFunction(User user) {
 
                             }
                             if (!this->HouseArray.empty()) {
-                                RC.request(user, requestToOccupy());
+                                RC.request(user, requestToOccupy(user));
                             }
                         } else {
                             cout << "There are no suitable house for your need " << endl;
@@ -532,13 +532,17 @@ string View::cityInput() {
 }
 
 
-House View::requestToOccupy() {
+House View::requestToOccupy(User user) {
     string id;
     while (true) {
         try {
             bool found = false;
-            cout << "-> Enter the house ID you want to occupy:";
+            cout << "-> Enter the house ID you want to occupy (or type 0 to go back):";
             getline(cin, id);
+            if( id == "0"){
+                cout<<"Returning to menu...\n";
+                memberFunction(user);
+            }
             for (House h: this->HouseArray) {
                 if (id == h.getId()) {
                     found = true;
