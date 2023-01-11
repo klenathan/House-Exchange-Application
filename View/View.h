@@ -40,8 +40,6 @@ private:
     RatingController RaC;
 
 public:
-    View() = default;
-
     View(string path);
 
     void welcomeScreen();

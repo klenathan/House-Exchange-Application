@@ -89,10 +89,6 @@ const string &Request::getId() const {
     return id;
 }
 
-void Request::setId(const string &id) {
-    Request::id = id;
-}
-
 const string &Request::getOccupyName() const {
     return user.getUsername();
 }
@@ -109,31 +105,15 @@ const CustomDate &Request::getStartDate() const {
     return startDate;
 }
 
-void Request::setStartDate(const CustomDate &startDate) {
-    Request::startDate = startDate;
-}
-
 const CustomDate &Request::getEndDate() const {
     return endDate;
-}
-
-void Request::setEndDate(const CustomDate &endDate) {
-    Request::endDate = endDate;
 }
 
 const User &Request::getUser() const {
     return user;
 }
 
-
-void Request::setUser(const User &user) {
-    Request::user = user;
-}
-
 const House &Request::getHouse() const {
     return house;
 }
 
-void Request::setHouse(const House &house) {
-    Request::house = house;
-}

@@ -55,21 +55,13 @@ public:
 
     const User &getUser() const;
 
-    void setUser(const User &user);
-
     const House &getHouse() const;
-
-    void setHouse(const House &house);
 
     void setStatus(Status status);
 
     const CustomDate &getStartDate() const;
 
-    void setStartDate(const CustomDate &startDate);
-
     const CustomDate &getEndDate() const;
-
-    void setEndDate(const CustomDate &endDate);
 
     static int randomID();
 
@@ -84,8 +76,6 @@ public:
     friend ostream &operator<<(ostream &os, Request &request);
 
     const string &getId() const;
-
-    void setId(const string &id);
 
     const string &getOccupyName() const;
 };

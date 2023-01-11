@@ -147,20 +147,27 @@ void HouseController::create(const House &newHouse) {
  * @param username
  */
 void HouseController::unlistHouse(const string &username) {
+    bool found = 0;
     for (House &house: this->HouseArray) {
-        if ((house.getOwnerUsername() == username) && house.isStatus()) {
-
-            if ((house.getStartDate() <= CustomDate::getToday()) && (house.getEndDate() >= CustomDate::getToday())) {
-                cout << "The house is in renting period and cannot be unlisted" << endl;
-            } else if (house.isStatus()) {
-                house.setStatus(0);
-                this->writeHouseData();
-                cout << "Successfully unlisted the house " << house.getId() << "!\n";
+        if (house.getOwnerUsername() == username) {
+            if (house.isStatus()) {
+                if ((house.getStartDate() <= CustomDate::getToday()) && (house.getEndDate() >= CustomDate::getToday())) {
+                    cout << "The house is in renting period and cannot be unlisted" << endl;
+                } else if (house.isStatus()) {
+                    house.setStatus(0);
+                    this->writeHouseData();
+                    cout << "Successfully unlisted the house " << house.getId() << "!\n";
+                }
+            } else if (!house.isStatus()) {
+                cout << "House " << house.getId() << " of owner " << house.getOwnerUsername() << " is already unlisted"
+                     << endl;
             }
-        } else if ((house.getOwnerUsername() == username) && (!house.isStatus())) {
-            cout << "House " << house.getId() << " of owner " << house.getOwnerUsername() << " is already unlisted"
-                 << endl;
+            found = 1;
         }
+    }
+
+    if (found == 0) {
+        cout << "You don't have any house to unlist!" << endl;
     }
 }
 
