@@ -197,7 +197,7 @@ void HouseController::enableHouseListing(const string &username) {
             cout << "Please input new start date (dd/mm/yyyy): ";
             cin >> startDateStr;
             startDate = *new CustomDate(startDateStr);
-
+            cin.ignore();
             cout << "Please input new end date (dd/mm/yyyy): ";
             cin >> endDateStr;
             endDate = *new CustomDate(endDateStr);
@@ -283,7 +283,7 @@ void HouseController::listNewHouse(const string &username) {
     string tempMinRate, tempConsumingPoint;
     float minRate;
     long consumingPoint;
-
+    cout << "-------List house-------" << endl;
     try {
 
         //// Get user's input of the house's details

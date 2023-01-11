@@ -157,6 +157,7 @@ bool UserController::signup() {
 
     //Check username exists
     bool check = true;
+    cout << "-------Sign up-------" << endl;
 
     try {
         while (check) {
@@ -245,6 +246,8 @@ bool UserController::login() {
     string username;
     string password;
 
+    cout << "-------Login-------" << endl;
+
     cout << "Input your username:";
     cin >> username;
 
@@ -271,6 +274,7 @@ bool UserController::login() {
 bool UserController::adminLogin() {
     string username;
     string password;
+    cout << "-------Login-------" << endl;
 
     cout << "Input your username: ";
     cin >> username;
