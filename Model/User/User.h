@@ -33,8 +33,6 @@ public:
      * */
     User() {}
 
-    User(const string &username, const string &password, const long &creditPoints);
-
     User(const string &username, const string &password, const string &fullname, const string &phoneNum,
          long creditPoints, float rating);
 
@@ -43,20 +41,6 @@ public:
      * */
 
     const string &getUsername() const;
-
-    void setUsername(const string &username);
-
-    const string &getPassword() const;
-
-    void setPassword(const string &password);
-
-    const string &getFullname() const;
-
-    void setFullname(const string &fullname);
-
-    const string &getPhoneNum() const;
-
-    void setPhoneNum(const string &phoneNum);
 
     long getCreditPoints() const;
 
@@ -72,7 +56,6 @@ public:
 
     string getWriteFormat();
 
-    void showInfo();
 
     bool authenticate(string inputPassword);
 

@@ -42,7 +42,7 @@ public:
 
     CustomDate(int day, int month, int year);
 
-    CustomDate(string);
+    CustomDate(string inputString);
 
 
     int getDay() const;
@@ -57,8 +57,6 @@ public:
      * Methods declarations
      * */
     std::string getDate() const;
-
-    void showInfo();
 
     static bool validDate(string dateInp);
 

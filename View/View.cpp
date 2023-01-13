@@ -260,7 +260,7 @@ void View::memberFunction(User user) {
 
                             }
                             if (!this->HouseArray.empty()) {
-                                RC.request(user, requestToOccupy());
+                                RC.request(user, requestToOccupy(user));
                             }
                         } else {
                             cout << "There are no suitable house for your need " << endl;
@@ -305,6 +305,7 @@ void View::memberFunction(User user) {
                         } else {
                             HC.listNewHouse(user.getUsername());
                         }
+//                        cin.ignore();
                         pauseFunction();
                         memberFunction(user);
                     case 7:
@@ -384,7 +385,8 @@ void View::memberFunction(User user) {
                         goto typeAgain;
                 }
             } else {
-                throw input;
+                cout << "Invalid choice\n";
+                memberFunction(user);
             }
         }
         catch (exception &e) {
@@ -437,7 +439,8 @@ void View::adminFunction(User admin) {
 
                 }
             } else {
-                throw input;
+                cout << "Invalid choice\n";
+                adminFunction(admin);
             }
         }
         catch (exception &e) {
@@ -529,13 +532,17 @@ string View::cityInput() {
 }
 
 
-House View::requestToOccupy() {
+House View::requestToOccupy(User user) {
     string id;
     while (true) {
         try {
             bool found = false;
-            cout << "-> Enter the house ID you want to occupy:";
+            cout << "-> Enter the house ID you want to occupy (or type 0 to go back):";
             getline(cin, id);
+            if (id == "0") {
+                cout << "Returning to menu...\n";
+                memberFunction(user);
+            }
             for (House h: this->HouseArray) {
                 if (id == h.getId()) {
                     found = true;
@@ -565,8 +572,8 @@ string View::requestIdInput(RequestController rc, User user) {
         try {
             cout << "Enter the request ID that you want to accept (or type 0 to go back):";
             getline(cin, id);
-            if( id == "0"){
-                cout<<"Returning to menu...\n";
+            if (id == "0") {
+                cout << "Returning to menu...\n";
                 memberFunction(user);
             }
             for (Request r: rc.getRequestArr()) {
@@ -593,8 +600,8 @@ string View::inputHouseRating(vector<Request> pendingArray, User user) {
             bool found = false;
             cout << "Enter the request ID you want to rating (or type 0 to go back):";
             getline(cin, id);
-            if( id == "0"){
-                cout<<"Returning to menu...\n";
+            if (id == "0") {
+                cout << "Returning to menu...\n";
                 memberFunction(user);
             }
             for (Request request: pendingArray) {

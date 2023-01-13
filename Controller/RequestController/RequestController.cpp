@@ -301,7 +301,7 @@ void RequestController::request(const User &user, const House &house) {
         }
 
         // create the request if the request is valid
-        if (success == true) {
+        if (success) {
             Status status = requested;
             Request *tempRequest = new Request(*this->UC, *this->HC, user.getUsername(), house.getId(),
                                                status, start, end);

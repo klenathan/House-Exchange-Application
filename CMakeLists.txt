@@ -4,6 +4,8 @@ project(HouseExchangeApplication)
 set(CMAKE_CXX_STANDARD 14)
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ ")
 
+set(CMAKE_EXE_LINKER_FLAGS "-static")
+
 add_executable(HouseExchangeApplication
         main.cpp
         Model/User/User.h Model/CustomDate/CustomDate.h

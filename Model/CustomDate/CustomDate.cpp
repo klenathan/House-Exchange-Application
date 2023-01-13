@@ -208,11 +208,6 @@ string CustomDate::getDate() const {
 }
 
 /**
- * Log the date object to console in the format of dd/mm/yyyy
- * */
-void CustomDate::showInfo() { cout << day << "/" << month << "/" << year << endl; }
-
-/**
  * Get current date
  * @return
  */
