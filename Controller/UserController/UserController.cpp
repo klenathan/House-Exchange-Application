@@ -201,19 +201,33 @@ bool UserController::signup() {
             }
         }
 
-
-        cout << "Please input fullname:";
-        getline(cin, fullname);
+        check = true;
+        while (check) {
+            cout << "Please input fullname:";
+            getline(cin, fullname);
+            try {
+                    if (fullname.length() == 0) {
+                        throw ContainSpace("fullname not null\n");
+                    }
+                check = false;
+            } catch (ContainSpace e) {
+                cout << e.what();
+                check = true;
+            }
+        }
 
         check = true;
         while (check) {
             try {
                 cout << "Please input phone number:";
                 getline(cin, phoneNum);
+                if(phoneNum.length() == 0){
+                    throw phoneNum;
+                }
                 for (char chr: phoneNum) {
                     if (isspace(chr) || isalpha(chr)) {
                         throw phoneNum;
-                    } else {
+                    }else {
                         check = false;
                     }
                 }
@@ -222,6 +236,7 @@ bool UserController::signup() {
                 check = true;
             }
         }
+
 
         // Save newUser
         User *newUser = new User(username, password, fullname, phoneNum, 500, 5);
